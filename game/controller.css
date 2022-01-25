@@ -1,0 +1,530 @@
+/*
+primary red: #b51d05;
+secondary orange: #e8822d;
+text yellow: #ffdc40;
+text white: white;
+*/
+
+@media (max-width: 320px) {
+	#credits#credits{
+		font-size: 0.8em;
+	}
+	.button_text, .vertical-container {
+		font-size: 1em;
+	}
+	#position#position{
+		font-size: 2em;
+	}
+	#score_report#score_report .result_category{
+		font-size: 0.5em;
+	}
+	.score_report_title.score_report_title{
+		font-size: 0.5em;
+	}
+	#score_report#score_report .button_text {
+		font-size: 0.5em;
+	}
+}
+@media (min-width: 576px) {
+	#credits{
+		margin-bottom: 1em;
+	}
+}
+
+@font-face {
+  font-family: 'DiscoFont';
+  src: url('Monoton-Regular.ttf')  format('truetype');
+}
+
+.object-container{
+	display: flex;
+	width: 50vw;
+	height: 25vh;
+	justify-content: center;
+	align-items: center;
+}
+
+#objects{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+#objects img{
+	width: 20vh;
+	height: 20vh;
+}
+
+#hero-image{
+	max-width: 80%;
+}
+
+#small-hero-image{
+	bottom: 1em;
+    position: absolute;
+    left: 4em;
+    width: 5em;
+}
+
+#hero-req, #hero-confirm{
+	display: none;
+}
+
+#cancel_round{
+	display: none;
+	position: absolute;
+	left: 0.5em;
+	bottom: 0.5em;
+	font-size: 2em;
+}
+
+body{
+	margin:0px;
+}
+
+#position{
+	display: none;
+	right: 0.25em;
+	position: absolute;
+    font-size: 3em;
+    text-transform: none;
+	font-family: 'DiscoFont';
+    font-weight: 500;
+	top: 0.1em;
+	line-height: 1;
+}
+
+#position span{
+	-webkit-text-stroke: 1px #b51d05;
+    text-shadow: -1px 1px 5px #b51d05, 
+	-2px 2px 2px #b51d05, 
+	-3px 3px 2px #b51d05, 
+	-4px 4px 2px #b51d05, 
+	-5px 5px 2px #b51d05
+}
+
+#position .number{
+	font-size: 1.3em;
+	position: r;
+}
+
+#position .letters{
+	font-family: Oswald;
+}
+
+.score_report_title{
+	font-size:1.5em;
+	margin-bottom: 1em;
+}
+
+#score_report .result_category, #credits .category{
+	color: #ffdc40;
+	text-transform: uppercase;
+}
+
+#score_report .result, #credits .result{
+	text-transform: none;
+	color: white;
+}
+
+#credits .link{
+	color:white;
+	text-decoration: underline;
+}
+
+#credits a{
+	color: rgb(255 220 64);
+}
+
+#score_report {
+	
+	display:none;
+}
+
+#score_report, #credits {
+	font-size: 1.2em;
+	flex-direction: column;
+	align-items: center;
+	text-transform:none;
+}
+
+#credits {
+	display: flex;
+}
+
+#score_report .button_text{
+	font-size: 1em;
+	flex-direction: column;
+}
+
+#loading{
+	display: none;
+	background-color: #e8822d;
+	width: 100vw;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
+
+#loading-animation{
+	width: 35vw;
+}
+
+#guessing_buttons_full, #waiting_for_next_round{
+	display:none;
+}
+
+#waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
+	padding:4em;
+}
+
+#guessing_buttons_full .choice_container{
+	width: 100vw;
+	height: 25vh;
+	display: flex;
+    align-items: center;
+}
+
+#guessing_buttons_full .choice_container div{
+	display: flex;
+	height: 100%;
+	align-items: center;
+	padding-right: 3em;
+	padding-left: 1em;
+	overflow: hidden;
+}
+
+#menu{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    flex-wrap: wrap;	
+	position: relative;
+}
+
+.icon-container.info-circle{
+    font-size: 1em;
+    margin-bottom: -20px;
+    padding-top: 20px;
+}
+
+#next-button .icon-container{
+	left: unset;
+	right: 1vw;
+}
+
+#previous-button .icon-container{
+	left: 1vw;
+}
+
+#round_change_buttons{
+	display: none;
+	height: 33.333333vh;
+}
+
+#round_change_buttons .icon-container{
+	position: relative;
+	left: unset;
+}
+
+.fa.fa{
+	font-size: 2em;
+}
+
+#round_change_buttons .icon-container, #round_change_buttons .vertical-container{
+	width: 50vw;
+	height: 33.333333vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.vertical-container{
+	background-color: #cd1c24;
+	flex-direction: column;
+}
+
+.vertical-container span{
+	line-height: 1;
+}
+
+#confirm{
+	width: 50vw;
+	height: 50vh;
+}
+
+#hero-confirm{
+	width: 50vw;
+	height: 50vh;
+	background-color: #cd1c24;
+	display: none;
+}
+
+.minus, #confirm, #hero-confirm{
+	background-color:  #b51d05;
+}
+
+#next-button, #cancel{
+	background-color: #e8822d;
+    color: #ffdc40;
+}
+
+#previous-button, .vertical-container, .plus{
+	background-color:  #ffdc40;
+    color: #e8822d;
+}
+
+
+#guessing_buttons_full{
+	width: 100vw;
+	height: 100vh;
+}
+
+#guessing_buttons_full .choice_container
+{
+	box-sizing:border-box;
+	width:100%;
+	font-size:1.4em;
+	float:left;
+    text-transform: uppercase;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#guessing_buttons_full .fa-stack{
+	padding: 0.5em;
+	font-size: 1em !important;
+}
+
+
+#guessing_buttons_full .choice_1, #guessing_buttons_full #choice_1{
+	background-color: #ffdc40;
+    color:  #e8822d;
+}
+
+#guessing_buttons_full .choice_2, #guessing_buttons_full #choice_2{
+	background-color: #e8822d;
+    color: #ffdc40;
+}
+
+#guessing_buttons_full .choice_3, #guessing_buttons_full #choice_3{
+	background-color: #ffdc40;
+    color:  #e8822d;
+}
+
+#guessing_buttons_full .choice_4, #guessing_buttons_full #choice_4{
+	background-color: #e8822d;
+    color: #ffdc40;
+}
+
+#menu, #waiting_for_start, #get_ready, #score_report{
+	display: none;
+}
+
+#menu{
+	/* for easier styling/debug */
+	display:flex;
+}
+
+
+
+#menu .instruction{
+	color:white;
+}
+
+#round_over_song_details, #game_over{
+	display:none;
+}
+
+#round_over_song_details{
+	flex-direction: column;
+    height: 100vh;
+}
+
+#game_over .icon-container, #back_from_credits_area .icon-container{
+	display: contents;
+}
+
+#game_over .button_text{
+	width: 100%;
+	position: relative;
+	margin-top: 30px;
+}
+
+#back_from_credits_area .button_text{
+	width: 100%;
+	position: relative;
+}
+
+#game_over, #back_from_credits_area, #waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
+	width: 100vw;
+    height: 100vh;
+	background-color: #b51d05;
+	display: none;
+	flex-direction:column;
+}
+
+#waiting_for_next_round, #waiting_for_start, #get_ready{
+	font-size: 1.5em;
+}
+
+#waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
+	justify-content: center;
+    text-align: center;
+	flex-direction: column;
+    box-sizing: border-box;
+}
+
+#score_report{
+	font-size: 1em;
+}
+
+#round_over_song_details .result_banner{
+	font-size: 1em;
+	display:flex;
+	height: 15vh;
+	line-height: 2;
+	justify-content: flex-start;
+}
+
+#round_over_song_details .image{
+	background-color: #b51d05;
+	width:100%;
+	height: 85vh;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+#round_over_song_details .text_info{
+	background-color: #b51d05;
+	width:100%;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+#round_over_song_details .song_albumart{
+	width: 100vw;
+    height: 100vw;
+    position: relative;
+	background-size: contain;
+	background-repeat: no-repeat;
+    background-position: center;
+}
+
+#round_over_song_details div{
+	justify-content: center;
+	align-items: center;
+}
+
+#round_over_song_details .song_artist, 
+#round_over_song_details .song_title, 
+#round_over_song_details .song_album
+{
+	margin-left:40px;
+	margin-right:40px;
+}
+
+#round_over_song_details .song_title{
+	font-size: 1em;
+	overflow-x: scroll;
+	white-space: nowrap; 
+	line-height: 2;
+}
+
+#round_over_song_details .song_album,
+#round_over_song_details .song_artist{
+	font-size: 0.75em;
+	color: rgb(255 220 64);
+	overflow-x: scroll;
+	white-space: nowrap;
+	line-height: 2; 
+}
+
+#round_over_song_details .song_title::-webkit-scrollbar,
+#round_over_song_details .song_album::-webkit-scrollbar,
+#round_over_song_details .song_artist::-webkit-scrollbar{
+	display:none;
+}
+
+#round_over_song_details .song_albumart img{
+	width:100%;
+}
+
+#round_over_song_details .player_score, #round_over_song_details .player_round_result{
+	display:inline;
+	padding: 1.4em;
+}
+
+.result_banner.wrong{
+	background-color: red;
+}
+.result_banner.correct{
+	background-color: green;
+}
+
+.itunes{
+	width: 50vw;
+	height: 19vw;
+	background: url("images/itunes.svg");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+
+.song_buylink{
+	display: flex;
+	width:100%;
+	position: absolute;
+	bottom: 0.5em;
+}
+
+.fa-stack{
+	font-size:1.6em !important;
+}
+
+
+.flexbox{
+	display: flex;
+	height: 50vh;
+	width: 50vw;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	flex-direction: column;
+}
+
+.button_comment{
+	width:100%;
+	height: 50%;
+	padding-left:10px;
+}
+
+.button_text, .vertical-container{
+	font-family: Oswald;
+    text-transform: uppercase;
+    font-size: 2em;
+	transform: uppercase;
+}
+.button_text{
+	width: 75%;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+.button_comment, .button_comment_reduced{
+	color:#A8A8A8;
+	font-size:13px;
+	box-sizing:border-box;
+	padding-bottom:10px;
+}
+
+#guessing_buttons_full#guessing_buttons_full .wrong-selected.wrong-selected, #guessing_buttons_full#guessing_buttons_full .wrong-selected div{
+	background-color:red;
+}
+
+#guessing_buttons_full#guessing_buttons_full .correct-selected.correct-selected, #guessing_buttons_full#guessing_buttons_full .correct-selected div{
+	background-color:green;
+}

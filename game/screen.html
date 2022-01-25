@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-
-
 <head>
     <script src="../phaser/dist/phaser.js"></script>
     <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
@@ -18,7 +16,7 @@
 
 <body onload="init()">
     <script>
-
+        var DEBUG = true;
         var url = "objects.js";
 
         $.getScript(url, function () {
@@ -26,11 +24,28 @@
             });
         });
 
-
         var air_console;
 
         function init() {
             air_console = new AirConsole();
+
+
+
+            // Listen for messages from other devices
+            air_console.onMessage = function (from, message) {
+                // handle message
+                var type = message[0].type;
+                DEBUG && console.log('handling ' + type + ' message on screen.');
+
+                switch (type) {
+                    case "confirm":
+                        chosen_objects = [];
+                        chosen_objects.push({ type: "chosen_objects", payload: arr });
+                        air_console.broadcast(chosen_objects);
+                    break;
+                }
+            };
+
         }
 
         // determine 12 objects to display on the screen
@@ -39,7 +54,6 @@
             var r = Math.floor(Math.random() * 26);
             if (arr.indexOf(r) === -1) arr.push(r);
         }
-
 
         class AlignGrid {
             constructor(config) {
@@ -73,9 +87,6 @@
             //mostly for planning and debugging this will
             //create a visual representation of the grid
             showNumbers(a = 1) {
-
-
-
                 this.graphics.lineStyle(4, 0xff0000, a);
 
                 this.graphics.beginPath();
@@ -136,9 +147,6 @@
         function create() {
             window.addEventListener('resize', resize);
             resize();
-
-
-
             var graphics = this.add.graphics();
 
             graphics.fillGradientStyle(0x0000ff, 0x0000ff, 0xaaffff, 0xaaffff);
@@ -154,11 +162,6 @@
             // this.aGrid.showNumbers();
 
             this.assets = [];
-
-
-
-
-            console.log(arr);
 
             i = 0;
             for (col = 0; col < 4; col++) {
