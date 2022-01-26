@@ -60,9 +60,11 @@
                         correct_position = Math.floor(Math.random() * 7);
                         var correct_was_shown = false;
                         for (i = 0; i < 8; i++) {
+                            correctClass = "wrong";
                             if(i === correct_position){
                                 asset_id = data[0].payload[correct_object];
                                 correct_was_shown = true;
+                                correctClass = "correct";
                             } else{
                                 if(correct_was_shown){
                                     asset_id = wrong[i-1];
@@ -70,8 +72,15 @@
                                     asset_id = wrong[i];
                                 }
                             }
-                            $("#objects").append('<div class="object-container"><img src="assets/asset' + asset_id + '.png"></div>');
+                            $("#objects").append('<div class="object-container ' + correctClass  +'"><img src="assets/asset' + asset_id + '.png"></div>');
+
+
                         }
+                        $(".object-container").click(function(event){
+                            // determine whether or not the clicked object is correct
+                            correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
+                            DEBUG && console.log("guess is correct: " + correct);
+                        });
                         break;
                 }
             }
