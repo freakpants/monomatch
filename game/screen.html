@@ -19,6 +19,62 @@
         var DEBUG = true;
         var url = "objects.js";
 
+
+        class Guessing extends Phaser.Scene {
+            constructor() {
+                super('guessing');
+            }
+
+            preload() {
+                objects.forEach((object) => {
+                    this.load.image("asset" + object.id, "../game/assets/asset" + object.id + ".png");
+                });
+
+            }
+
+            create() {
+                window.addEventListener('resize', this.resize);
+                this.resize();
+                var graphics = this.add.graphics();
+
+                graphics.fillGradientStyle(0x0000ff, 0x0000ff, 0xaaffff, 0xaaffff);
+                graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
+
+                var gridConfig = {
+                    'scene': this,
+                    'cols': 4,
+                    'rows': 2,
+                    'graphics': graphics
+                }
+                this.aGrid = new AlignGrid(gridConfig);
+                // this.aGrid.showNumbers();
+
+                this.assets = [];
+
+
+
+                var i = 0;
+                var col, row;
+                for (col = 0; col < 4; col++) {
+                    for (row = 0; row < 2; row++) {
+                        this.assets[i] = this.add.image(0, 0, "asset" + document.set[0].icons[i]);
+                        // this.assets[i] = this.add.image(0, 0, "asset" + 0);
+                        this.aGrid.placeAt(col, row, this.assets[i]);
+                        this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
+                        this.assets[i].scaleY = this.assets[i].scaleX;
+                        i++;
+                    }
+                }
+
+            }
+
+            resize() {
+                var canvas = this.game.canvas;
+                canvas.style.width = document.body.offsetWidth + 'px';
+                canvas.style.height = document.body.offsetHeight + 'px';
+            }
+        }
+
         $.getScript(url, function () {
             $(document).ready(function () {
 
@@ -36,7 +92,7 @@
                 document.set_id = document.stack[0];
                 document.stack.shift();
 
-                var set = projective_sets.filter(obj => {
+                document.set = projective_sets.filter(obj => {
                     return obj.id === document.set_id
                 });
 
@@ -57,61 +113,13 @@
                             gravity: { y: 200 }
                         }
                     },
-                    scene: {
-                        preload: preload,
-                        create: create
-                    }
+                    scene: [Guessing]
                 };
 
                 var game = new Phaser.Game(config);
 
-                function preload() {
-                    objects.forEach((object) => {
-                        this.load.image("asset" + object.id, "../game/assets/asset" + object.id + ".png");
-                    });
-
-                }
-
-                function create() {
-                    window.addEventListener('resize', resize);
-                    resize();
-                    var graphics = this.add.graphics();
-
-                    graphics.fillGradientStyle(0x0000ff, 0x0000ff, 0xaaffff, 0xaaffff);
-                    graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
-
-                    var gridConfig = {
-                        'scene': this,
-                        'cols': 4,
-                        'rows': 2,
-                        'graphics': graphics
-                    }
-                    this.aGrid = new AlignGrid(gridConfig);
-                    // this.aGrid.showNumbers();
-
-                    this.assets = [];
 
 
-
-                    i = 0;
-                    for (col = 0; col < 4; col++) {
-                        for (row = 0; row < 2; row++) {
-                            this.assets[i] = this.add.image(0, 0, "asset" + set[0].icons[i]);
-                            // this.assets[i] = this.add.image(0, 0, "asset" + 0);
-                            this.aGrid.placeAt(col, row, this.assets[i]);
-                            this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
-                            this.assets[i].scaleY = this.assets[i].scaleX;
-                            i++;
-                        }
-                    }
-
-                }
-
-                function resize() {
-                    var canvas = game.canvas;
-                    canvas.style.width = document.body.offsetWidth + 'px';
-                    canvas.style.height = document.body.offsetHeight + 'px';
-                }
             });
         });
 
