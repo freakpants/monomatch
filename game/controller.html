@@ -29,58 +29,80 @@
         });
 
 
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
         var air_console;
 
         function init() {
             air_console = new AirConsole();
 
             console.log("airconsole init");
+
+
             air_console.onMessage = function (from, data) {
+                DEBUG && console.log("received messager on controller");
                 if (data === undefined || data[0] === undefined || data[0].type === undefined) {
                     return;
                 }
                 switch (data[0].type) {
-                    case "chosen_objects":
+                    case "set":
+                        DEBUG && console.log("received set info from screen");
                         $("#menu").hide();
-                        // determine one random object from the screen to display
-                        correct_object = Math.floor(Math.random() * 12);
 
-                        // determine wrong objects to display
-                        var wrong = [];
+                        // get our set
+                        var controller_set = projective_sets.filter(obj => {
+                            return obj.id === data[0].set_id;
+                        })[0];
+                        DEBUG && console.log(controller_set);
+                        // get the set our screen has
+                        var screen_set = projective_sets.filter(obj => {
+                            return obj.id === data[0].screen_set_id;
+                        })[0];
+                        DEBUG && console.log(screen_set);
 
-                        console.log(data[0]);
-
-                        while (wrong.length < 7) {
-                            var r = Math.floor(Math.random() * 26);
-                            if (wrong.indexOf(r) === -1 && data[0].payload.indexOf(r) === -1) wrong.push(r);
-                        } 
-
-                        DEBUG && console.log("correct object is: " + data[0].payload[correct_object]);
-                        // determine a position for the correct object on the controller
-                        correct_position = Math.floor(Math.random() * 7);
-                        var correct_was_shown = false;
-                        for (i = 0; i < 8; i++) {
-                            correctClass = "wrong";
-                            if(i === correct_position){
-                                asset_id = data[0].payload[correct_object];
-                                correct_was_shown = true;
-                                correctClass = "correct";
-                            } else{
-                                if(correct_was_shown){
-                                    asset_id = wrong[i-1];
+                        // determine which object is both on screen and on the controller
+                        // compare our sets
+                        match_found = false;
+                        screen_set.icons.forEach(icon_id => {
+                            if (controller_set.icons.includes(icon_id)) {
+                                // check if this is the second match, which would mean we have a faulty set
+                                if (match_found) {
+                                    console.log("faulty set with more than one match found!");
                                 } else {
-                                    asset_id = wrong[i];
+                                    match_found = true;
+                                    correct_id = icon_id;
                                 }
                             }
-                            $("#objects").append('<div class="object-container ' + correctClass  +'"><img src="assets/asset' + asset_id + '.png"></div>');
+                        });
 
-
+                        if (!(match_found)) {
+                            console.log("faulty set with no match found!");
                         }
+
+                        DEBUG && console.log("correct icon:" + correct_id);
+
+                        // sort the icons
+                        shuffleArray(controller_set.icons);
+
+                        controller_set.icons.forEach(asset_id => {
+                            if(asset_id == correct_id){
+                                correctClass = "correct";
+                            } else {
+                                correctClass = "";
+                            }
+                            $("#objects").append('<div class="object-container ' + correctClass  +'"><img src="assets/asset' + asset_id + '.png"></div>');
+                        });
+
                         $(".object-container").click(function(event){
                             // determine whether or not the clicked object is correct
                             correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
                             DEBUG && console.log("guess is correct: " + correct);
-                        });
+                        }); 
                         break;
                 }
             }

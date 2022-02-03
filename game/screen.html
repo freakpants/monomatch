@@ -21,12 +21,27 @@
 
         $.getScript(url, function () {
             $(document).ready(function () {
-                // get one of the 56 sets
-                var set_id = Math.floor(Math.random() * 56);
+
+
+                // build the stack of cards
+                document.stack = [];
+                while (document.stack.length < 57) {
+                    var r = Math.floor(Math.random() * 57);
+                    if (document.stack.indexOf(r) === -1) document.stack.push(r);
+                }
+                DEBUG && console.log(document.stack);
+
+
+                // get the first card from the stack
+                document.set_id = document.stack[0];
+                document.stack.shift();
 
                 var set = projective_sets.filter(obj => {
-                    return obj.id === set_id
+                    return obj.id === document.set_id
                 });
+
+                DEBUG && console.log(document.stack);
+
                 var config = {
                     type: Phaser.AUTO,
                     scale: {
@@ -115,9 +130,17 @@
 
                 switch (type) {
                     case "confirm":
-                        chosen_objects = [];
-                        chosen_objects.push({ type: "chosen_objects", payload: arr });
-                        air_console.broadcast(chosen_objects);
+                        // assign a card from the stack to every client
+                        var deviceIds = air_console.getControllerDeviceIds();
+                        deviceIds.forEach(device_id => {
+                            set_message = [];
+                            set_message.push({ type: "set", set_id: document.stack[0], screen_set_id: document.set_id });
+                            DEBUG && console.log("sending set info to device " + device_id);
+                            air_console.message(device_id, set_message);
+                            document.stack.shift();
+                        });
+
+
                         break;
                 }
             };
