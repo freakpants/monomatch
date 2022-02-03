@@ -1,235 +1,236 @@
-var objects = [
-  {
-    name: "Toast",
-    id: "0",
-  },
-  {
-    name: "Bell",
-    id: "1",
-  },
-  {
-    name: "Gun",
-    id: "2",
-  },
-  {
-    name: "Scroll",
-    id: "3",
-  },
-  {
-    name: "Amulet",
-    id: "4",
-  },
-  {
-    name: "Ring",
-    id: "5",
-  },
-  {
-    name: "Red Gem",
-    id: "6",
-  },
-  {
-    name: "Green Gem",
-    id: "7",
-  },
-  {
-    name: "Scroll 2",
-    id: "8",
-  },
-  {
-    name: "Fishing Rod",
-    id: "9",
-  },
-  {
-    name: "Axe",
-    id: "10",
-  },
-  {
-    name: "Shell",
-    id: "11",
-  },
-  {
-    name: "Plant",
-    id: "12",
-  },
-  {
-    name: "Glove",
-    id: "13",
-  },
-  {
-    name: "Flower",
-    id: "14",
-  },
-  {
-    name: "Scroll 3",
-    id: "15",
-  },
-  {
-    name: "Box",
-    id: "16",
-  },
-  {
-    name: "Blue Gem",
-    id: "17",
-  },
-  {
-    name: "Red Potion",
-    id: "18",
-  },
-  {
-    name: "Red Choker",
-    id: "19",
-  },
-  {
-    name: "Blue Book",
-    id: "20",
-  },
-  {
-    name: "Teeth",
-    id: "21",
-  },
-  {
-    name: "Blue Mushroom",
-    id: "22",
-  },
-  {
-    name: "Red Mushroom",
-    id: "23",
-  },
-  {
-    name: "Blue Gloves",
-    id: "24",
-  },
-  {
-    name: "Bucket",
-    id: "25",
-  },
-  {
-    name: "Tomato",
-    id: "26",
-  },
-  {
-    name: "Broccoli",
-    id: "27",
-  },
-  {
-    name: "Wooly Trinket",
-    id: "28",
-  },
-  {
-    name: "Skull",
-    id: "29",
-  },
-  {
-    name: "Beans",
-    id: "30",
-  },
-  {
-    name: "Flute",
-    id: "31",
-  },
-  {
-    name: "Silver Bar",
-    id: "32",
-  },
-  {
-    name: "Orange Book",
-    id: "33",
-  },
-  {
-    name: "Plank",
-    id: "34",
-  },
-  {
-    name: "Silver Ring",
-    id: "35",
-  },
-  {
-    name: "Cheese",
-    id: "36",
-  },
-  {
-    name: "Flour",
-    id: "37",
-  },
-  {
-    name: "Lifegem",
-    id: "38",
-  },
-  {
-    name: "Baked Something",
-    id: "39",
-  },
-  {
-    name: "Blue Potion",
-    id: "40",
-  },
-  {
-    name: "Salad",
-    id: "41",
-  },
-  {
-    name: "Peach",
-    id: "42",
-  },
-  {
-    name: "Bag of Dopamine",
-    id: "43",
-  },
-  {
-    name: "Violet Shoes",
-    id: "44",
-  },
-  {
-    name: "Kiwi",
-    id: "45",
-  },
-  {
-    name: "Feathery Snitch",
-    id: "46",
-  },
-  {
-    name: "Bracer",
-    id: "47",
-  },
-  {
-    name: "Grain",
-    id: "48",
-  },
-  {
-    name: "Heavy Boots",
-    id: "49",
-  },
-  {
-    name: "Mana Crystal",
-    id: "50",
-  },
-  {
-    name: "Tofu",
-    id: "51",
-  },
-  {
-    name: "Bird Cage",
-    id: "52",
-  },
-  {
-    name: "Thorium Bar",
-    id: "53",
-  },
-  {
-    name: "Curved Sword",
-    id: "54",
-  },
-  {
-    name: "Blue Book of Cards",
-    id: "55",
-  },
-  {
-    name: "Chest",
-    id: "56",
-  }
-];
+export const objects = 
+  [
+    {
+      name: "Toast",
+      id: "0",
+    },
+    {
+      name: "Bell",
+      id: "1",
+    },
+    {
+      name: "Gun",
+      id: "2",
+    },
+    {
+      name: "Scroll",
+      id: "3",
+    },
+    {
+      name: "Amulet",
+      id: "4",
+    },
+    {
+      name: "Ring",
+      id: "5",
+    },
+    {
+      name: "Red Gem",
+      id: "6",
+    },
+    {
+      name: "Green Gem",
+      id: "7",
+    },
+    {
+      name: "Scroll 2",
+      id: "8",
+    },
+    {
+      name: "Fishing Rod",
+      id: "9",
+    },
+    {
+      name: "Axe",
+      id: "10",
+    },
+    {
+      name: "Shell",
+      id: "11",
+    },
+    {
+      name: "Plant",
+      id: "12",
+    },
+    {
+      name: "Glove",
+      id: "13",
+    },
+    {
+      name: "Flower",
+      id: "14",
+    },
+    {
+      name: "Scroll 3",
+      id: "15",
+    },
+    {
+      name: "Box",
+      id: "16",
+    },
+    {
+      name: "Blue Gem",
+      id: "17",
+    },
+    {
+      name: "Red Potion",
+      id: "18",
+    },
+    {
+      name: "Red Choker",
+      id: "19",
+    },
+    {
+      name: "Blue Book",
+      id: "20",
+    },
+    {
+      name: "Teeth",
+      id: "21",
+    },
+    {
+      name: "Blue Mushroom",
+      id: "22",
+    },
+    {
+      name: "Red Mushroom",
+      id: "23",
+    },
+    {
+      name: "Blue Gloves",
+      id: "24",
+    },
+    {
+      name: "Bucket",
+      id: "25",
+    },
+    {
+      name: "Tomato",
+      id: "26",
+    },
+    {
+      name: "Broccoli",
+      id: "27",
+    },
+    {
+      name: "Wooly Trinket",
+      id: "28",
+    },
+    {
+      name: "Skull",
+      id: "29",
+    },
+    {
+      name: "Beans",
+      id: "30",
+    },
+    {
+      name: "Flute",
+      id: "31",
+    },
+    {
+      name: "Silver Bar",
+      id: "32",
+    },
+    {
+      name: "Orange Book",
+      id: "33",
+    },
+    {
+      name: "Plank",
+      id: "34",
+    },
+    {
+      name: "Silver Ring",
+      id: "35",
+    },
+    {
+      name: "Cheese",
+      id: "36",
+    },
+    {
+      name: "Flour",
+      id: "37",
+    },
+    {
+      name: "Lifegem",
+      id: "38",
+    },
+    {
+      name: "Baked Something",
+      id: "39",
+    },
+    {
+      name: "Blue Potion",
+      id: "40",
+    },
+    {
+      name: "Salad",
+      id: "41",
+    },
+    {
+      name: "Peach",
+      id: "42",
+    },
+    {
+      name: "Bag of Dopamine",
+      id: "43",
+    },
+    {
+      name: "Violet Shoes",
+      id: "44",
+    },
+    {
+      name: "Kiwi",
+      id: "45",
+    },
+    {
+      name: "Feathery Snitch",
+      id: "46",
+    },
+    {
+      name: "Bracer",
+      id: "47",
+    },
+    {
+      name: "Grain",
+      id: "48",
+    },
+    {
+      name: "Heavy Boots",
+      id: "49",
+    },
+    {
+      name: "Mana Crystal",
+      id: "50",
+    },
+    {
+      name: "Tofu",
+      id: "51",
+    },
+    {
+      name: "Bird Cage",
+      id: "52",
+    },
+    {
+      name: "Thorium Bar",
+      id: "53",
+    },
+    {
+      name: "Curved Sword",
+      id: "54",
+    },
+    {
+      name: "Blue Book of Cards",
+      id: "55",
+    },
+    {
+      name: "Chest",
+      id: "56",
+    },
+  ];
 
-var projective_sets = [
+export const projective_sets = [
   { id: 0, icons: [0, 1, 2, 3, 4, 5, 6, 7] },
   { id: 1, icons: [8, 37, 19, 49, 14, 44, 26, 7] },
   { id: 2, icons: [16, 13, 35, 41, 22, 28, 50, 7] },
@@ -278,7 +279,7 @@ var projective_sets = [
   { id: 40, icons: [16, 53, 19, 25, 6, 12, 34, 47] },
   { id: 41, icons: [24, 29, 35, 17, 14, 52, 2, 47] },
   { id: 42, icons: [32, 5, 51, 9, 22, 36, 26, 47] },
-  { id: 43, icons: [40, 37, 11, 1, 30, 20, 50 , 47] },
+  { id: 43, icons: [40, 37, 11, 1, 30, 20, 50, 47] },
   { id: 44, icons: [48, 13, 27, 49, 38, 4, 18, 47] },
 
   { id: 45, icons: [0, 53, 51, 49, 54, 52, 50, 55] },
