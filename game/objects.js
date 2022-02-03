@@ -2,159 +2,231 @@ var objects = [
   {
     name: "Toast",
     id: "0",
-    themes: ["food"],
-    colors: ["yellow"],
   },
   {
     name: "Bell",
     id: "1",
-    themes: ["sound", "church", "object"],
-    colors: ["gold"],
   },
   {
     name: "Gun",
     id: "2",
-    themes: ["weapon", "object"],
-    colors: ["silver"],
   },
   {
     name: "Scroll",
     id: "3",
-    themes: ["paper", "writing", "object"],
-    colors: ["yellow"],
   },
   {
     name: "Amulet",
     id: "4",
-    themes: ["jewelry", "object"],
-    colors: ["gold", "cyan"],
   },
   {
     name: "Ring",
     id: "5",
-    themes: ["jewelry", "object"],
-    colors: ["gold"],
   },
   {
     name: "Red Gem",
     id: "6",
-    themes: ["jewelry", "object"],
-    colors: ["red"],
   },
   {
     name: "Green Gem",
     id: "7",
-    themes: ["jewelry", "object"],
-    colors: ["green"],
   },
   {
     name: "Scroll 2",
     id: "8",
-    themes: ["paper", "writing", "object"],
-    colors: ["brown"],
   },
   {
     name: "Fishing Rod",
     id: "9",
-    themes: ["food", "tools", "object"],
-    colors: ["brown"],
   },
   {
     name: "Axe",
     id: "10",
-    themes: ["weapon", "object"],
-    colors: ["brown", "silver"],
   },
   {
     name: "Shell",
     id: "11",
-    themes: ["animals"],
-    colors: ["brown"],
   },
   {
     name: "Plant",
     id: "12",
-    themes: ["plants"],
-    colors: ["brown", "green"],
   },
   {
     name: "Glove",
     id: "13",
-    themes: ["clothing", "armour", "object"],
-    colors: ["gray"],
   },
   {
     name: "Flower",
     id: "14",
-    themes: ["plants"],
-    colors: ["white"],
   },
   {
     name: "Scroll 3",
     id: "15",
-    themes: ["paper", "writing", "object"],
-    colors: ["white", "brown"],
   },
   {
     name: "Box",
     id: "16",
-    themes: ["container", "object"],
-    colors: ["brown"],
   },
   {
     name: "Blue Gem",
     id: "17",
-    themes: ["jewelry", "object"],
-    colors: ["blue"],
   },
   {
     name: "Red Potion",
     id: "18",
-    themes: ["consumable", "object"],
-    colors: ["red"],
   },
   {
     name: "Red Choker",
     id: "19",
-    themes: ["jewelry", "object"],
-    colors: ["red"],
   },
   {
     name: "Blue Book",
     id: "20",
-    themes: ["paper", "writing", "object"],
-    colors: ["blue"],
   },
   {
     name: "Teeth",
     id: "21",
-    themes: ["bodyparts"],
-    colors: ["red", "white"],
   },
   {
     name: "Blue Mushroom",
     id: "22",
-    themes: ["food", "plants"],
-    colors: ["blue"],
   },
   {
     name: "Red Mushroom",
     id: "23",
-    themes: ["food", "plants"],
-    colors: ["red", "white"],
   },
   {
     name: "Blue Gloves",
     id: "24",
-    themes: ["clothing", "armour"],
-    colors: ["blue"],
   },
   {
     name: "Bucket",
     id: "25",
-    themes: ["water", "container", "object"],
-    colors: ["blue", "brown"],
   },
+  {
+    name: "Tomato",
+    id: "26",
+  },
+  {
+    name: "Broccoli",
+    id: "27",
+  },
+  {
+    name: "Wooly Trinket",
+    id: "28",
+  },
+  {
+    name: "Skull",
+    id: "29",
+  },
+  {
+    name: "Beans",
+    id: "30",
+  },
+  {
+    name: "Flute",
+    id: "31",
+  },
+  {
+    name: "Silver Bar",
+    id: "32",
+  },
+  {
+    name: "Orange Book",
+    id: "33",
+  },
+  {
+    name: "Plank",
+    id: "34",
+  },
+  {
+    name: "Silver Ring",
+    id: "35",
+  },
+  {
+    name: "Cheese",
+    id: "36",
+  },
+  {
+    name: "Flour",
+    id: "37",
+  },
+  {
+    name: "Lifegem",
+    id: "38",
+  },
+  {
+    name: "Baked Something",
+    id: "39",
+  },
+  {
+    name: "Blue Potion",
+    id: "40",
+  },
+  {
+    name: "Salad",
+    id: "41",
+  },
+  {
+    name: "Peach",
+    id: "42",
+  },
+  {
+    name: "Bag of Dopamine",
+    id: "43",
+  },
+  {
+    name: "Violet Shoes",
+    id: "44",
+  },
+  {
+    name: "Kiwi",
+    id: "45",
+  },
+  {
+    name: "Feathery Snitch",
+    id: "46",
+  },
+  {
+    name: "Bracer",
+    id: "47",
+  },
+  {
+    name: "Grain",
+    id: "48",
+  },
+  {
+    name: "Heavy Boots",
+    id: "49",
+  },
+  {
+    name: "Mana Crystal",
+    id: "50",
+  },
+  {
+    name: "Tofu",
+    id: "51",
+  },
+  {
+    name: "Bird Cage",
+    id: "52",
+  },
+  {
+    name: "Thorium Bar",
+    id: "53",
+  },
+  {
+    name: "Curved Sword",
+    id: "54",
+  },
+  {
+    name: "Blue Book of Cards",
+    id: "55",
+  },
+  {
+    name: "Chest",
+    id: "56",
+  }
 ];
 
 var projective_sets = [

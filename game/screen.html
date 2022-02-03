@@ -21,6 +21,82 @@
 
         $.getScript(url, function () {
             $(document).ready(function () {
+                // get one of the 56 sets
+                var set_id = Math.floor(Math.random() * 56);
+
+                var set = projective_sets.filter(obj => {
+                    return obj.id === set_id
+                });
+                var config = {
+                    type: Phaser.AUTO,
+                    scale: {
+                        mode: Phaser.Scale.NONE,
+                        parent: 'body',
+                        autoCenter: Phaser.Scale.NO_CENTER,
+                        width: "100%",
+                        height: "100%"
+                    },
+                    physics: {
+                        default: 'arcade',
+                        arcade: {
+                            gravity: { y: 200 }
+                        }
+                    },
+                    scene: {
+                        preload: preload,
+                        create: create
+                    }
+                };
+
+                var game = new Phaser.Game(config);
+
+                function preload() {
+                    objects.forEach((object) => {
+                        this.load.image("asset" + object.id, "../game/assets/asset" + object.id + ".png");
+                    });
+
+                }
+
+                function create() {
+                    window.addEventListener('resize', resize);
+                    resize();
+                    var graphics = this.add.graphics();
+
+                    graphics.fillGradientStyle(0x0000ff, 0x0000ff, 0xaaffff, 0xaaffff);
+                    graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
+
+                    var gridConfig = {
+                        'scene': this,
+                        'cols': 4,
+                        'rows': 2,
+                        'graphics': graphics
+                    }
+                    this.aGrid = new AlignGrid(gridConfig);
+                    // this.aGrid.showNumbers();
+
+                    this.assets = [];
+
+
+
+                    i = 0;
+                    for (col = 0; col < 4; col++) {
+                        for (row = 0; row < 2; row++) {
+                            this.assets[i] = this.add.image(0, 0, "asset" + set[0].icons[i]);
+                            // this.assets[i] = this.add.image(0, 0, "asset" + 0);
+                            this.aGrid.placeAt(col, row, this.assets[i]);
+                            this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
+                            this.assets[i].scaleY = this.assets[i].scaleX;
+                            i++;
+                        }
+                    }
+
+                }
+
+                function resize() {
+                    var canvas = game.canvas;
+                    canvas.style.width = document.body.offsetWidth + 'px';
+                    canvas.style.height = document.body.offsetHeight + 'px';
+                }
             });
         });
 
@@ -42,18 +118,13 @@
                         chosen_objects = [];
                         chosen_objects.push({ type: "chosen_objects", payload: arr });
                         air_console.broadcast(chosen_objects);
-                    break;
+                        break;
                 }
             };
 
         }
 
-        // determine 12 objects to display on the screen
-        var arr = [];
-        while (arr.length < 12) {
-            var r = Math.floor(Math.random() * 26);
-            if (arr.indexOf(r) === -1) arr.push(r);
-        }
+
 
         class AlignGrid {
             constructor(config) {
@@ -114,73 +185,9 @@
             }
         }
 
-        var config = {
-            type: Phaser.AUTO,
-            scale: {
-                mode: Phaser.Scale.NONE,
-                parent: 'body',
-                autoCenter: Phaser.Scale.NO_CENTER,
-                width: "100%",
-                height: "100%"
-            },
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 200 }
-                }
-            },
-            scene: {
-                preload: preload,
-                create: create
-            }
-        };
 
-        var game = new Phaser.Game(config);
 
-        function preload() {
-            objects.forEach((object) => {
-                this.load.image("asset" + object.id, "../game/assets/asset" + object.id + ".png");
-            });
 
-        }
-
-        function create() {
-            window.addEventListener('resize', resize);
-            resize();
-            var graphics = this.add.graphics();
-
-            graphics.fillGradientStyle(0x0000ff, 0x0000ff, 0xaaffff, 0xaaffff);
-            graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
-
-            var gridConfig = {
-                'scene': this,
-                'cols': 4,
-                'rows': 3,
-                'graphics': graphics
-            }
-            this.aGrid = new AlignGrid(gridConfig);
-            // this.aGrid.showNumbers();
-
-            this.assets = [];
-
-            i = 0;
-            for (col = 0; col < 4; col++) {
-                for (row = 0; row < 3; row++) {
-                    this.assets[i] = this.add.image(0, 0, "asset" + arr[i]);
-                    this.aGrid.placeAt(col, row, this.assets[i]);
-                    this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
-                    this.assets[i].scaleY = this.assets[i].scaleX;
-                    i++;
-                }
-            }
-
-        }
-
-        function resize() {
-            var canvas = game.canvas;
-            canvas.style.width = document.body.offsetWidth + 'px';
-            canvas.style.height = document.body.offsetHeight + 'px';
-        }
     </script>
 
 </body>
