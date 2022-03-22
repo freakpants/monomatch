@@ -1,3 +1,4 @@
+import { projective_sets } from '../objects.js';
 export default class TimeScreen extends Phaser.Scene {
   constructor() {
     super("timescreen");
@@ -78,6 +79,10 @@ export default class TimeScreen extends Phaser.Scene {
         message.push({ type: "countdown_over" });
         air_console.broadcast(message);
 
+        document.set_id = document.next_set_id;
+        document.set = projective_sets.filter(obj => {
+            return obj.id === document.set_id
+        });
         this.scene.start("guessing");
     }
 
