@@ -42,6 +42,8 @@
                             document.stack.shift();
                         });
 
+                        // change the phaser scene
+                        document.game.scene.start('guessing');
 
                         break;
                 }
@@ -134,7 +136,7 @@
                 scene: [MainMenu, Guessing]
             };
 
-            var game = new Phaser.Game(config);
+            document.game = new Phaser.Game(config);
 
 
 
