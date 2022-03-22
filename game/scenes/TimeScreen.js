@@ -65,8 +65,16 @@ export default class TimeScreen extends Phaser.Scene {
   }
 
   onEvent() {
-    this.initialTime -= 1; // One second
-    this.text.setText("This is the timer screen until a new round begins.\n" + this.initialTime); 
+    console.log(this.initialTime);
+    if(this.initialTime !== 1){
+        console.log("initalTime is not 1");
+        this.initialTime -= 1; // One second
+        this.text.setText("This is the timer screen until a new round begins.\n" + this.initialTime); 
+    } else {
+        console.log("trying to change scene");
+        this.scene.start("guessing");
+    }
+
   }
 
   resize() {
