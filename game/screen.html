@@ -34,6 +34,10 @@
                     case "correct":
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);
+                        
+                        // change the phaser scene
+                        document.game.scene.start('timescreen');
+
                         // send new set to device
                         set_message = [];
                         set_message.push({ type: "set", set_id: document.stack[0], screen_set_id: document.set_id });
@@ -104,6 +108,7 @@
     <script type="module">
         import Guessing from '/game/scenes/Guessing.js';
         import MainMenu from '/game/scenes/MainMenu.js';
+        import TimeScreen from '/game/scenes/TimeScreen.js';
         import { objects, projective_sets } from '/game/objects.js';
 
         $(document).ready(function () {
@@ -143,7 +148,7 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [MainMenu, Guessing]
+                scene: [MainMenu, Guessing, TimeScreen]
             };
 
             document.game = new Phaser.Game(config);
