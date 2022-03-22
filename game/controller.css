@@ -84,6 +84,7 @@ body{
 	margin:0px;
 	font-family: Oswald;
 	background: linear-gradient(180deg, #0d47a1 0%, #002171 100% );
+	color: white;
 }
 
 #position{
@@ -481,6 +482,17 @@ body{
 	opacity: 0;
 	width: 100vw;
 	height: 100vh;
+}
+
+#slow{
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	font-size: 1.5em;
+}
+
+#slow p{
+	text-align: center;
 }
 
 #correct{

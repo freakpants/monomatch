@@ -59,7 +59,9 @@
                 }
                 switch (data[0].type) {
                     case "correct":
-
+                        $("#objects").hide();
+                        $("#slow").css("display", "flex");
+                        $("#slow").css("opacity", 1);
                     break;
                     case "show_menu":
                     case "hide_menu":
@@ -191,8 +193,11 @@
 </div>
 
 <div id="slow">
-    Too slow! <div id="round_winter">Player x</div> was faster than you!</br>
-    A new round will begin shortly
+    <p>
+        Too slow!</br>
+        <span id="round_winner">Player x</span>&nbsp;was faster than you.</br>
+        A new round will begin shortly.
+    </p>
 </div>
 <div id="menu">
 
