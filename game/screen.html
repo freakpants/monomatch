@@ -31,6 +31,15 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "correct":
+                        DEBUG && console.log("device " + from + " guessed correctly");
+                        // send new set to device
+                        set_message = [];
+                        set_message.push({ type: "set", set_id: document.stack[0], screen_set_id: document.set_id });
+                        DEBUG && console.log("sending set info to device " + from);
+                        air_console.message(from, set_message);
+                        document.stack.shift();
+                    break;
                     case "confirm":
                         // assign a card from the stack to every client
                         var deviceIds = air_console.getControllerDeviceIds();

@@ -472,8 +472,22 @@ body{
 .result_banner.wrong{
 	background-color: red;
 }
-.result_banner.correct{
+
+#correct, #wrong{
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	opacity: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+#correct{
 	background-color: green;
+}
+
+#wrong{
+	background-color: red;
 }
 
 .itunes{

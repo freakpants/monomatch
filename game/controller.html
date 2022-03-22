@@ -72,7 +72,12 @@
                         break;
                     case "set":
                         DEBUG && console.log("received set info from screen");
+
+                        // reset all objects
+                        $("#objects").html("");
+
                         $("#menu").hide();
+                        $("#waiting_for_start").hide();
 
                         // get our set
                         var controller_set = document.projective_sets.filter(obj => {
@@ -122,11 +127,33 @@
                             // determine whether or not the clicked object is correct
                             correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
                             DEBUG && console.log("guess is correct: " + correct);
+                            if(correct){
+                                // signal correctness to player by blinking
+						        $("#correct").css('opacity', '1');
+						        $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+                                
+                                // wait for the animations to finish
+                                sleep(1400).then(() => {
+                                    // inform screen about correct guess
+                                    var command = [];
+                                    command.push({ type: "correct" });
+                                    air_console.message(0, command);
+                                });
+                            } else {
+						        $("#wrong").css('opacity', '1');
+						        $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+                                $(event.target).css("opacity", "0.25");
+                            }
                         });
                         break;
                 }
             }
         }
+
+        function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -144,6 +171,12 @@
 </body>
 <div id="objects">
 
+</div>
+<div id="wrong">
+        
+</div>
+<div id="correct">
+        
 </div>
 <div id="menu">
 
@@ -183,6 +216,8 @@
     <div id="waiting_for_next_round">
         Please wait for the next round to begin.
     </div>
+
+
 
     <div id="waiting_for_start">
         Please wait for the master controller to start the game.
