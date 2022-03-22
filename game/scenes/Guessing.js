@@ -16,7 +16,7 @@ export default class Guessing extends Phaser.Scene {
         this.resize();
         var graphics = this.add.graphics();
 
-        graphics.fillGradientStyle(0x0000ff, 0x0000ff, 0xaaffff, 0xaaffff);
+        graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
         graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
 
         var gridConfig = {

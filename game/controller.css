@@ -1,8 +1,10 @@
 /*
-primary red: #b51d05;
-secondary orange: #e8822d;
-text yellow: #ffdc40;
-text white: white;
+$primary: #0d47a1;
+$secondary: #2962ff;
+
+$primary-dark: #002171;
+$secondary-dark: #0039cb;
+
 */
 
 @media (max-width: 320px) {
@@ -95,12 +97,12 @@ body{
 }
 
 #position span{
-	-webkit-text-stroke: 1px #b51d05;
-    text-shadow: -1px 1px 5px #b51d05, 
-	-2px 2px 2px #b51d05, 
-	-3px 3px 2px #b51d05, 
-	-4px 4px 2px #b51d05, 
-	-5px 5px 2px #b51d05
+	-webkit-text-stroke: 1px #0d47a1;
+    text-shadow: -1px 1px 5px #0d47a1, 
+	-2px 2px 2px #0d47a1, 
+	-3px 3px 2px #0d47a1, 
+	-4px 4px 2px #0d47a1, 
+	-5px 5px 2px #0d47a1
 }
 
 #position .number{
@@ -249,8 +251,8 @@ body{
 }
 
 #confirm{
-	width: 50vw;
-	height: 50vh;
+	width: 100vw;
+	height: 100vh;
 }
 
 #hero-confirm{
@@ -261,7 +263,7 @@ body{
 }
 
 .minus, #confirm, #hero-confirm{
-	background-color:  #b51d05;
+	background-color:  #0d47a1;
 }
 
 #next-button, #cancel{
@@ -359,7 +361,7 @@ body{
 #game_over, #back_from_credits_area, #waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
 	width: 100vw;
     height: 100vh;
-	background-color: #b51d05;
+	background-color: #0d47a1;
 	display: none;
 	flex-direction:column;
 }
@@ -388,7 +390,7 @@ body{
 }
 
 #round_over_song_details .image{
-	background-color: #b51d05;
+	background-color: #0d47a1;
 	width:100%;
 	height: 85vh;
 	display: flex;
@@ -397,7 +399,7 @@ body{
 }
 
 #round_over_song_details .text_info{
-	background-color: #b51d05;
+	background-color: #0d47a1;
 	width:100%;
 	flex-grow: 1;
 	display: flex;
@@ -512,6 +514,7 @@ body{
 	display: flex;
 	justify-content: center;
 	text-align: center;
+	color: white;
 }
 
 .button_comment, .button_comment_reduced{
