@@ -51,7 +51,7 @@
 
             air_console.onMessage = function (from, data) {
 
-                DEBUG && console.log("received messager on controller");
+                DEBUG && console.log("received " + data[0].type + " message on controller");
                 if (data === undefined || data[0] === undefined || data[0].type === undefined) {
                     return;
                 }
@@ -77,8 +77,9 @@
                     case "new_screen_set":
 
                         // get our set
-                        const current_set = $("#objects").attr("data-set-id");
-                        change_sets_on_controller(current_set, data[0].screen_set_id);
+                        const current_set = parseInt($("#objects").attr("data-set-id"));
+                        DEBUG && console.log("current set id: " + current_set);
+                        change_sets_on_controller(current_set, data[0].screen_set_id, false);
 
                         break;
                     case "set":
@@ -98,16 +99,15 @@
                         $("#menu").hide();
                         $("#waiting_for_start").hide();
 
-                        change_sets_on_controller(data[0].set_id, data[0].screen_set_id);
+                        change_sets_on_controller(data[0].set_id, data[0].screen_set_id, true);
 
                         break;
                 }
             }
         }
 
-        function change_sets_on_controller(controller_set_id, screen_set_id) {
-            // reset all objects
-            $("#objects").html("");
+        function change_sets_on_controller(controller_set_id, screen_set_id, shuffle) {
+
             // get our set
             var controller_set = document.projective_sets.filter(obj => {
                 return obj.id === controller_set_id;
@@ -139,49 +139,57 @@
             }
 
             DEBUG && console.log("correct icon:" + correct_id);
+            if (shuffle) {
+                // reset all objects
+                $("#objects").html("");
+                // sort the icons
+                shuffleArray(controller_set.icons);
 
-            // sort the icons
-            shuffleArray(controller_set.icons);
-
-            controller_set.icons.forEach(asset_id => {
-                if (asset_id == correct_id) {
-                    correctClass = "correct";
-                } else {
-                    correctClass = "";
-                }
-                $("#objects").attr("data-set-id", controller_set_id);
-                $("#objects").append('<div  class="object-container ' + correctClass + '"><img src="assets/asset' + asset_id + '.png"></div>');
-            });
-
-            $(".object-container").click(function (event) {
-                // determine whether or not the clicked object is correct
-                correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
-                DEBUG && console.log("guess is correct: " + correct);
-
-
-                $(".object-container").css("pointer-events", "none");
-                if (correct) {
-                    // signal correctness to player by blinking
-                    $("#correct").css('opacity', '1');
-                    $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
-
-                    // wait for the animations to finish
-                    const correct_set_id = $("#objects").data("set-id");
-                    sleep(1400).then(() => {
-                        // inform screen and all other clients about correct guess
-                        var command = [];
-                        command.push({ type: "correct", set_id: correct_set_id });
-                        air_console.broadcast(command);
-                    });
-                } else {
-                    $("#wrong").css('opacity', '1');
-                    $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
-                    $(event.target).css("opacity", "0.25");
-                }
-                sleep(1400).then(() => {
-                    $(".object-container").css("pointer-events", "all");
+                controller_set.icons.forEach(asset_id => {
+                    if (asset_id == correct_id) {
+                        correctClass = "correct";
+                    } else {
+                        correctClass = "";
+                    }
+                    $("#objects").attr("data-set-id", controller_set_id);
+                    $("#objects").append('<div data-icon-id="' + asset_id + '"  class="object-container ' + correctClass + '"><img src="assets/asset' + asset_id + '.png"></div>');
                 });
-            });
+
+                $(".object-container").click(function (event) {
+                    // determine whether or not the clicked object is correct
+                    correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
+                    DEBUG && console.log("guess is correct: " + correct);
+
+
+                    $(".object-container").css("pointer-events", "none");
+                    if (correct) {
+                        // signal correctness to player by blinking
+                        $("#correct").css('opacity', '1');
+                        $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+
+                        // wait for the animations to finish
+                        const correct_set_id = $("#objects").data("set-id");
+                        sleep(1400).then(() => {
+                            // inform screen and all other clients about correct guess
+                            var command = [];
+                            command.push({ type: "correct", set_id: correct_set_id });
+                            air_console.broadcast(command);
+                        });
+                    } else {
+                        $("#wrong").css('opacity', '1');
+                        $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+                        $(event.target).css("opacity", "0.25");
+                    }
+                    sleep(1400).then(() => {
+                        $(".object-container").css("pointer-events", "all");
+                    });
+                });
+            } else {
+                // only update the wrong/correct classes
+                $(".object-container").removeClass("correct");
+                $('*[data-icon-id="' + correct_id + '"]').addClass("correct");
+            }
+
         }
 
         function sleep(ms) {
