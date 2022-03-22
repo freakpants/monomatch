@@ -60,6 +60,7 @@
                 switch (data[0].type) {
                     case "correct":
                         $("#objects").hide();
+                        $("#round_winner").html(air_console.getNickname(from));
                         $("#slow").css("display", "flex");
                         $("#slow").css("opacity", 1);
                     break;
