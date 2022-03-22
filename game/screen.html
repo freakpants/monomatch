@@ -31,8 +31,6 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
-                    case "countdown_over":
-                    break;
                     case "correct":
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);

@@ -73,10 +73,10 @@ export default class TimeScreen extends Phaser.Scene {
     } else {
         DEBUG && console.log("changing to scene for guessing");
         
-        // inform the screen a new round is beginning
+        // inform the controllers a new round is beginning
         const message = [];
         message.push({ type: "countdown_over" });
-        air_console.message(0, message);
+        air_console.broadcast(message);
 
         this.scene.start("guessing");
     }

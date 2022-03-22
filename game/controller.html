@@ -23,6 +23,7 @@
 
         var air_console;
         var DEBUG = true;
+        document.was_correct = false;
 
         $(document).ready(function () {
             $("#confirm").click(function (event) {
@@ -56,6 +57,12 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "countdown_over":
+                        $("#slow").hide();
+                        $("#fast").hide();
+                        $("#objects").css("display", "flex");
+                        $("#objects").css("opacity", 1);
+                    break;
                     case "correct":
                         $("#objects").hide();
                         $("#round_winner").html(air_console.getNickname(from));
@@ -85,16 +92,12 @@
                     case "set":
                         DEBUG && console.log("received set info from screen");
 
-
-
                         if (data[0].update) {
                             // if we got an update, don't display the new set just yet
                             $("#objects").hide();
                             $("#fast").css("opacity", 1);
                             $("#fast").css("display", "flex");
                         }
-
-
 
                         $("#menu").hide();
                         $("#waiting_for_start").hide();
@@ -106,8 +109,8 @@
             }
         }
 
-        function change_sets_on_controller(controller_set_id, screen_set_id, shuffle) {
-
+        function change_sets_on_controller(controller_set_id, screen_set_id, first_time) {
+            
             // get our set
             var controller_set = document.projective_sets.filter(obj => {
                 return obj.id === controller_set_id;
@@ -139,7 +142,7 @@
             }
 
             DEBUG && console.log("correct icon:" + correct_id);
-            if (shuffle) {
+            if (document.was_correct || first_time) {
                 // reset all objects
                 $("#objects").html("");
                 // sort the icons
@@ -163,6 +166,7 @@
 
                     $(".object-container").css("pointer-events", "none");
                     if (correct) {
+                        document.was_correct = true;
                         // signal correctness to player by blinking
                         $("#correct").css('opacity', '1');
                         $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
@@ -187,9 +191,11 @@
             } else {
                 // only update the wrong/correct classes
                 $(".object-container").removeClass("correct");
-                $('*[data-icon-id="' + correct_id + '"]').addClass("correct");
+                jqueryString = '*[data-icon-id=' + correct_id + ']';
+                console.log(jqueryString);
+                $(jqueryString).addClass("correct");
             }
-
+            document.was_correct = false;
         }
 
         function sleep(ms) {
