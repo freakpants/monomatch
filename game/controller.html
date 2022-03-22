@@ -61,7 +61,7 @@
                         $("#round_winner").html(air_console.getNickname(from));
                         $("#slow").css("display", "flex");
                         $("#slow").css("opacity", 1);
-                    break;
+                        break;
                     case "show_menu":
                     case "hide_menu":
                         if (am_i_master()) {
@@ -74,97 +74,119 @@
                             $("#confirm").hide();
                         }
                         break;
+                    case "new_screen_set":
+
+                        // get our set
+                        const current_set = $("#objects").attr("data-set-id");
+                        change_sets_on_controller(current_set, data[0].screen_set_id);
+
+                        break;
                     case "set":
                         DEBUG && console.log("received set info from screen");
 
-                        // reset all objects
-                        $("#objects").html("");
+
+
+                        if (data[0].update) {
+                            // if we got an update, don't display the new set just yet
+                            $("#objects").hide();
+                            $("#fast").css("opacity", 1);
+                            $("#fast").css("display", "flex");
+                        }
+
+
 
                         $("#menu").hide();
                         $("#waiting_for_start").hide();
 
-                        // get our set
-                        var controller_set = document.projective_sets.filter(obj => {
-                            return obj.id === data[0].set_id;
-                        })[0];
-                        DEBUG && console.log(controller_set);
-                        // get the set our screen has
-                        var screen_set = document.projective_sets.filter(obj => {
-                            return obj.id === data[0].screen_set_id;
-                        })[0];
-                        DEBUG && console.log(screen_set);
+                        change_sets_on_controller(data[0].set_id, data[0].screen_set_id);
 
-                        // determine which object is both on screen and on the controller
-                        // compare our sets
-                        match_found = false;
-                        screen_set.icons.forEach(icon_id => {
-                            if (controller_set.icons.includes(icon_id)) {
-                                // check if this is the second match, which would mean we have a faulty set
-                                if (match_found) {
-                                    console.log("faulty set with more than one match found!");
-                                } else {
-                                    match_found = true;
-                                    correct_id = icon_id;
-                                }
-                            }
-                        });
-
-                        if (!(match_found)) {
-                            console.log("faulty set with no match found!");
-                        }
-
-                        DEBUG && console.log("correct icon:" + correct_id);
-
-                        // sort the icons
-                        shuffleArray(controller_set.icons);
-
-                        controller_set.icons.forEach(asset_id => {
-                            if (asset_id == correct_id) {
-                                correctClass = "correct";
-                            } else {
-                                correctClass = "";
-                            }
-                            $("#objects").attr("data-set-id", data[0].set_id );
-                            $("#objects").append('<div  class="object-container ' + correctClass + '"><img src="assets/asset' + asset_id + '.png"></div>');
-                        });
-
-                        $(".object-container").click(function (event) {
-                            // determine whether or not the clicked object is correct
-                            correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
-                            DEBUG && console.log("guess is correct: " + correct);
-
-
-                            $(".object-container").css("pointer-events", "none");
-                            if(correct){
-                                // signal correctness to player by blinking
-						        $("#correct").css('opacity', '1');
-						        $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
-                                
-                                // wait for the animations to finish
-                                const correct_set_id = $("#objects").data("set-id");
-                                sleep(1400).then(() => {
-                                    // inform screen and all other clients about correct guess
-                                    var command = [];
-                                    command.push({ type: "correct", set_id: correct_set_id});
-                                    air_console.broadcast(command);
-                                });
-                            } else {
-						        $("#wrong").css('opacity', '1');
-						        $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
-                                $(event.target).css("opacity", "0.25");
-                            }
-                            sleep(1400).then(() => {
-                                $(".object-container").css("pointer-events", "all");
-                            });
-                        });
                         break;
                 }
             }
         }
 
+        function change_sets_on_controller(controller_set_id, screen_set_id) {
+            // reset all objects
+            $("#objects").html("");
+            // get our set
+            var controller_set = document.projective_sets.filter(obj => {
+                return obj.id === controller_set_id;
+            })[0];
+            DEBUG && console.log(controller_set);
+            // get the set our screen has
+            var screen_set = document.projective_sets.filter(obj => {
+                return obj.id === screen_set_id;
+            })[0];
+            DEBUG && console.log(screen_set);
+
+            // determine which object is both on screen and on the controller
+            // compare our sets
+            match_found = false;
+            screen_set.icons.forEach(icon_id => {
+                if (controller_set.icons.includes(icon_id)) {
+                    // check if this is the second match, which would mean we have a faulty set
+                    if (match_found) {
+                        console.log("faulty set with more than one match found!");
+                    } else {
+                        match_found = true;
+                        correct_id = icon_id;
+                    }
+                }
+            });
+
+            if (!(match_found)) {
+                console.log("faulty set with no match found!");
+            }
+
+            DEBUG && console.log("correct icon:" + correct_id);
+
+            // sort the icons
+            shuffleArray(controller_set.icons);
+
+            controller_set.icons.forEach(asset_id => {
+                if (asset_id == correct_id) {
+                    correctClass = "correct";
+                } else {
+                    correctClass = "";
+                }
+                $("#objects").attr("data-set-id", controller_set_id);
+                $("#objects").append('<div  class="object-container ' + correctClass + '"><img src="assets/asset' + asset_id + '.png"></div>');
+            });
+
+            $(".object-container").click(function (event) {
+                // determine whether or not the clicked object is correct
+                correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
+                DEBUG && console.log("guess is correct: " + correct);
+
+
+                $(".object-container").css("pointer-events", "none");
+                if (correct) {
+                    // signal correctness to player by blinking
+                    $("#correct").css('opacity', '1');
+                    $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+
+                    // wait for the animations to finish
+                    const correct_set_id = $("#objects").data("set-id");
+                    sleep(1400).then(() => {
+                        // inform screen and all other clients about correct guess
+                        var command = [];
+                        command.push({ type: "correct", set_id: correct_set_id });
+                        air_console.broadcast(command);
+                    });
+                } else {
+                    $("#wrong").css('opacity', '1');
+                    $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+                    $(event.target).css("opacity", "0.25");
+                }
+                sleep(1400).then(() => {
+                    $(".object-container").css("pointer-events", "all");
+                });
+            });
+        }
+
         function sleep(ms) {
-			return new Promise(resolve => setTimeout(resolve, ms));
-		}
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -185,10 +207,10 @@
 
 </div>
 <div id="wrong">
-        
+
 </div>
 <div id="correct">
-        
+
 </div>
 
 <div id="slow">
@@ -198,6 +220,14 @@
         A new round will begin shortly.
     </p>
 </div>
+
+<div id="fast">
+    <p>
+        You scored!</br>
+        A new round will begin shortly.
+    </p>
+</div>
+
 <div id="menu">
 
     <!-- <div class="flexbox resizing-button" id="previous-button">

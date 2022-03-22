@@ -71,7 +71,13 @@ export default class TimeScreen extends Phaser.Scene {
         this.initialTime -= 1; // One second
         this.text.setText("This is the timer screen until a new round begins.\n" + this.initialTime); 
     } else {
-        console.log("trying to change scene");
+        DEBUG && console.log("changing to scene for guessing");
+        
+        // inform the screen a new round is beginning
+        const message = [];
+        message.push({ type: "countdown_over" });
+        air_console.message(0, message);
+
         this.scene.start("guessing");
     }
 

@@ -475,7 +475,7 @@ body{
 	background-color: red;
 }
 
-#correct, #wrong, #slow{
+#correct, #wrong, #slow, #fast{
 	pointer-events: none;
 	position: absolute;
 	top: 0;
@@ -484,14 +484,14 @@ body{
 	height: 100vh;
 }
 
-#slow{
+#slow, #fast{
 	flex-direction: column;
     justify-content: center;
     align-items: center;
 	font-size: 1.5em;
 }
 
-#slow p{
+#slow p, #fast p{
 	text-align: center;
 }
 
