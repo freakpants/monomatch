@@ -5,6 +5,7 @@
     <script src="../phaser/dist/phaser.js"></script>
     <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Oswald|Roboto" rel="stylesheet">
 
     <style>
         html,
@@ -17,6 +18,8 @@
 
 <body onload="init()">
     <script>
+
+
         var DEBUG = true;
         function init() {
             air_console = new AirConsole();
@@ -88,6 +91,7 @@
     </script>
     <script type="module">
         import Guessing from '/game/scenes/Guessing.js';
+        import MainMenu from '/game/scenes/MainMenu.js';
         import { objects, projective_sets } from '/game/objects.js';
 
         $(document).ready(function () {
@@ -127,7 +131,7 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [Guessing]
+                scene: [MainMenu, Guessing]
             };
 
             var game = new Phaser.Game(config);
