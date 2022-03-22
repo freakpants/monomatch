@@ -82,6 +82,7 @@ $secondary-dark: #0039cb;
 
 body{
 	margin:0px;
+	font-family: Oswald;
 }
 
 #position{
@@ -253,6 +254,7 @@ body{
 #confirm{
 	width: 100vw;
 	height: 100vh;
+	display: none;
 }
 
 #hero-confirm{
@@ -319,7 +321,7 @@ body{
     color: #ffdc40;
 }
 
-#menu, #waiting_for_start, #get_ready, #score_report{
+#menu, #get_ready, #score_report{
 	display: none;
 }
 
@@ -358,7 +360,7 @@ body{
 	position: relative;
 }
 
-#game_over, #back_from_credits_area, #waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
+#game_over, #back_from_credits_area, #waiting_for_next_round, #get_ready, #score_report{
 	width: 100vw;
     height: 100vh;
 	background-color: #0d47a1;
@@ -368,6 +370,14 @@ body{
 
 #waiting_for_next_round, #waiting_for_start, #get_ready{
 	font-size: 1.5em;
+}
+
+#waiting_for_start{
+	background-color: #0d47a1;
+	width: 100vw;
+    height: 100vh;
+    display: flex;
+	color: white; 
 }
 
 #waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{

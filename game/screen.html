@@ -43,6 +43,45 @@
                         break;
                 }
             };
+            air_console.onConnect = function (device_id) {
+                /* prepare messages for clients */
+                show_menu = [];
+                show_menu.push({
+                    type: "show_menu"
+                });
+                hide_menu = [];
+                hide_menu.push({
+                    type: "hide_menu"
+                });
+
+                // if there is no round in progress, check if the connected device is the master
+                if (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === device_id) {
+                    DEBUG && console.log("device " + device_id + " is the master");
+                    // let the new client know to display the menu)
+                    air_console.message(device_id, show_menu);
+                    // also let all other clients know NOT to display the menu anymore
+                    air_console.getControllerDeviceIds().forEach(function (id) {
+                        if (id === device_id) return;
+                        air_console.message(id, hide_menu);
+                    });
+                } else {
+                    DEBUG && console.log("device " + device_id + " is not a master");
+                    air_console.message(device_id, hide_menu);
+                }
+            }
+
+
+            air_console.onDisconnect = function (device_id) {
+
+                // let the new master know to display the menu
+                if (air_console.getMasterControllerDeviceId() !== undefined) {
+                    message = [];
+                    message.push({
+                        type: "show_menu"
+                    });
+                    air_console.message(air_console.getMasterControllerDeviceId(), message);
+                }
+            }
 
         }
 

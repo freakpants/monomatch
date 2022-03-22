@@ -40,18 +40,36 @@
             });
         });
 
+        function am_i_master() {
+            return (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === air_console.getDeviceId());
+        }
+
         function init() {
             air_console = new AirConsole();
 
-            console.log("airconsole init");
+            DEBUG && console.log("airconsole init");
+
 
 
             air_console.onMessage = function (from, data) {
+
                 DEBUG && console.log("received messager on controller");
                 if (data === undefined || data[0] === undefined || data[0].type === undefined) {
                     return;
                 }
                 switch (data[0].type) {
+                    case "show_menu":
+                    case "hide_menu":
+                        if (am_i_master()) {
+                            DEBUG && console.log("i am master");
+                            $("#waiting_for_start").hide();
+                            $("#confirm").css("display", "flex");
+                        } else {
+                            DEBUG && console.log("i am not master");
+                            $("#waiting_for_start").css("display", "flex");
+                            $("#confirm").hide();
+                        }
+                        break;
                     case "set":
                         DEBUG && console.log("received set info from screen");
                         $("#menu").hide();
@@ -161,6 +179,13 @@
         </span>
         <div class="button_text">Start</div>
         <!-- <div class="button_comment">Play with current settings</div> -->
+    </div>
+    <div id="waiting_for_next_round">
+        Please wait for the next round to begin.
+    </div>
+
+    <div id="waiting_for_start">
+        Please wait for the master controller to start the game.
     </div>
     <!-- <div class="flexbox resizing-button" id="hero-confirm">
         <span class="fa-lg icon-container">
