@@ -58,6 +58,9 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "correct":
+
+                    break;
                     case "show_menu":
                     case "hide_menu":
                         if (am_i_master()) {
@@ -185,6 +188,11 @@
 </div>
 <div id="correct">
         
+</div>
+
+<div id="slow">
+    Too slow! <div id="round_winter">Player x</div> was faster than you!</br>
+    A new round will begin shortly
 </div>
 <div id="menu">
 

@@ -83,6 +83,7 @@ $secondary-dark: #0039cb;
 body{
 	margin:0px;
 	font-family: Oswald;
+	background: linear-gradient(180deg, #0d47a1 0%, #002171 100% );
 }
 
 #position{
@@ -473,7 +474,7 @@ body{
 	background-color: red;
 }
 
-#correct, #wrong{
+#correct, #wrong, #slow{
 	pointer-events: none;
 	position: absolute;
 	top: 0;
