@@ -57,11 +57,36 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "score":
+                        if(data[0].correct !== 1){
+                            // 0 and 2+
+                            $("#correct_guesses").html(data[0].correct + " points"); 
+                        } else {
+                            // 1
+                            $("#correct_guesses").html(data[0].correct + " point"); 
+                        }
+                        
+                        switch (data[0].position) {
+                            case 1:
+                                $("#position").html("1st");
+                                break;
+                            case 2:
+                                $("#position").html("2nd");
+                                break;
+                            case 3:
+                                $("#position").html("3rd");
+                                break;
+                            default:
+                                $("#position").html(data[0].position + "th");
+                                break;
+                        }
+
+                        break;
                     case "countdown_over":
                         $("#slow").hide();
                         $("#fast").hide();
                         $("#score_and_objects_wrapper").show();
-                    break;
+                        break;
                     case "correct":
                         $("#score_and_objects_wrapper").hide();
                         $("#round_winner").html(air_console.getNickname(from));
@@ -96,9 +121,9 @@
                             $("#score_and_objects_wrapper").hide();
                             $("#fast").css("opacity", 1);
                             $("#fast").css("display", "flex");
-                        } else { 
+                        } else {
                             $("#score_and_objects_wrapper").show();
-                        }   
+                        }
 
                         $("#menu").hide();
                         $("#waiting_for_start").hide();
@@ -111,7 +136,7 @@
         }
 
         function change_sets_on_controller(controller_set_id, screen_set_id, first_time) {
-            
+
             // get our set
             var controller_set = document.projective_sets.filter(obj => {
                 return obj.id === controller_set_id;
@@ -220,7 +245,7 @@
 </body>
 <div id="score_and_objects_wrapper">
     <div id="score">
-        <span class="score_span" id="correct_guesses">1</span>
+        <span class="score_span" id="correct_guesses">0 points</span>
         <span class="score_span" id="position">1st</span>
     </div>
     <div id="objects">
