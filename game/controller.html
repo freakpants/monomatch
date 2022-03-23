@@ -60,11 +60,10 @@
                     case "countdown_over":
                         $("#slow").hide();
                         $("#fast").hide();
-                        $("#objects").css("display", "flex");
-                        $("#objects").css("opacity", 1);
+                        $("#score_and_objects_wrapper").show();
                     break;
                     case "correct":
-                        $("#objects").hide();
+                        $("#score_and_objects_wrapper").hide();
                         $("#round_winner").html(air_console.getNickname(from));
                         $("#slow").css("display", "flex");
                         $("#slow").css("opacity", 1);
@@ -94,10 +93,12 @@
 
                         if (data[0].update) {
                             // if we got an update, don't display the new set just yet
-                            $("#objects").hide();
+                            $("#score_and_objects_wrapper").hide();
                             $("#fast").css("opacity", 1);
                             $("#fast").css("display", "flex");
-                        }
+                        } else { 
+                            $("#score_and_objects_wrapper").show();
+                        }   
 
                         $("#menu").hide();
                         $("#waiting_for_start").hide();
@@ -217,8 +218,14 @@
     </script>
 
 </body>
-<div id="objects">
+<div id="score_and_objects_wrapper">
+    <div id="score">
+        <span class="score_span" id="correct_guesses">1</span>
+        <span class="score_span" id="position">1st</span>
+    </div>
+    <div id="objects">
 
+    </div>
 </div>
 <div id="wrong">
 

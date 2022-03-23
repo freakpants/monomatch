@@ -69,6 +69,12 @@
                             }
                             score.position = position;
                             previous_correct = score.correct;
+                            
+                            // send the position and score to the respective client
+                            score = [];
+                            score.push({ type: "score", correct: score.correct, position: score.position });
+                            DEBUG && console.log("sending score info to device " + score.player);
+                            air_console.message(score.player, score);
                         });
 
                         DEBUG && console.log("playerscores:");

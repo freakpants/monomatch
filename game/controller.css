@@ -38,10 +38,25 @@ $secondary-dark: #0039cb;
   src: url('Monoton-Regular.ttf')  format('truetype');
 }
 
+#score_and_objects_wrapper{
+	display: none;
+}
+
+#score{
+	height: 16vh;
+	display: flex;
+}
+
+.score_span{
+	width: 50vw;
+	text-align: center;
+    font-size: 3em;
+}
+
 .object-container{
 	display: flex;
 	width: 50vw;
-	height: 25vh;
+	height: 21vh;
 	justify-content: center;
 	align-items: center;
 }
@@ -53,8 +68,8 @@ $secondary-dark: #0039cb;
 }
 
 #objects img{
-	width: 20vh;
-	height: 20vh;
+	width: 18vh;
+	height: 18vh;
 }
 
 #hero-image{
@@ -85,36 +100,6 @@ body{
 	font-family: Oswald;
 	background: linear-gradient(180deg, #0d47a1 0%, #002171 100% );
 	color: white;
-}
-
-#position{
-	display: none;
-	right: 0.25em;
-	position: absolute;
-    font-size: 3em;
-    text-transform: none;
-	font-family: 'DiscoFont';
-    font-weight: 500;
-	top: 0.1em;
-	line-height: 1;
-}
-
-#position span{
-	-webkit-text-stroke: 1px #0d47a1;
-    text-shadow: -1px 1px 5px #0d47a1, 
-	-2px 2px 2px #0d47a1, 
-	-3px 3px 2px #0d47a1, 
-	-4px 4px 2px #0d47a1, 
-	-5px 5px 2px #0d47a1
-}
-
-#position .number{
-	font-size: 1.3em;
-	position: r;
-}
-
-#position .letters{
-	font-family: Oswald;
 }
 
 .score_report_title{
