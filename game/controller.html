@@ -29,15 +29,23 @@
             $("#confirm").click(function (event) {
 
                 // in case the button was the only button, resize it to normal size
-                $("#confirm").css("width", "50vw");
-                $("#confirm").css("height", "50vh");
-                $("#confirm").css("position", "relative");
+                // $("#confirm").css("width", "50vw");
+                // $("#confirm").css("height", "50vh");
+                // $("#confirm").css("position", "relative");
 
-                $("#confirm").css("display", "flex");
+                // $("#confirm").css("display", "flex");
 
                 var command = [];
                 command.push({ type: "confirm" });
                 air_console.message(0, command);
+            });
+            $("#game_over").click(function (event) {
+                // inform screen to go back to main
+                var command = [];
+                command.push({ type: "back_to_main" });
+                air_console.message(0, command);
+                $("#game_over").hide();
+                $("#menu").css("display", "flex");
             });
         });
 

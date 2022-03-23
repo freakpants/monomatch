@@ -19,8 +19,6 @@ export default class EndOfGame extends Phaser.Scene {
 
         this.add.text(this.getCenterX(), this.getCenterY(), 'The Game has ended!', { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
 
-        this.assets = [];
-
     }
 
     getCenterX()

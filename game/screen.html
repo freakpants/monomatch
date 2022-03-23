@@ -40,6 +40,9 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "back_to_main":
+                        document.game.scene.start('mainmenu');
+                        break;
                     case "correct":
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);
@@ -70,13 +73,13 @@
                         let position = 0;
                         let previous_correct = false;
                         document.playerScores.forEach(function (score, index) {
-                            if(previous_correct !== score.correct){
+                            if (previous_correct !== score.correct) {
                                 // only increase position if the score is different than the previous one
                                 position++;
                             }
                             score.position = position;
                             previous_correct = score.correct;
-                            
+
                             // send the position and score to the respective client
                             score_message = [];
                             score_message.push({ type: "score", correct: score.correct, position: score.position });
@@ -88,7 +91,7 @@
                         DEBUG && console.log(document.playerScores);
 
 
-                        if(document.lastRound){
+                        if (document.lastRound) {
                             // if this was the last round, move on to the game over screen
                             DEBUG && console.log("game is ending");
                             game_over_message = [];
@@ -102,7 +105,7 @@
                             document.next_set_id = message[0].set_id;
 
                             // check if the stack will be empty
-                            if(document.stack.length === 1){
+                            if (document.stack.length === 1) {
                                 DEBUG && console.log("game is ending next round!");
                                 document.lastRound = true;
                             }
@@ -122,6 +125,25 @@
 
                         break;
                     case "confirm":
+                        // build the stack of cards
+                        document.stack = [];
+                        while (document.stack.length < 57) {
+                            var r = Math.floor(Math.random() * 57);
+                            if (document.stack.indexOf(r) === -1) document.stack.push(r);
+                        }
+                        DEBUG && console.log(document.stack);
+
+
+                        // get the first card from the stack
+                        document.set_id = document.stack[0];
+                        document.stack.shift();
+
+                        document.set = document.projective_sets.filter(obj => {
+                            return obj.id === document.set_id
+                        });
+
+                        DEBUG && console.log(document.stack);
+
                         document.lastRound = false;
                         // reset scores of players
                         document.playerScores = [];
@@ -199,24 +221,7 @@
 
         $(document).ready(function () {
 
-            // build the stack of cards
-            document.stack = [];
-            while (document.stack.length < 57) {
-                var r = Math.floor(Math.random() * 57);
-                if (document.stack.indexOf(r) === -1) document.stack.push(r);
-            }
-            DEBUG && console.log(document.stack);
-
-
-            // get the first card from the stack
-            document.set_id = document.stack[0];
-            document.stack.shift();
-
-            document.set = projective_sets.filter(obj => {
-                return obj.id === document.set_id
-            });
-
-            DEBUG && console.log(document.stack);
+            document.projective_sets = projective_sets;
 
             var config = {
                 type: Phaser.AUTO,
