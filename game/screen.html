@@ -44,6 +44,8 @@
                         document.game.scene.start('mainmenu');
                         break;
                     case "correct":
+                        
+
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);
 
@@ -52,11 +54,15 @@
                             return obj.player === from;
                         });
 
-                        if (playerScore[0]) {
-                            playerScore[0].correct++;
-                        } else {
-                            document.playerScores.push({ player: from, correct: 1 });
+                        // only increase the score if this is the first player
+                        if (!document.betweenRounds) {
+                            if (playerScore[0]) {
+                                playerScore[0].correct++;
+                            } else {
+                                document.playerScores.push({ player: from, correct: 1 });
+                            }
                         }
+                        
 
                         // conventionally sort the scores
                         document.playerScores.sort(function (a, b) {
@@ -110,21 +116,32 @@
                                 document.lastRound = true;
                             }
 
-                            // send new set to device
-                            set_message = [];
-                            set_message.push({ type: "set", update: true, set_id: document.stack[0], screen_set_id: document.next_set_id });
-                            DEBUG && console.log("sending set info to device " + from);
-                            air_console.message(from, set_message);
-                            document.stack.shift();
+                            // send new set to device, only if it was the first this round
+                            if (!document.betweenRounds) {
+                                set_message = [];
+                                set_message.push({ type: "set", update: true, set_id: document.stack[0], screen_set_id: document.next_set_id });
+                                DEBUG && console.log("sending set info to device " + from);
+                                air_console.message(from, set_message);
+                                document.stack.shift();
 
-                            message = [];
-                            message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
-                            air_console.broadcast(message);
+                                message = [];
+                                message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
+                                air_console.broadcast(message);
+
+                                // also inform all clients that are not us that they were to slow 
+                                air_console.getControllerDeviceIds().forEach(function (id) {
+                                    if(id !== from){
+                                        message = [];
+                                        message.push({ type: "correct", player: from });
+                                        air_console.message(id, message);
+                                    }
+                                });
+                            }
                         }
-
-
+                        document.betweenRounds = true;
                         break;
                     case "confirm":
+                        document.betweenRounds = false;
                         // build the stack of cards
                         document.stack = [];
                         while (document.stack.length < 57) {

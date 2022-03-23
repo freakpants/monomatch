@@ -109,7 +109,7 @@
                         break;
                     case "correct":
                         $("#score_and_objects_wrapper").hide();
-                        $("#round_winner").html(air_console.getNickname(from));
+                        $("#round_winner").html(air_console.getNickname(data[0].player));
                         $("#slow").css("display", "flex");
                         $("#slow").css("opacity", 1);
                         break;
@@ -220,10 +220,10 @@
                         // wait for the animations to finish
                         const correct_set_id = $("#objects").data("set-id");
                         sleep(1400).then(() => {
-                            // inform screen and all other clients about correct guess
+                            // inform screen about correct guess
                             var command = [];
                             command.push({ type: "correct", set_id: correct_set_id });
-                            air_console.broadcast(command);
+                            air_console.message(0, command);
                         });
                     } else {
                         $("#wrong").css('opacity', '1');
