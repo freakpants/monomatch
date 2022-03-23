@@ -367,7 +367,7 @@ body{
 	color: white; 
 }
 
-#waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
+#waiting_for_next_round, #waiting_for_start, #get_ready, #score_report, #game_over{
 	justify-content: center;
     text-align: center;
 	flex-direction: column;

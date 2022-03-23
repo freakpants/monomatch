@@ -57,6 +57,18 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "game_over":
+                        $("#slow").hide();
+                        $("#fast").hide();
+                        $("#score_and_objects_wrapper").hide();
+                        if(am_i_master()){
+                            $("#game_over").css("display", "flex");
+                        } else {
+                            $("#menu").css("display", "flex");
+                            $("#waiting_for_start").css("display", "flex");
+                        }
+
+                    break;
                     case "score":
                         if(data[0].correct !== 1){
                             // 0 and 2+
@@ -272,6 +284,11 @@
         You scored!</br>
         A new round will begin shortly.
     </p>
+</div>
+
+<div id="game_over">
+        Game over!</br>
+    Touch to go back to the main menu.
 </div>
 
 <div id="menu">

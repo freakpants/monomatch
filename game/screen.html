@@ -91,6 +91,10 @@
                         if(document.lastRound){
                             // if this was the last round, move on to the game over screen
                             DEBUG && console.log("game is ending");
+                            game_over_message = [];
+                            game_over_message.push({ type: "game_over" });
+                            DEBUG && console.log("sending game over message");
+                            air_console.broadcast(game_over_message);
                             document.game.scene.start('endofgame');
                         } else {
                             // change the phaser scene
