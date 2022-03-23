@@ -22,6 +22,13 @@
         // store current scores of players
         document.playerScores = [];
 
+        /* 
+        jump to last round for 2 players by using this BEFORE the first guess
+        for (let i = 0; i < 53; i++) {
+            document.stack.shift();
+        }
+        */
+
         var DEBUG = true;
         function init() {
             air_console = new AirConsole();
@@ -80,28 +87,38 @@
                         DEBUG && console.log("playerscores:");
                         DEBUG && console.log(document.playerScores);
 
-                        // change the phaser scene
-                        document.game.scene.start('timescreen');
-                        document.next_set_id = message[0].set_id;
 
-                        // check if the stack will be empty
-                        if(document.stack.length === 1){
-                            DEBUG && console.log("game is ending next round!");
+                        if(document.lastRound){
+                            // if this was the last round, move on to the game over screen
+                            DEBUG && console.log("game is ending");
+                            document.game.scene.start('endofgame');
+                        } else {
+                            // change the phaser scene
+                            document.game.scene.start('timescreen');
+                            document.next_set_id = message[0].set_id;
+
+                            // check if the stack will be empty
+                            if(document.stack.length === 1){
+                                DEBUG && console.log("game is ending next round!");
+                                document.lastRound = true;
+                            }
+
+                            // send new set to device
+                            set_message = [];
+                            set_message.push({ type: "set", update: true, set_id: document.stack[0], screen_set_id: document.next_set_id });
+                            DEBUG && console.log("sending set info to device " + from);
+                            air_console.message(from, set_message);
+                            document.stack.shift();
+
+                            message = [];
+                            message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
+                            air_console.broadcast(message);
                         }
 
-                        // send new set to device
-                        set_message = [];
-                        set_message.push({ type: "set", update: true, set_id: document.stack[0], screen_set_id: document.next_set_id });
-                        DEBUG && console.log("sending set info to device " + from);
-                        air_console.message(from, set_message);
-                        document.stack.shift();
-
-                        message = [];
-                        message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
-                        air_console.broadcast(message);
 
                         break;
                     case "confirm":
+                        document.lastRound = false;
                         // reset scores of players
                         document.playerScores = [];
 
@@ -173,6 +190,7 @@
         import Guessing from '/game/scenes/Guessing.js';
         import MainMenu from '/game/scenes/MainMenu.js';
         import TimeScreen from '/game/scenes/TimeScreen.js';
+        import EndOfGame from '/game/scenes/EndOfGame.js';
         import { objects, projective_sets } from '/game/objects.js';
 
         $(document).ready(function () {
@@ -211,7 +229,7 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [MainMenu, Guessing, TimeScreen]
+                scene: [MainMenu, Guessing, TimeScreen, EndOfGame]
             };
 
             document.game = new Phaser.Game(config);
