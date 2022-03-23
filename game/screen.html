@@ -19,6 +19,8 @@
 <body onload="init()">
     <script>
 
+        // store current scores of players
+        document.playerScores = [];
 
         var DEBUG = true;
         function init() {
@@ -34,7 +36,44 @@
                     case "correct":
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);
-                        
+
+                        // try selecting current score
+                        playerScore = document.playerScores.filter(function (obj) {
+                            return obj.player === from;
+                        });
+
+                        if (playerScore[0]) {
+                            playerScore[0].correct++;
+                        } else {
+                            document.playerScores.push({ player: from, correct: 1 });
+                        }
+
+                        // conventionally sort the scores
+                        document.playerScores.sort(function (a, b) {
+                            if (a.correct > b.correct) {
+                                return -1;
+                            }
+                            if (a.correct < b.correct) {
+                                return 1;
+                            }
+                            return 0;
+                        });
+
+                        // assign a position giving the same position to players with the same score
+                        let position = 0;
+                        let previous_correct = false;
+                        document.playerScores.forEach(function (score, index) {
+                            if(previous_correct !== score.correct){
+                                // only increase position if the score is different than the previous one
+                                position++;
+                            }
+                            score.position = position;
+                            previous_correct = score.correct;
+                        });
+
+                        DEBUG && console.log("playerscores:");
+                        DEBUG && console.log(document.playerScores);
+
                         // change the phaser scene
                         document.game.scene.start('timescreen');
                         document.next_set_id = message[0].set_id;
@@ -50,8 +89,16 @@
                         message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
                         air_console.broadcast(message);
 
-                    break;
+                        break;
                     case "confirm":
+                        // reset scores of players
+                        document.playerScores = [];
+
+                        // initialize score for every player so we can determine position after first round
+                        air_console.getControllerDeviceIds().forEach(function (id) {
+                            document.playerScores.push({ player: id, correct: 0 });
+                        });
+
                         // assign a card from the stack to every client
                         var deviceIds = air_console.getControllerDeviceIds();
                         deviceIds.forEach(device_id => {
