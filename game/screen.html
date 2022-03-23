@@ -84,6 +84,11 @@
                         document.game.scene.start('timescreen');
                         document.next_set_id = message[0].set_id;
 
+                        // check if the stack will be empty
+                        if(document.stack.length === 1){
+                            DEBUG && console.log("game is ending next round!");
+                        }
+
                         // send new set to device
                         set_message = [];
                         set_message.push({ type: "set", update: true, set_id: document.stack[0], screen_set_id: document.next_set_id });
