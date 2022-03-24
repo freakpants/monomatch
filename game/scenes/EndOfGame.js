@@ -7,13 +7,24 @@ export default class EndOfGame extends Phaser.Scene {
     const url =
       "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgridtableplugin.min.js";
     this.load.plugin("rexgridtableplugin", url, true);
+
+
+    let profile_pictures = [];
+    air_console.getControllerDeviceIds().forEach((id) => {
+        const asset_id = "profile_" + id;
+        this.load.image(asset_id, air_console.getProfilePicture(id));
+        profile_pictures[id] = asset_id;
+    });
+    DEBUG && console.log("profile pictures:");
+    DEBUG && console.log(profile_pictures);
+
   }
 
   create() {
     const cellwidth = 60;
     const cellheight = 60;
     const columnCount = 4;
-    const rowCount = 9;
+    const rowCount = document.playerScores.length + 1;
 
     const cellsCount = columnCount * rowCount;
     const gridwidth = columnCount * cellwidth;
@@ -39,6 +50,9 @@ export default class EndOfGame extends Phaser.Scene {
         // odd
         odd = true;
       }
+
+      DEBUG && console.log("row number:");
+      console.log(rowNumber);
 
       // determine if this is the head row
       if (cell.index < columnCount) {
@@ -70,6 +84,23 @@ export default class EndOfGame extends Phaser.Scene {
           cellText = cell.index;
           break;
       }
+
+      // dont do this in head row
+      if(rowNumber > 0){
+        switch(remainder){
+            case 0:
+              cellText = document.playerScores[rowNumber-1].position;
+            break;
+            case 2:
+                cellText = air_console.getNickname(document.playerScores[rowNumber-1].player);
+            break;
+            case 3:
+                cellText = document.playerScores[rowNumber-1].correct;
+            break;
+        }
+      }
+
+
       var txt = scene.add.text(5, 5, cellText);
       var container = scene.add.container(0, 0, [bg, txt]);
       return container;
