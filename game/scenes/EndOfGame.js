@@ -9,14 +9,14 @@ export default class EndOfGame extends Phaser.Scene {
     this.load.plugin("rexgridtableplugin", url, true);
 
 
-    let profile_pictures = [];
+    document.profile_pictures = [];
     air_console.getControllerDeviceIds().forEach((id) => {
         const asset_id = "profile_" + id;
         this.load.image(asset_id, air_console.getProfilePicture(id));
-        profile_pictures[id] = asset_id;
+        document.profile_pictures[id] = asset_id;
     });
     DEBUG && console.log("profile pictures:");
-    DEBUG && console.log(profile_pictures);
+    DEBUG && console.log(document.profile_pictures);
 
   }
 
@@ -85,11 +85,17 @@ export default class EndOfGame extends Phaser.Scene {
           break;
       }
 
+      var image = null;
       // dont do this in head row
       if(rowNumber > 0){
         switch(remainder){
             case 0:
               cellText = document.playerScores[rowNumber-1].position;
+            break;
+            case 1:
+                var image_id = document.profile_pictures[document.playerScores[rowNumber-1].player];
+                DEBUG && console.log("adding image from asset id " +  image_id);
+                image = scene.add.image(32,32,  image_id );
             break;
             case 2:
                 cellText = air_console.getNickname(document.playerScores[rowNumber-1].player);
@@ -101,8 +107,20 @@ export default class EndOfGame extends Phaser.Scene {
       }
 
 
-      var txt = scene.add.text(5, 5, cellText);
-      var container = scene.add.container(0, 0, [bg, txt]);
+      
+
+      
+      var container;
+      DEBUG && console.log()
+      if(image !== null){
+        DEBUG && console.log("we should be adding the image");
+        container = scene.add.container(0, 0, [bg, image]);
+      } else {
+        var txt = scene.add.text(28, 28, cellText,{fontFamily: "Arial"});
+        container = scene.add.container(0, 0, [bg, txt]);
+      }
+      
+
       return container;
     };
 
