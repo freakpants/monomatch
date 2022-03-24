@@ -41,6 +41,9 @@
 
                 switch (type) {
                     case "back_to_main":
+                        document.game.scene.stop('timescreen');
+                        document.game.scene.stop('guessing');
+                        document.game.scene.stop('endofgame');
                         document.game.scene.start('mainmenu');
                         break;
                     case "correct":
@@ -164,6 +167,12 @@
                         document.lastRound = false;
                         // reset scores of players
                         document.playerScores = [];
+
+                        // also reset the score on all controllers
+                        score_message = [];
+                        score_message.push({ type: "score", correct: 0, position: 1 });
+                        DEBUG && console.log("resetting all controllers to 0 points");
+                        air_console.broadcast(score_message);
 
                         // initialize score for every player so we can determine position after first round
                         air_console.getControllerDeviceIds().forEach(function (id) {
