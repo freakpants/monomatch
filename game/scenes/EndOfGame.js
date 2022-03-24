@@ -21,8 +21,8 @@ export default class EndOfGame extends Phaser.Scene {
   }
 
   create() {
-    const cellwidth = 60;
-    const cellheight = 60;
+    const cellwidth = 90;
+    const cellheight = 64;
     const columnCount = 4;
     const rowCount = document.playerScores.length + 1;
 
@@ -32,7 +32,10 @@ export default class EndOfGame extends Phaser.Scene {
 
     var graphics = this.add.graphics();
 
+    document.wideCells = [];
+
     var newCellObject = function (scene, cell) {
+
       let cellText = "";
       let bgColor;
       let odd = false;
@@ -65,7 +68,7 @@ export default class EndOfGame extends Phaser.Scene {
       var bg = scene.add
         .graphics(0, 0)
         .fillStyle(bgColor)
-        .fillRect(2, 2, 58, 58);
+        .fillRect(0, 0, 90, 64);
 
       switch (cell.index) {
         case 0:
@@ -76,6 +79,7 @@ export default class EndOfGame extends Phaser.Scene {
           break;
         case 2:
           cellText = "Nickname";
+          document.wideCells.push(cell.index); 
           break;
         case 3:
           cellText = "Points";
@@ -95,20 +99,17 @@ export default class EndOfGame extends Phaser.Scene {
             case 1:
                 var image_id = document.profile_pictures[document.playerScores[rowNumber-1].player];
                 DEBUG && console.log("adding image from asset id " +  image_id);
-                image = scene.add.image(32,32,  image_id );
+                image = scene.add.image(45,32,  image_id );
             break;
             case 2:
                 cellText = air_console.getNickname(document.playerScores[rowNumber-1].player);
+                document.wideCells.push(cell.index); 
             break;
             case 3:
                 cellText = document.playerScores[rowNumber-1].correct;
             break;
         }
       }
-
-
-      
-
       
       var container;
       DEBUG && console.log()
@@ -116,10 +117,9 @@ export default class EndOfGame extends Phaser.Scene {
         DEBUG && console.log("we should be adding the image");
         container = scene.add.container(0, 0, [bg, image]);
       } else {
-        var txt = scene.add.text(28, 28, cellText,{fontFamily: "Arial"});
+        var txt = scene.add.text(45, 32, cellText,{fontFamily: "Arial"}).setOrigin(0.5, 0.5);;
         container = scene.add.container(0, 0, [bg, txt]);
-      }
-      
+      }      
 
       return container;
     };
@@ -135,7 +135,7 @@ export default class EndOfGame extends Phaser.Scene {
       gridwidth,
       gridheight,
       {
-        cellHeight: cellwidth,
+        cellHeight: cellheight,
         cellWidth: cellwidth,
         cellsCount: cellsCount,
         columns: columnCount,
