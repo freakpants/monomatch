@@ -84,7 +84,7 @@ export default class TimeScreen extends Phaser.Scene {
             return obj.id === document.set_id
         });
         this.scene.start("guessing");
-        document.betweenRounds = false;
+        document.somebodyScoredThisRound = false;
     }
 
   }
