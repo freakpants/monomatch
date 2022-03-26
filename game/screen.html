@@ -145,6 +145,9 @@
                         document.betweenRounds = true;
                         break;
                     case "confirm":
+                        if(!(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8)){
+                            return;
+                        }
                         document.betweenRounds = false;
                         // build the stack of cards
                         document.stack = [];
