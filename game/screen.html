@@ -21,6 +21,7 @@
 
         // store current scores of players
         document.playerScores = [];
+        document.connectedPlayersAmount = 0;
 
         /* 
         jump to last round for 2 players by using this BEFORE the first guess
@@ -47,7 +48,7 @@
                         document.game.scene.start('mainmenu');
                         break;
                     case "correct":
-                        
+
 
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);
@@ -65,7 +66,7 @@
                                 document.playerScores.push({ player: from, correct: 1 });
                             }
                         }
-                        
+
 
                         // conventionally sort the scores
                         document.playerScores.sort(function (a, b) {
@@ -133,7 +134,7 @@
 
                                 // also inform all clients that are not us that they were to slow 
                                 air_console.getControllerDeviceIds().forEach(function (id) {
-                                    if(id !== from){
+                                    if (id !== from) {
                                         message = [];
                                         message.push({ type: "correct", player: from });
                                         air_console.message(id, message);
@@ -196,6 +197,9 @@
                 }
             };
             air_console.onConnect = function (device_id) {
+                // update player count
+                document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
+
                 /* prepare messages for clients */
                 show_menu = [];
                 show_menu.push({
@@ -224,6 +228,9 @@
 
 
             air_console.onDisconnect = function (device_id) {
+                // update player count
+                document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
+
 
                 // let the new master know to display the menu
                 if (air_console.getMasterControllerDeviceId() !== undefined) {

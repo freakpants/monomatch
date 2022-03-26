@@ -9,6 +9,13 @@ export default class MainMenu extends Phaser.Scene {
 
     create() {
 
+        const timedEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.onEvent,
+            callbackScope: this,
+            loop: true,
+          });
+
         console.log("initiating main menu");
         window.addEventListener('resize', this.resize);
         this.resize();
@@ -17,7 +24,7 @@ export default class MainMenu extends Phaser.Scene {
         graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
         graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
 
-        this.add.text(this.getCenterX(), this.getCenterY(), 'Welcome to GameName!\nPress start to play a round with the connected players!', { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+        this.text = this.add.text(this.getCenterX(), this.getCenterY(), 'Welcome to GameName!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\nCurrently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
 
         this.assets = [];
 
@@ -33,6 +40,9 @@ export default class MainMenu extends Phaser.Scene {
        return ( this.sys.canvas.height  ) * .5
     }
 
+    onEvent() {
+        this.text.setText('Welcome to GameName!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\nCurrently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+      }
 
 
     resize() {
