@@ -2,6 +2,7 @@
 export default class MainMenu extends Phaser.Scene {
     constructor() {
         super('mainmenu');
+        this.staticText = 'Welcome to GameName!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n';
     }
 
     preload() {
@@ -24,7 +25,7 @@ export default class MainMenu extends Phaser.Scene {
         graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
         graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
 
-        this.text = this.add.text(this.getCenterX(), this.getCenterY(), 'Welcome to GameName!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\nCurrently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+        this.text = this.add.text(this.getCenterX(), this.getCenterY(), this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
 
         this.assets = [];
 
@@ -41,7 +42,12 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     onEvent() {
-        this.text.setText('Welcome to GameName!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\nCurrently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+        if(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8){
+            this.text.setText(this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.\nThe game can start.");
+        } else {
+            this.text.setText(this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.\nThe game cannot start.");
+        }
+        
       }
 
 
