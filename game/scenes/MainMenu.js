@@ -2,7 +2,7 @@
 export default class MainMenu extends Phaser.Scene {
     constructor() {
         super('mainmenu');
-        this.staticText = 'Welcome to GameName!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n';
+        this.staticText = 'Welcome to Find It Faster!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n';
     }
 
     preload() {
