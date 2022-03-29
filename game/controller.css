@@ -56,7 +56,7 @@ $secondary-dark: #0039cb;
 .object-container{
 	display: flex;
 	width: 50vw;
-	height: 21vh;
+	height: 25vh;
 	justify-content: center;
 	align-items: center;
 }
@@ -68,8 +68,8 @@ $secondary-dark: #0039cb;
 }
 
 #objects img{
-	width: 18vh;
-	height: 18vh;
+	width: 20vh;
+	height: 20vh;
 }
 
 #hero-image{
