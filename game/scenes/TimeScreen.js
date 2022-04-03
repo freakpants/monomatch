@@ -7,7 +7,7 @@ export default class TimeScreen extends Phaser.Scene {
   preload() {}
 
   create() {
-    this.initialTime = 5;
+    this.initialTime = 2;
 
     // Each 1000 ms call onEvent
     const timedEvent = this.time.addEvent({
@@ -54,6 +54,9 @@ export default class TimeScreen extends Phaser.Scene {
 
     this.text.setOrigin(0.5, 0.5);
 
+    this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " + document.round + " of " + document.maxRound , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
+   
+
     this.assets = [];
   }
 
@@ -68,7 +71,7 @@ export default class TimeScreen extends Phaser.Scene {
   onEvent() {
     console.log(this.initialTime);
     if(this.initialTime !== 1){
-        console.log("initalTime is not 1");
+           console.log("initalTime is not 1");
         this.initialTime -= 1; // One second
         this.text.setText("This is the timer screen until a new round begins.\n" + this.initialTime); 
     } else {
