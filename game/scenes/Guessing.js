@@ -40,7 +40,18 @@ export default class Guessing extends Phaser.Scene {
                 // this.assets[i] = this.add.image(0, 0, "asset" + 0);
                 this.aGrid.placeAt(col, row, this.assets[i]);
                 this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
+
+                // get a random number between 30 and 150
+                var randomNumber = Math.floor(Math.random() * (150 - 30 + 1)) + 30;    
+                randomNumber = randomNumber / 100;
+                DEBUG && console.log("random: " + randomNumber);
+                this.assets[i].displayWidth = this.assets[i].displayWidth * randomNumber;
+  
                 this.assets[i].scaleY = this.assets[i].scaleX;
+
+                // rotate the image by a random amount
+                this.assets[i].rotation += Math.random() * 360;
+
                 i++;
             }
         }
