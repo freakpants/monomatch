@@ -276,12 +276,10 @@
 
                         // wait for the animations to finish
                         const correct_set_id = $("#objects").data("set-id");
-                        sleep(1400).then(() => {
-                            // inform screen about correct guess
-                            var command = [];
-                            command.push({ type: "correct", set_id: correct_set_id });
-                            air_console.message(0, command);
-                        });
+                        // inform screen about correct guess
+                        var command = [];
+                        command.push({ type: "correct", set_id: correct_set_id });
+                        air_console.message(0, command);
                     } else {
                         $("#wrong").css('opacity', '1');
                         $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
