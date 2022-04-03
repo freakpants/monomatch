@@ -261,7 +261,7 @@
                     $("#objects").append('<div data-icon-id="' + asset_id + '"  class="object-container ' + correctClass + '"><img src="assets/asset' + asset_id + '.png"></div>');
                 });
 
-                $(".object-container").click(function (event) {
+                $(".object-container").bind('touchstart mousedown click', function (event) {
                     // determine whether or not the clicked object is correct
                     correct = $(event.target).hasClass("correct") || $(event.target).parent().hasClass("correct");
                     DEBUG && console.log("guess is correct: " + correct);
