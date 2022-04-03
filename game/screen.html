@@ -43,10 +43,19 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "pause":
+                        // pause game
+                        document.game.scene.stop('timescreen');
+                        document.game.scene.stop('guessing');
+                        document.game.scene.stop('endofgame');
+                        document.game.scene.stop('mainmenu');
+                        document.game.scene.start('pausescreen');
+                        break;
                     case "back_to_main":
                         document.game.scene.stop('timescreen');
                         document.game.scene.stop('guessing');
                         document.game.scene.stop('endofgame');
+                        document.game.scene.stop('pausescreen');
                         document.game.scene.start('mainmenu');
                         break;
                     case "correct":
@@ -255,6 +264,7 @@
         import MainMenu from '/game/scenes/MainMenu.js';
         import TimeScreen from '/game/scenes/TimeScreen.js';
         import EndOfGame from '/game/scenes/EndOfGame.js';
+        import PauseScreen from '/game/scenes/PauseScreen.js';
         import { objects, projective_sets } from '/game/objects.js';
 
         $(document).ready(function () {
@@ -276,7 +286,7 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [MainMenu, Guessing, TimeScreen, EndOfGame]
+                scene: [MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen]
             };
 
             document.game = new Phaser.Game(config);

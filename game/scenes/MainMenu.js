@@ -32,6 +32,7 @@ export default class MainMenu extends Phaser.Scene {
           
         this.assets = [];
 
+        // this.add.image(this.getCenterX(), 300, "logo").setScale(0.5);
         this.add.image(this.getCenterX(), 300, "logo");
 
     }

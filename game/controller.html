@@ -39,7 +39,34 @@
                 command.push({ type: "confirm" });
                 air_console.message(0, command);
             });
+            $("#quit").click(function (event) {
+                // get other clients to show waiting for master screen
+                game_over_message = [];
+                game_over_message.push({ type: "game_over" });
+                DEBUG && console.log("sending game over message");
+                air_console.broadcast(game_over_message);
+                $("#quit").hide();
+                $("#resume").hide();
+                $("#confirm").css("display", "flex");
+                var command = [];
+                command.push({ type: "back_to_main" });
+                air_console.message(0, command);
+            });
+            $("#pause_button").click(function (event) {
+                $("#score_and_objects_wrapper").hide();
+                $("#confirm").hide();
+                $("#menu").css("display", "flex");
+                $("#menu").css("pointer-events", "auto");
+                $("#quit").css("display", "flex");
+                $("#quit").css("pointer-events", "auto");
+                $("#resume").css("display", "flex");
+                var command = [];
+                command.push({ type: "pause" });
+                air_console.broadcast(command);
+            });
             $("#game_over").click(function (event) {
+
+                
                 // inform screen to go back to main
                 var command = [];
                 command.push({ type: "back_to_main" });
@@ -65,27 +92,32 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "pause":
+                        $("#score_and_objects_wrapper").hide();
+                        $("#menu").css("display", "flex");
+                        $("#waiting_for_pause").css("display", "flex");
+                        break;
                     case "game_over":
                         $("#slow").hide();
                         $("#fast").hide();
                         $("#score_and_objects_wrapper").hide();
-                        if(am_i_master()){
+                        if (am_i_master()) {
                             $("#game_over").css("display", "flex");
                         } else {
                             $("#menu").css("display", "flex");
                             $("#waiting_for_start").css("display", "flex");
                         }
 
-                    break;
+                        break;
                     case "score":
-                        if(data[0].correct !== 1){
+                        if (data[0].correct !== 1) {
                             // 0 and 2+
-                            $("#correct_guesses").html(data[0].correct + " points"); 
+                            $("#correct_guesses").html(data[0].correct + " points");
                         } else {
                             // 1
-                            $("#correct_guesses").html(data[0].correct + " point"); 
+                            $("#correct_guesses").html(data[0].correct + " point");
                         }
-                        
+
                         switch (data[0].position) {
                             case 1:
                                 $("#position").html("1st");
@@ -196,6 +228,15 @@
                 // sort the icons
                 shuffleArray(controller_set.icons);
 
+                // enable the pause button if master controller
+                if (am_i_master()) {
+                    $("#pause_button").css("display", "flex");
+                    $("#pause_button").css("pointer-events", "auto");
+                } else {
+                    $("#pause_button").css("display", "none");
+                    $("#pause_button").css("pointer-events", "none");
+                }
+
                 controller_set.icons.forEach(asset_id => {
                     if (asset_id == correct_id) {
                         correctClass = "correct";
@@ -273,6 +314,9 @@
     <div id="objects">
 
     </div>
+    <div id="pause_button">
+        PAUSE
+    </div>
 </div>
 <div id="wrong">
 
@@ -297,7 +341,7 @@
 </div>
 
 <div id="game_over">
-        Game over!</br>
+    Game over!</br>
     Touch to go back to the main menu.
 </div>
 
@@ -336,6 +380,12 @@
         <div class="button_text">Start</div>
         <!-- <div class="button_comment">Play with current settings</div> -->
     </div>
+    <div id="resume">
+        <div class="button_text">Resume the game</div>
+    </div>
+    <div id="quit">
+        <div class="button_text">Quit the current game</div>
+    </div>
     <div id="waiting_for_next_round">
         Please wait for the next round to begin.
     </div>
@@ -344,6 +394,9 @@
 
     <div id="waiting_for_start">
         Please wait for the master controller to start the game.
+    </div>
+    <div id="waiting_for_pause">
+        Please wait for the master controller to resume or quit the game.
     </div>
     <!-- <div class="flexbox resizing-button" id="hero-confirm">
         <span class="fa-lg icon-container">

@@ -38,6 +38,22 @@ $secondary-dark: #0039cb;
   src: url('Monoton-Regular.ttf')  format('truetype');
 }
 
+#pause_button{
+	display: none;
+	pointer-events: none;
+    width: 90vw;
+    display: flex;
+    height: 10vh;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    background-color: #0039cb;
+    margin-top: 5vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    border: 4px solid white;
+}
+
 #score_and_objects_wrapper{
 	display: none;
 }
@@ -56,7 +72,7 @@ $secondary-dark: #0039cb;
 .object-container{
 	display: flex;
 	width: 50vw;
-	height: 25vh;
+	height: 20vh;
 	justify-content: center;
 	align-items: center;
 }
@@ -68,8 +84,8 @@ $secondary-dark: #0039cb;
 }
 
 #objects img{
-	width: 20vh;
-	height: 20vh;
+	width: 18vh;
+	height: 18vh;
 }
 
 #hero-image{
@@ -107,10 +123,6 @@ body{
 	margin-bottom: 1em;
 }
 
-#score_report .result_category, #credits .category{
-	color: #ffdc40;
-	text-transform: uppercase;
-}
 
 #score_report .result, #credits .result{
 	text-transform: none;
@@ -121,11 +133,6 @@ body{
 	color:white;
 	text-decoration: underline;
 }
-
-#credits a{
-	color: rgb(255 220 64);
-}
-
 #score_report {
 	
 	display:none;
@@ -164,7 +171,7 @@ body{
 	display:none;
 }
 
-#waiting_for_next_round, #waiting_for_start, #get_ready, #score_report{
+#waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready, #score_report{
 	padding:4em;
 }
 
@@ -244,6 +251,15 @@ body{
 	display: none;
 }
 
+#resume, #quit{
+	display: none;
+	pointer-events: none;
+	width: 100vw;
+	height: 50vh;
+	justify-content: center;
+    align-items: center;
+}
+
 #hero-confirm{
 	width: 50vw;
 	height: 50vh;
@@ -251,18 +267,12 @@ body{
 	display: none;
 }
 
-.minus, #confirm, #hero-confirm{
+.minus, #confirm, #hero-confirm, #resume{
 	background-color:  #0d47a1;
 }
 
-#next-button, #cancel{
-	background-color: #e8822d;
-    color: #ffdc40;
-}
-
-#previous-button, .vertical-container, .plus{
-	background-color:  #ffdc40;
-    color: #e8822d;
+#quit{
+	background-color:  #2962ff;
 }
 
 
@@ -355,19 +365,19 @@ body{
 	flex-direction:column;
 }
 
-#waiting_for_next_round, #waiting_for_start, #get_ready{
+#waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready{
 	font-size: 1.5em;
 }
 
-#waiting_for_start{
+#waiting_for_start, #waiting_for_pause{
 	background-color: #0d47a1;
 	width: 100vw;
     height: 100vh;
-    display: flex;
+    display: none;
 	color: white; 
 }
 
-#waiting_for_next_round, #waiting_for_start, #get_ready, #score_report, #game_over{
+#waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready, #score_report, #game_over{
 	justify-content: center;
     text-align: center;
 	flex-direction: column;
