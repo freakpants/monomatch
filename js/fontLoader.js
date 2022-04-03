@@ -1,5 +1,5 @@
 WebFontConfig = {
-google: { families: ["Fresca","Flamenco","Indie Flower"] }
+google: { families: ["Oswald","Roboto"] }
 };
 (function() {
 var wf = document.createElement('script');
