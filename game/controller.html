@@ -39,6 +39,14 @@
                 command.push({ type: "confirm" });
                 air_console.message(0, command);
             });
+            $("#resume").click(function (event) {
+                $("#quit").hide();
+                $("#resume").hide();
+                $("#waiting_for_next_round").css("display", "flex");
+                var command = [];
+                command.push({ type: "resume" });
+                air_console.message(0, command);
+            });
             $("#quit").click(function (event) {
                 // get other clients to show waiting for master screen
                 game_over_message = [];
@@ -59,6 +67,7 @@
                 $("#menu").css("pointer-events", "auto");
                 $("#quit").css("display", "flex");
                 $("#quit").css("pointer-events", "auto");
+                $("#resume").css("pointer-events", "auto");
                 $("#resume").css("display", "flex");
                 var command = [];
                 command.push({ type: "pause" });
@@ -66,7 +75,7 @@
             });
             $("#game_over").click(function (event) {
 
-                
+
                 // inform screen to go back to main
                 var command = [];
                 command.push({ type: "back_to_main" });
@@ -92,6 +101,11 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "resume":
+                        $("#score_and_objects_wrapper").css("display", "block");
+                        $("#waiting_for_next_round").hide();
+                        $("#waiting_for_pause").hide();
+                        break;
                     case "pause":
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");

@@ -43,6 +43,16 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "resume":
+                        document.game.scene.stop('timescreen');
+                        document.game.scene.stop('endofgame');
+                        document.game.scene.stop('mainmenu');
+                        document.game.scene.stop('pausescreen');
+                        document.game.scene.start('guessing');
+                        var command = [];
+                        command.push({ type: "resume" });
+                        air_console.broadcast(command);
+                        break;
                     case "pause":
                         // pause game
                         document.game.scene.stop('timescreen');
@@ -59,7 +69,7 @@
                         document.game.scene.start('mainmenu');
                         break;
                     case "correct":
-                        if(document.somebodyScoredThisRound){
+                        if (document.somebodyScoredThisRound) {
                             return;
                         }
                         document.somebodyScoredThisRound = true;

@@ -365,7 +365,7 @@ body{
 	flex-direction:column;
 }
 
-#waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready{
+#game_over, #waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready{
 	font-size: 1.5em;
 }
 
