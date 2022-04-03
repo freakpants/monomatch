@@ -28,7 +28,7 @@ export default class MainMenu extends Phaser.Scene {
         graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
         graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
 
-        this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+        this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Fresca' }).setOrigin(0.5, 0.5);
           
         this.assets = [];
 
