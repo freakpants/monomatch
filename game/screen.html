@@ -137,6 +137,8 @@
                             document.game.scene.start('timescreen');
                             document.next_set_id = message[0].set_id;
 
+                            document.round++;
+
                             // check if the stack will be empty
                             if (document.stack.length === 1) {
                                 DEBUG && console.log("game is ending next round!");
@@ -169,6 +171,9 @@
                         if (!(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8)) {
                             return;
                         }
+                        document.round = 1;
+                        document.maxRound = 57 - document.connectedPlayersAmount;
+
                         document.somebodyScoredThisRound = false;
                         // build the stack of cards
                         document.stack = [];

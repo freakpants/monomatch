@@ -7,7 +7,7 @@ export default class TimeScreen extends Phaser.Scene {
   preload() {}
 
   create() {
-    this.initialTime = 2;
+    this.initialTime = 5;
 
     // Each 1000 ms call onEvent
     const timedEvent = this.time.addEvent({

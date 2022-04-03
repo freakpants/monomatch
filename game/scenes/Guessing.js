@@ -8,6 +8,7 @@ export default class Guessing extends Phaser.Scene {
         objects.forEach((object) => {
             this.load.image("asset" + object.id, "../game/assets/asset" + object.id + ".png");
         });
+        this.load.svg('logo', '../game/assets/find_it_logo.svg');
 
     }
 
@@ -30,7 +31,10 @@ export default class Guessing extends Phaser.Scene {
 
         this.assets = [];
 
+        this.add.image(100, this.sys.canvas.height - 100, "logo").setScale(0.4);
 
+        this.text = this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " + document.round + " of " + document.maxRound , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
+        
 
         var i = 0;
         var col, row;
@@ -41,8 +45,8 @@ export default class Guessing extends Phaser.Scene {
                 this.aGrid.placeAt(col, row, this.assets[i]);
                 this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
 
-                // get a random number between 30 and 150
-                var randomNumber = Math.floor(Math.random() * (150 - 30 + 1)) + 30;    
+                // get a random number between 30 and 100
+                var randomNumber = Math.floor(Math.random() * (100 - 30 + 1)) + 30;    
                 randomNumber = randomNumber / 100;
                 DEBUG && console.log("random: " + randomNumber);
                 this.assets[i].displayWidth = this.assets[i].displayWidth * randomNumber;
@@ -63,6 +67,16 @@ export default class Guessing extends Phaser.Scene {
         canvas.style.width = document.body.offsetWidth + 'px';
         canvas.style.height = document.body.offsetHeight + 'px';
     }
+
+    getCenterX()
+    {
+       return ( this.sys.canvas.width  ) * .5
+    }
+
+    getCenterY()
+    {
+       return ( this.sys.canvas.height  ) * .5
+    }
 }
 
 class AlignGrid {
@@ -81,7 +95,7 @@ class AlignGrid {
             config.width = document.body.offsetWidth;
         }
         if (!config.height) {
-            config.height = document.body.offsetHeight;
+            config.height = document.body.offsetHeight * 0.8;
         }
         this.h = config.height;
         this.w = config.width;

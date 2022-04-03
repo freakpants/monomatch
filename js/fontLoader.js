@@ -1,5 +1,5 @@
 WebFontConfig = {
-google: { families: ["Oswald","Roboto"] }
+google: { families: ["Oswald","Roboto", "Luckiest Guy"] }
 };
 (function() {
 var wf = document.createElement('script');
