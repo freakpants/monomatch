@@ -110,6 +110,8 @@
                     case "correct":
                         $("#score_and_objects_wrapper").hide();
                         $("#round_winner").html(air_console.getNickname(data[0].player));
+                        // reset all icons to full opacity
+                        $(".object-container img").css("opacity", "1");
                         $("#slow").css("display", "flex");
                         $("#slow").css("opacity", 1);
                         break;
