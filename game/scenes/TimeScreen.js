@@ -1,4 +1,4 @@
-import { projective_sets } from 'objects.js';
+import { projective_sets } from '../objects.js';
 export default class TimeScreen extends Phaser.Scene {
   constructor() {
     super("timescreen");

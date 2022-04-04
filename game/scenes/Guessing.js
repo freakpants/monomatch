@@ -1,4 +1,4 @@
-import { objects } from 'objects.js';
+import { objects } from '../objects.js';
 export default class Guessing extends Phaser.Scene {
     constructor() {
         super('guessing');
