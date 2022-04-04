@@ -64,7 +64,7 @@ export default class Guessing extends Phaser.Scene {
 
                
                 postFxPlugin.add(this.assets[i], {
-                    distance: 2,
+                    distance: 5,
                     outerStrength: 1,
                     innerStrength: 1,
                     glowColor: 0xffffff,
