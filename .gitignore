@@ -1,3 +1,4 @@
 .vscode/
 assets/
-phaser/
+game/phaser/
+game.zip
