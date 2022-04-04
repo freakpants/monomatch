@@ -7,7 +7,7 @@ export default class TimeScreen extends Phaser.Scene {
   preload() {}
 
   create() {
-    this.initialTime = 2;
+    this.initialTime = 5;
 
     // Each 1000 ms call onEvent
     const timedEvent = this.time.addEvent({
@@ -30,26 +30,17 @@ export default class TimeScreen extends Phaser.Scene {
       document.body.offsetHeight
     );
 
-    /* this.timerText = new Text(
-      this,
-      this.getCenterX(),
-      this.getCenterY(),
-      "This is the timer screen until a new round begins.\n" + this.initialTime,
-      {
-        fontSize: "30px",
-        align: "center",
-        color: "#ffffff",
-        fontFamily: "Arial",
-      }
-    ); */
+    // get the nickname of the winner from airconsole
+    this.winner = air_console.getNickname(document.winningPlayerId);
+
     this.text = this.add.text(this.getCenterX(),
     this.getCenterY(),
-    "This is the timer screen until a new round begins.\n" + this.initialTime,
+    this.winner + " was the fastest!\nNext Round begins in" + this.initialTime,
     {
-      fontSize: "30px",
+      fontSize: "45px",
       align: "center",
       color: "#ffffff",
-      fontFamily: "Arial",
+      fontFamily: "Luckiest Guy",
     });
 
     this.text.setOrigin(0.5, 0.5);
@@ -73,7 +64,7 @@ export default class TimeScreen extends Phaser.Scene {
     if(this.initialTime !== 1){
            console.log("initalTime is not 1");
         this.initialTime -= 1; // One second
-        this.text.setText("This is the timer screen until a new round begins.\n" + this.initialTime); 
+        this.text.setText(this.winner + " was the fastest!\nNext Round begins in " + this.initialTime); 
     } else {
         DEBUG && console.log("changing to scene for guessing");
         
