@@ -1,5 +1,31 @@
 import { objects } from '../objects.js';
 
+/*
+<div style="
+    position: absolute;
+    font-family: 'Luckiest Guy';
+    color: white;
+    font-size: 30px;
+    border: 8px solid #2962ff;
+    margin: 10px;
+    padding: 10px;
+    padding-top: 0px;
+    padding-left: 58px;
+    border-radius: 20px;
+    line-height: 30px;
+    height: 20px;
+"><div style="
+    display: inline;
+    position: absolute;
+    font-size: 88px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    left: -8px;
+    color: #002171;
+">#</div>10/20</div>
+*/
+
 export default class Guessing extends Phaser.Scene {
     constructor() {
         super('guessing');
@@ -19,8 +45,8 @@ export default class Guessing extends Phaser.Scene {
         this.resize();
         var graphics = this.add.graphics();
 
-        graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
-        graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
+        graphics.lineStyle(8, 0x2962ff, 1);
+        graphics.strokeRoundedRect(32, 32, 150, 40, 20);
 
         var gridConfig = {
             'scene': this,
@@ -34,11 +60,33 @@ export default class Guessing extends Phaser.Scene {
         this.assets = [];
         this.effects = [];
 
-        this.add.image(this.getCenterX(), this.getCenterY(), "bg").setScale(0.39).setOrigin(0.5,0.5);
-        this.add.image(100, this.sys.canvas.height - 100, "logo").setScale(0.4);
         
 
-        this.text = this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " + document.round + " of " + document.maxRound , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
+        var bg = this.add.image(0, 0, "bg").setScale(0.39).setOrigin(0,0);
+
+        var hashtag = this.add.text(20, 0, "#" , { fontSize: "90px", align: "center", color: '#002171', fontFamily: 'Luckiest Guy' });
+
+        var round = this.add.text(90, 35, document.round + "/" + document.maxRound, { fontSize: "30px", align: "center", color: 'white', fontFamily: 'Luckiest Guy' });
+
+        
+
+
+        const layer = this.add.layer();
+
+        layer.add([ bg, graphics, hashtag, round ]);
+
+   
+        
+
+        
+        
+
+        
+
+        // this.add.image(100, this.sys.canvas.height - 100, "logo").setScale(0.4);
+        
+
+        // this.text = this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " +  + " of " +  , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
         
 
         var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
@@ -76,9 +124,11 @@ export default class Guessing extends Phaser.Scene {
                 // rotate the image by a random amount
                 this.assets[i].rotation += Math.random() * 360;
 
+
                 i++;
             }
         }
+
 
     }
 
