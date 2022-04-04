@@ -6,7 +6,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.svg('logo', '../game/assets/find_it_logo.svg');
+        this.load.svg('logo', '../assets/find_it_logo.svg');
     }
 
     create() {

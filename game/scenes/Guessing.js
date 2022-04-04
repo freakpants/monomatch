@@ -1,4 +1,4 @@
-import { objects } from '/game/objects.js';
+import { objects } from 'objects.js';
 export default class Guessing extends Phaser.Scene {
     constructor() {
         super('guessing');
@@ -6,9 +6,9 @@ export default class Guessing extends Phaser.Scene {
 
     preload() {
         objects.forEach((object) => {
-            this.load.image("asset" + object.id, "../game/assets/asset" + object.id + ".png");
+            this.load.image("asset" + object.id, "../assets/asset" + object.id + ".png");
         });
-        this.load.svg('logo', '../game/assets/find_it_logo.svg');
+        this.load.svg('logo', '../assets/find_it_logo.svg');
 
     }
 
