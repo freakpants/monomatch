@@ -7,8 +7,8 @@ export default class MainMenu extends FindItScene {
     }
 
     preload() {
+        super.preload();
         this.load.svg('logo', 'assets/find_it_logo.svg');
-        this.load.svg('bg', 'assets/drawing-4.svg');
     }
 
     create() {
@@ -25,12 +25,6 @@ export default class MainMenu extends FindItScene {
         console.log("initiating main menu");
         window.addEventListener('resize', this.resize);
         this.resize();
-        var graphics = this.add.graphics();
-
-    
-
-        // graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
-        graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
 
         this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
           
