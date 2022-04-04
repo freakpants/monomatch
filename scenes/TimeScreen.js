@@ -4,7 +4,10 @@ export default class TimeScreen extends Phaser.Scene {
     super("timescreen");
   }
 
-  preload() {}
+  preload() {
+    // get the avatar image of the winner from airconsole
+    this.load.image("winner_avatar", air_console.getProfilePicture(document.winningPlayerId));
+  }
 
   create() {
     this.initialTime = 5;
@@ -29,9 +32,10 @@ export default class TimeScreen extends Phaser.Scene {
       document.body.offsetWidth,
       document.body.offsetHeight
     );
-
-    // get the nickname of the winner from airconsole
+    
     this.winner = air_console.getNickname(document.winningPlayerId);
+
+    this.add.image(this.getCenterX(), 300,  "winner_avatar" );
 
     this.text = this.add.text(this.getCenterX(),
     this.getCenterY(),
