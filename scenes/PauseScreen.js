@@ -12,7 +12,7 @@ export default class PauseScreen extends FindItScene {
 
     create() {
 
-        
+        super.create();
         
 
         console.log("initiating pause screen");

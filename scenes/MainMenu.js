@@ -36,10 +36,11 @@ export default class MainMenu extends FindItScene {
     }
 
     onEvent() {
+        this.playerAmount.setText(document.connectedPlayersAmount);
         if(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8){
-            this.text.setText(this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.\nThe game can start.");
+            this.text.setText(this.staticText + "The game can start.");
         } else {
-            this.text.setText(this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.\nThe game cannot start.");
+            this.text.setText(this.staticText + "The game cannot start.");
         }
         
       }
