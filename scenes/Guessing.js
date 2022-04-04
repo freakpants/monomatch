@@ -41,11 +41,16 @@ export default class Guessing extends Phaser.Scene {
     }
 
     create() {
+        var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
         window.addEventListener('resize', this.resize);
         this.resize();
         var graphics = this.add.graphics();
 
-        graphics.lineStyle(8, 0x2962ff, 1);
+        
+        graphics.fillStyle(0x2962ff, 1);
+        graphics.fillRoundedRect(32, 32, 150, 40, 20);
+
+        graphics.lineStyle(4, 0x002171, 1);
         graphics.strokeRoundedRect(32, 32, 150, 40, 20);
 
         var gridConfig = {
@@ -65,6 +70,14 @@ export default class Guessing extends Phaser.Scene {
         var bg = this.add.image(0, 0, "bg").setScale(0.39).setOrigin(0,0);
 
         var hashtag = this.add.text(20, 0, "#" , { fontSize: "90px", align: "center", color: '#002171', fontFamily: 'Luckiest Guy' });
+
+        postFxPlugin.add(hashtag, {
+            distance: 5,
+            outerStrength: 1,
+            innerStrength: 1,
+            glowColor: 0xffffff,
+            quality: 1
+        });
 
         var round = this.add.text(90, 35, document.round + "/" + document.maxRound, { fontSize: "30px", align: "center", color: 'white', fontFamily: 'Luckiest Guy' });
 
@@ -89,7 +102,7 @@ export default class Guessing extends Phaser.Scene {
         // this.text = this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " +  + " of " +  , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
         
 
-        var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
+        
 
         var i = 0;
         var col, row;
@@ -202,7 +215,7 @@ class AlignGrid {
         //by adding half of the height and width
         //to the x and y of the coordinates
         var x2 = this.cw * xx + this.cw / 2;
-        var y2 = this.ch * yy + this.ch / 2;
+        var y2 = (this.ch * yy + this.ch / 2) + document.body.offsetHeight * 0.1;
         obj.x = x2;
         obj.y = y2;
     }
