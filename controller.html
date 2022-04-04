@@ -244,9 +244,11 @@
 
                 // enable the pause button if master controller
                 if (am_i_master()) {
+                    $("#score_and_objects_wrapper").css("margin-top", "initial");
                     $("#pause_button").css("display", "flex");
                     $("#pause_button").css("pointer-events", "auto");
                 } else {
+                    $("#score_and_objects_wrapper").css("margin-top", "10vh");
                     $("#pause_button").css("display", "none");
                     $("#pause_button").css("pointer-events", "none");
                 }
