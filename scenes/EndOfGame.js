@@ -21,7 +21,7 @@ export default class EndOfGame extends Phaser.Scene {
   }
 
   create() {
-    const cellwidth = 90;
+    const cellwidth = 200;
     const cellheight = 64;
     const columnCount = 4;
     const rowCount = document.playerScores.length + 1;
@@ -68,7 +68,7 @@ export default class EndOfGame extends Phaser.Scene {
       var bg = scene.add
         .graphics(0, 0)
         .fillStyle(bgColor)
-        .fillRect(0, 0, 90, 64);
+        .fillRect(0, 0, 200, 64);
 
       switch (cell.index) {
         case 0:
@@ -99,7 +99,7 @@ export default class EndOfGame extends Phaser.Scene {
             case 1:
                 var image_id = document.profile_pictures[document.playerScores[rowNumber-1].player];
                 DEBUG && console.log("adding image from asset id " +  image_id);
-                image = scene.add.image(45,32,  image_id );
+                image = scene.add.image(100,32,  image_id );
             break;
             case 2:
                 cellText = air_console.getNickname(document.playerScores[rowNumber-1].player);
@@ -117,7 +117,7 @@ export default class EndOfGame extends Phaser.Scene {
         DEBUG && console.log("we should be adding the image");
         container = scene.add.container(0, 0, [bg, image]);
       } else {
-        var txt = scene.add.text(45, 32, cellText,{fontFamily: "Arial"}).setOrigin(0.5, 0.5);;
+        var txt = scene.add.text(100, 32, cellText,{fontSize: "35px", fontFamily: "Luckiest Guy"}).setOrigin(0.5, 0.5);;
         container = scene.add.container(0, 0, [bg, txt]);
       }      
 
@@ -157,10 +157,10 @@ export default class EndOfGame extends Phaser.Scene {
 
     this.add
       .text(this.getCenterX(), 100, "The Game has ended!\n", {
-        fontSize: "30px",
+        fontSize: "45px",
         align: "center",
         color: "#ffffff",
-        fontFamily: "Arial",
+        fontFamily: "Luckiest Guy",
       })
       .setOrigin(0.5, 0.5);
   }
