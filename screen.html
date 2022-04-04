@@ -140,6 +140,7 @@
                             document.game.scene.start('endofgame');
                         } else {
                             // change the phaser scene
+                            document.game.scene.stop('guessing');
                             document.game.scene.stop('timescreen');
                             document.game.scene.start('timescreen');
                             document.next_set_id = message[0].set_id;

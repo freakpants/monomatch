@@ -1,16 +1,18 @@
-
-export default class PauseScreen extends Phaser.Scene {
+import FindItScene from './FindItScene.js';
+export default class PauseScreen extends FindItScene {
     constructor() {
         super('pausescreen');
-        this.staticText = 'The game is paused.\nPress start to resume.';
+        this.staticText = 'The game is paused.';
     }
 
     preload() {
         this.load.svg('logo', 'assets/find_it_logo.svg');
+        this.load.svg('bg', 'assets/drawing-4.svg');
     }
 
     create() {
 
+        
         
 
         console.log("initiating pause screen");
@@ -19,13 +21,16 @@ export default class PauseScreen extends Phaser.Scene {
 
         var graphics = this.add.graphics();
 
-        graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
-        graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
 
-        this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText, { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Oswald' }).setOrigin(0.5, 0.5);
-          
+           
         this.assets = [];
+
+        this.add.image(0, 0, "bg").setScale(0.39).setOrigin(0,0);
+
         this.add.image(this.getCenterX(), 300, "logo");
+
+        this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText, { fontSize: "45px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
+       
 
     }
 

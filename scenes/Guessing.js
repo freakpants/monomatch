@@ -1,4 +1,5 @@
 import { objects } from '../objects.js';
+import FindItScene from './FindItScene.js';
 
 /*
 <div style="
@@ -26,7 +27,7 @@ import { objects } from '../objects.js';
 ">#</div>10/20</div>
 */
 
-export default class Guessing extends Phaser.Scene {
+export default class Guessing extends FindItScene {
     constructor() {
         super('guessing');
     }
@@ -49,9 +50,11 @@ export default class Guessing extends Phaser.Scene {
         
         graphics.fillStyle(0x2962ff, 1);
         graphics.fillRoundedRect(32, 32, 150, 40, 20);
+        graphics.fillRoundedRect(32, 92, 150, 40, 20);
 
         graphics.lineStyle(4, 0x002171, 1);
         graphics.strokeRoundedRect(32, 32, 150, 40, 20);
+        graphics.strokeRoundedRect(32, 92, 150, 40, 20);
 
         var gridConfig = {
             'scene': this,
@@ -60,7 +63,7 @@ export default class Guessing extends Phaser.Scene {
             'graphics': graphics
         }
         this.aGrid = new AlignGrid(gridConfig);
-        // this.aGrid.showNumbers();
+        //this.aGrid.showNumbers();
 
         this.assets = [];
         this.effects = [];
@@ -69,7 +72,10 @@ export default class Guessing extends Phaser.Scene {
 
         var bg = this.add.image(0, 0, "bg").setScale(0.39).setOrigin(0,0);
 
-        var hashtag = this.add.text(20, 0, "#" , { fontSize: "90px", align: "center", color: '#002171', fontFamily: 'Luckiest Guy' });
+        
+        var players = this.add.text(20, 20, "👥" , { fontSize: "45px", align: "center", color: '#002171', fontFamily: 'Luckiest Guy' });
+        var hashtag = this.add.text(20, 60, "#" , { fontSize: "90px", align: "center", color: '#002171', fontFamily: 'Luckiest Guy' });
+        
 
         postFxPlugin.add(hashtag, {
             distance: 5,
@@ -79,14 +85,22 @@ export default class Guessing extends Phaser.Scene {
             quality: 1
         });
 
-        var round = this.add.text(90, 35, document.round + "/" + document.maxRound, { fontSize: "30px", align: "center", color: 'white', fontFamily: 'Luckiest Guy' });
+        postFxPlugin.add(players, {
+            distance: 5,
+            outerStrength: 1,
+            innerStrength: 1,
+            glowColor: 0xffffff,
+            quality: 1
+        });
 
+        var round = this.add.text(90, 95, document.round + "/" + document.maxRound, { fontSize: "30px", align: "center", color: 'white', fontFamily: 'Luckiest Guy' });
+        var playerAmount = this.add.text(112, 35, document.connectedPlayersAmount, { fontSize: "30px", align: "center", color: 'white', fontFamily: 'Luckiest Guy' });
         
 
 
         const layer = this.add.layer();
 
-        layer.add([ bg, graphics, hashtag, round ]);
+        layer.add([ bg, graphics, hashtag, players, round, playerAmount ]);
 
    
         
@@ -215,7 +229,7 @@ class AlignGrid {
         //by adding half of the height and width
         //to the x and y of the coordinates
         var x2 = this.cw * xx + this.cw / 2;
-        var y2 = (this.ch * yy + this.ch / 2) + document.body.offsetHeight * 0.1;
+        var y2 = (this.ch * yy + this.ch / 2) + document.body.offsetHeight * 0.2;
         obj.x = x2;
         obj.y = y2;
     }

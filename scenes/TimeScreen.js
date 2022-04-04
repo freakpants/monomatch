@@ -1,5 +1,6 @@
 import { projective_sets } from "../objects.js";
-export default class TimeScreen extends Phaser.Scene {
+import FindItScene from './FindItScene.js';
+export default class TimeScreen extends FindItScene {
   constructor() {
     super("timescreen");
   }
@@ -16,6 +17,7 @@ export default class TimeScreen extends Phaser.Scene {
   }
 
   create() {
+    super.create();
     this.initialTime = 5;
 
     // Each 1000 ms call onEvent
@@ -29,15 +31,6 @@ export default class TimeScreen extends Phaser.Scene {
     console.log("initiating timer scene");
     window.addEventListener("resize", this.resize);
     this.resize();
-    var graphics = this.add.graphics();
-
-    graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
-    graphics.fillRect(
-      0,
-      0,
-      document.body.offsetWidth,
-      document.body.offsetHeight
-    );
 
     this.winner = air_console.getNickname(document.winningPlayerId);
 

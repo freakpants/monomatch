@@ -1,4 +1,5 @@
-export default class EndOfGame extends Phaser.Scene {
+import FindItScene from './FindItScene.js';
+export default class EndOfGame extends FindItScene {
   constructor() {
     super("endofgame");
   }

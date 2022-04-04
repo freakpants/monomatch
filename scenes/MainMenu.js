@@ -1,5 +1,6 @@
 
-export default class MainMenu extends Phaser.Scene {
+import FindItScene from './FindItScene.js';
+export default class MainMenu extends FindItScene {
     constructor() {
         super('mainmenu');
         this.staticText = 'Welcome to Find It Faster!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n';
@@ -11,7 +12,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create() {
-
+        super.create();
         
 
         const timedEvent = this.time.addEvent({
@@ -26,7 +27,7 @@ export default class MainMenu extends Phaser.Scene {
         this.resize();
         var graphics = this.add.graphics();
 
-        this.add.image(this.getCenterX(), this.getCenterY(), "bg").setScale(0.39).setOrigin(0.5,0.5);
+    
 
         // graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
         graphics.fillRect(0, 0, document.body.offsetWidth, document.body.offsetHeight);
@@ -40,16 +41,6 @@ export default class MainMenu extends Phaser.Scene {
 
     }
 
-    getCenterX()
-    {
-       return ( this.sys.canvas.width  ) * .5
-    }
-
-    getCenterY()
-    {
-       return ( this.sys.canvas.height  ) * .5
-    }
-
     onEvent() {
         if(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8){
             this.text.setText(this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.\nThe game can start.");
@@ -58,11 +49,4 @@ export default class MainMenu extends Phaser.Scene {
         }
         
       }
-
-
-    resize() {
-        var canvas = this.game.canvas;
-        canvas.style.width = document.body.offsetWidth + 'px';
-        canvas.style.height = document.body.offsetHeight + 'px';
-    }
 }
