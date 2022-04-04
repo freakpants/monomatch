@@ -24,6 +24,7 @@
         // store current scores of players
         document.playerScores = [];
         document.connectedPlayersAmount = 0;
+        document.maxRound = 20;
 
         /* 
         jump to last round for 2 players by using this BEFORE the first guess
@@ -136,13 +137,14 @@
                             document.game.scene.start('endofgame');
                         } else {
                             // change the phaser scene
+                            document.game.scene.stop('timescreen');
                             document.game.scene.start('timescreen');
                             document.next_set_id = message[0].set_id;
 
                             document.round++;
 
                             // check if the stack will be empty
-                            if (document.stack.length === 1) {
+                            if (document.stack.length === 1 || document.round === document.maxRound - 1) {
                                 DEBUG && console.log("game is ending next round!");
                                 document.lastRound = true;
                             }
@@ -174,7 +176,8 @@
                             return;
                         }
                         document.round = 1;
-                        document.maxRound = 57 - document.connectedPlayersAmount;
+                        
+                        // document.maxRound = 57 - document.connectedPlayersAmount;
 
                         document.somebodyScoredThisRound = false;
                         // build the stack of cards
