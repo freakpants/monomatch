@@ -1,4 +1,5 @@
 import { objects } from '../objects.js';
+
 export default class Guessing extends Phaser.Scene {
     constructor() {
         super('guessing');
@@ -9,7 +10,8 @@ export default class Guessing extends Phaser.Scene {
             this.load.image("asset" + object.id, "assets/asset" + object.id + ".png");
         });
         this.load.svg('logo', 'assets/find_it_logo.svg');
-
+        this.load.svg('bg', 'assets/drawing-4.svg');
+ this.load.plugin('rexglowfilter2pipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js', true);
     }
 
     create() {
@@ -30,11 +32,16 @@ export default class Guessing extends Phaser.Scene {
         // this.aGrid.showNumbers();
 
         this.assets = [];
+        this.effects = [];
 
+        this.add.image(this.getCenterX(), this.getCenterY(), "bg").setScale(0.39).setOrigin(0.5,0.5);
         this.add.image(100, this.sys.canvas.height - 100, "logo").setScale(0.4);
+        
 
         this.text = this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " + document.round + " of " + document.maxRound , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
         
+
+        var postFxPlugin = this.plugins.get('rexglowfilter2pipelineplugin');
 
         var i = 0;
         var col, row;
@@ -45,13 +52,26 @@ export default class Guessing extends Phaser.Scene {
                 this.aGrid.placeAt(col, row, this.assets[i]);
                 this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
 
-                // get a random number between 30 and 100
-                var randomNumber = Math.floor(Math.random() * (100 - 30 + 1)) + 30;    
+                // get a random number between 60 and 100
+                var randomNumber = Math.floor(Math.random() * (100 - 60 + 1)) + 60;    
                 randomNumber = randomNumber / 100;
                 DEBUG && console.log("random: " + randomNumber);
                 this.assets[i].displayWidth = this.assets[i].displayWidth * randomNumber;
   
                 this.assets[i].scaleY = this.assets[i].scaleX;
+
+                // this.assets[i].setPostPipeline(GlowFilterPostFx);
+
+               
+                postFxPlugin.add(this.assets[i], {
+                    distance: 2,
+                    outerStrength: 1,
+                    innerStrength: 1,
+                    glowColor: 0xffffff,
+                    quality: 1
+                });
+    
+ 
 
                 // rotate the image by a random amount
                 this.assets[i].rotation += Math.random() * 360;
