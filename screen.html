@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="phaser/dist/phaser.js"></script>
+    <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Oswald|Roboto" rel="stylesheet">
+
+    <script src="js/fontLoader.js"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body onload="init()">
+    <script>
+
+        // store current scores of players
+        document.playerScores = [];
+        document.connectedPlayersAmount = 0;
+
+        /* 
+        jump to last round for 2 players by using this BEFORE the first guess
+        for (let i = 0; i < 53; i++) {
+            document.stack.shift();
+        }
+        */
+
+        var DEBUG = true;
+        function init() {
+            air_console = new AirConsole();
+
+            // Listen for messages from other devices
+            air_console.onMessage = function (from, message) {
+                // handle message
+                var type = message[0].type;
+                DEBUG && console.log('handling ' + type + ' message on screen.');
+
+                switch (type) {
+                    case "resume":
+                        document.game.scene.stop('timescreen');
+                        document.game.scene.stop('endofgame');
+                        document.game.scene.stop('mainmenu');
+                        document.game.scene.stop('pausescreen');
+                        document.game.scene.start('guessing');
+                        var command = [];
+                        command.push({ type: "resume" });
+                        air_console.broadcast(command);
+                        break;
+                    case "pause":
+                        // pause game
+                        document.game.scene.stop('timescreen');
+                        document.game.scene.stop('guessing');
+                        document.game.scene.stop('endofgame');
+                        document.game.scene.stop('mainmenu');
+                        document.game.scene.start('pausescreen');
+                        break;
+                    case "back_to_main":
+                        document.game.scene.stop('timescreen');
+                        document.game.scene.stop('guessing');
+                        document.game.scene.stop('endofgame');
+                        document.game.scene.stop('pausescreen');
+                        document.game.scene.start('mainmenu');
+                        break;
+                    case "correct":
+                        if (document.somebodyScoredThisRound) {
+                            return;
+                        }
+                        document.somebodyScoredThisRound = true;
+
+                        DEBUG && console.log("device " + from + " guessed correctly");
+                        DEBUG && console.log("correct set was: " + message[0].set_id);
+
+                        // try selecting current score
+                        playerScore = document.playerScores.filter(function (obj) {
+                            return obj.player === from;
+                        });
+
+                        // increase the score 
+
+                        if (playerScore[0]) {
+                            playerScore[0].correct++;
+                        } else {
+                            document.playerScores.push({ player: from, correct: 1 });
+                        }
+
+
+                        // conventionally sort the scores
+                        document.playerScores.sort(function (a, b) {
+                            if (a.correct > b.correct) {
+                                return -1;
+                            }
+                            if (a.correct < b.correct) {
+                                return 1;
+                            }
+                            return 0;
+                        });
+
+                        // assign a position giving the same position to players with the same score
+                        let position = 0;
+                        let previous_correct = false;
+                        document.playerScores.forEach(function (score, index) {
+                            if (previous_correct !== score.correct) {
+                                // only increase position if the score is different than the previous one
+                                position++;
+                            }
+                            score.position = position;
+                            previous_correct = score.correct;
+
+                            // send the position and score to the respective client
+                            score_message = [];
+                            score_message.push({ type: "score", correct: score.correct, position: score.position });
+                            DEBUG && console.log("sending score info to device " + score.player);
+                            air_console.message(score.player, score_message);
+                        });
+
+                        DEBUG && console.log("playerscores:");
+                        DEBUG && console.log(document.playerScores);
+
+
+                        if (document.lastRound) {
+                            // if this was the last round, move on to the game over screen
+                            DEBUG && console.log("game is ending");
+                            game_over_message = [];
+                            game_over_message.push({ type: "game_over" });
+                            DEBUG && console.log("sending game over message");
+                            air_console.broadcast(game_over_message);
+                            document.game.scene.start('endofgame');
+                        } else {
+                            // change the phaser scene
+                            document.game.scene.start('timescreen');
+                            document.next_set_id = message[0].set_id;
+
+                            document.round++;
+
+                            // check if the stack will be empty
+                            if (document.stack.length === 1) {
+                                DEBUG && console.log("game is ending next round!");
+                                document.lastRound = true;
+                            }
+
+                            // send new set to device
+                            DEBUG && console.log("sending new sets to winner");
+                            set_message = [];
+                            set_message.push({ type: "set", update: true, set_id: document.stack[0], screen_set_id: document.next_set_id });
+                            DEBUG && console.log("sending set info to device " + from);
+                            air_console.message(from, set_message);
+                            document.stack.shift();
+
+                            message = [];
+                            message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
+                            air_console.broadcast(message);
+
+                            // also inform all clients that are not us that they were to slow 
+                            air_console.getControllerDeviceIds().forEach(function (id) {
+                                if (id !== from) {
+                                    message = [];
+                                    message.push({ type: "correct", player: from });
+                                    air_console.message(id, message);
+                                }
+                            });
+                        }
+                        break;
+                    case "confirm":
+                        if (!(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8)) {
+                            return;
+                        }
+                        document.round = 1;
+                        document.maxRound = 57 - document.connectedPlayersAmount;
+
+                        document.somebodyScoredThisRound = false;
+                        // build the stack of cards
+                        document.stack = [];
+                        while (document.stack.length < 57) {
+                            var r = Math.floor(Math.random() * 57);
+                            if (document.stack.indexOf(r) === -1) document.stack.push(r);
+                        }
+                        DEBUG && console.log(document.stack);
+
+
+                        // get the first card from the stack
+                        document.set_id = document.stack[0];
+                        document.stack.shift();
+
+                        document.set = document.projective_sets.filter(obj => {
+                            return obj.id === document.set_id
+                        });
+
+                        DEBUG && console.log(document.stack);
+
+                        document.lastRound = false;
+                        // reset scores of players
+                        document.playerScores = [];
+
+                        // also reset the score on all controllers
+                        score_message = [];
+                        score_message.push({ type: "score", correct: 0, position: 1 });
+                        DEBUG && console.log("resetting all controllers to 0 points");
+                        air_console.broadcast(score_message);
+
+                        // initialize score for every player so we can determine position after first round
+                        air_console.getControllerDeviceIds().forEach(function (id) {
+                            document.playerScores.push({ player: id, correct: 0 });
+                        });
+
+                        // assign a card from the stack to every client
+                        var deviceIds = air_console.getControllerDeviceIds();
+                        deviceIds.forEach(device_id => {
+                            set_message = [];
+                            set_message.push({ type: "set", set_id: document.stack[0], screen_set_id: document.set_id });
+                            DEBUG && console.log("sending set info to device " + device_id);
+                            air_console.message(device_id, set_message);
+                            document.stack.shift();
+                        });
+
+                        // change the phaser scene
+                        document.game.scene.start('guessing');
+
+                        break;
+                }
+            };
+            air_console.onConnect = function (device_id) {
+                // update player count
+                document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
+
+                /* prepare messages for clients */
+                show_menu = [];
+                show_menu.push({
+                    type: "show_menu"
+                });
+                hide_menu = [];
+                hide_menu.push({
+                    type: "hide_menu"
+                });
+
+                // if there is no round in progress, check if the connected device is the master
+                if (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === device_id) {
+                    DEBUG && console.log("device " + device_id + " is the master");
+                    // let the new client know to display the menu)
+                    air_console.message(device_id, show_menu);
+                    // also let all other clients know NOT to display the menu anymore
+                    air_console.getControllerDeviceIds().forEach(function (id) {
+                        if (id === device_id) return;
+                        air_console.message(id, hide_menu);
+                    });
+                } else {
+                    DEBUG && console.log("device " + device_id + " is not a master");
+                    air_console.message(device_id, hide_menu);
+                }
+            }
+
+
+            air_console.onDisconnect = function (device_id) {
+                // update player count
+                document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
+
+
+                // let the new master know to display the menu
+                if (air_console.getMasterControllerDeviceId() !== undefined) {
+                    message = [];
+                    message.push({
+                        type: "show_menu"
+                    });
+                    air_console.message(air_console.getMasterControllerDeviceId(), message);
+                }
+            }
+
+        }
+
+    </script>
+    <script type="module">
+        import Guessing from './scenes/Guessing.js';
+        import MainMenu from './scenes/MainMenu.js';
+        import TimeScreen from './scenes/TimeScreen.js';
+        import EndOfGame from './scenes/EndOfGame.js';
+        import PauseScreen from './scenes/PauseScreen.js';
+        import { objects, projective_sets } from './objects.js';
+
+        $(document).ready(function () {
+
+            document.projective_sets = projective_sets;
+
+            var config = {
+                type: Phaser.AUTO,
+                scale: {
+                    mode: Phaser.Scale.NONE,
+                    parent: 'body',
+                    autoCenter: Phaser.Scale.NO_CENTER,
+                    width: "100%",
+                    height: "100%"
+                },
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { y: 200 }
+                    }
+                },
+                scene: [MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen]
+            };
+
+            document.game = new Phaser.Game(config);
+
+        });
+
+        var air_console;
+
+    </script>
+
+</body>
+
+</html>
