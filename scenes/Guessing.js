@@ -73,8 +73,6 @@ export default class Guessing extends FindItScene {
     this.assets = [];
     this.effects = [];
 
-    var bg = this.add.image(0, 0, "bg").setScale(0.39).setOrigin(0, 0);
-
     var hashtag = this.add.text(20, 60, "#", {
       fontSize: "90px",
       align: "center",
@@ -104,7 +102,7 @@ export default class Guessing extends FindItScene {
 
     const layer = this.add.layer();
     layer.add([
-      bg,
+      this.bg,
       this.graphics,
       hashtag,
       round,
