@@ -42,7 +42,6 @@
             $("#resume").click(function (event) {
                 $("#quit").hide();
                 $("#resume").hide();
-                $("#waiting_for_next_round").css("display", "flex");
                 var command = [];
                 command.push({ type: "resume" });
                 air_console.message(0, command);
@@ -102,7 +101,7 @@
                 }
                 switch (data[0].type) {
                     case "resume":
-                        $("#score_and_objects_wrapper").css("display", "block");
+                        $("#score_and_objects_wrapper").css("display", "flex");
                         $("#waiting_for_next_round").hide();
                         $("#waiting_for_pause").hide();
                         break;
@@ -110,6 +109,7 @@
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");
                         $("#waiting_for_pause").css("display", "flex");
+                        $(".button").hide();
                         break;
                     case "game_over":
                         $("#slow").hide();
@@ -119,6 +119,7 @@
                             $("#game_over").css("display", "flex");
                         } else {
                             $("#menu").css("display", "flex");
+                            $("#waiting_for_pause").hide();
                             $("#waiting_for_start").css("display", "flex");
                         }
 
@@ -151,7 +152,7 @@
                     case "countdown_over":
                         $("#slow").hide();
                         $("#fast").hide();
-                        $("#score_and_objects_wrapper").show();
+                        $("#score_and_objects_wrapper").css("display", "flex");
                         break;
                     case "correct":
                         $("#score_and_objects_wrapper").hide();
@@ -190,7 +191,7 @@
                             $("#fast").css("opacity", 1);
                             $("#fast").css("display", "flex");
                         } else {
-                            $("#score_and_objects_wrapper").show();
+                            $("#score_and_objects_wrapper").css("display", "flex");
                         }
 
                         $("#menu").hide();
@@ -328,7 +329,7 @@
     <div id="objects">
 
     </div>
-    <div id="pause_button">
+    <div id="pause_button" class="button">
         PAUSE
     </div>
 </div>
@@ -360,72 +361,24 @@
 </div>
 
 <div id="menu">
-
-    <!-- <div class="flexbox resizing-button" id="previous-button">
-        <span class="fa-lg icon-container">
-            <i class="fa fa-backward backward"></i>
-        </span>
-        <div class="button_text">Last</div>
+    <div class="button" id="confirm">
+        Start
     </div>
-    <div class="flexbox resizing-button" id="next-button">
-        <span class="fa-lg icon-container">
-            <i class="fa fa-forward forward"></i>
-        </span>
-        <div class="button_text">Next</div>
+    <div id="resume" class="button">
+        Resume
     </div>
-    <div id="round_change_buttons">
-        <span class="fa-lg icon-container minus decrease_rounds">
-            <i class="fa fa-minus minus"></i>
-        </span>
-        <span class="fa-lg icon-container plus increase_rounds">
-            <i class="fa fa-plus plus"></i>
-        </span>
-    </div>
-    <div class="flexbox resizing-button" id="cancel">
-        <span class="fa-lg icon-container">
-            <i class="fa fa-ban"></i>
-        </span>
-        <div class="button_text">Cancel/</br>Back</div>
-    </div> -->
-    <div class="flexbox resizing-button" id="confirm">
-        <span class="fa-lg icon-container">
-            <i class="fa fa-play play_icon"></i>
-        </span>
-        <div class="button_text">Start</div>
-        <!-- <div class="button_comment">Play with current settings</div> -->
-    </div>
-    <div id="resume">
-        <div class="button_text">Resume the game</div>
-    </div>
-    <div id="quit">
-        <div class="button_text">Quit the current game</div>
+    <div id="quit" class="button">
+        Quit
     </div>
     <div id="waiting_for_next_round">
         Please wait for the next round to begin.
     </div>
-
-
-
     <div id="waiting_for_start">
         Please wait for the master controller to start the game.
     </div>
     <div id="waiting_for_pause">
         Please wait for the master controller to resume or quit the game.
     </div>
-    <!-- <div class="flexbox resizing-button" id="hero-confirm">
-        <span class="fa-lg icon-container">
-            <i class="fa fa-play play_icon"></i>
-        </span>
-        <div class="button_text">Select with Hero</div>
-        <img id="small-hero-image"
-            src="https://game.airconsole.com/com.airconsole.store.cdn.airconsole.com/2021-12-23-17-05-19/img/hero.45eeb9be.gif" />
-    </div>
-    <div class="flexbox resizing-button" id="hero-req">
-        <img id="hero-image"
-            src="https://game.airconsole.com/com.airconsole.store.cdn.airconsole.com/2021-12-23-17-05-19/img/hero.45eeb9be.gif" />
-        <div class="button_text">Hero</br>required</div>
-    </div>
--->
 </div>
 
 </html>
