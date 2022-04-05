@@ -78,13 +78,16 @@ export default class Guessing extends FindItScene {
         );
         this.aGrid.placeAt(col, row, this.assets[i], document.game.canvas.height);
         this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
+        this.assets[i].basedisplayWidth = this.assets[i].displayWidth;
+        // assign random direction
+        this.assets[i].direction = Math.random() > 0.5 ? "up" : "down";
 
         // get a random number between 60 and 100
-        var randomNumber = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
+        var randomNumber = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
         randomNumber = randomNumber / 100;
         DEBUG && console.log("random: " + randomNumber);
 
-        this.assets[i].displayWidth * randomNumber;
+        this.assets[i].displayWidth *= randomNumber;
 
         this.assets[i].scaleY = this.assets[i].scaleX;
 
@@ -102,6 +105,35 @@ export default class Guessing extends FindItScene {
         i++;
       }
     }
+  }
+
+  update(){
+    this.assets.forEach((asset) => {
+      console.log(asset.basedisplayWidth);
+      console.log(asset.displayWidth);
+      if(asset.direction === "up"){
+        DEBUG && console.log("up");
+        if(asset.displayWidth >= asset.basedisplayWidth){
+          asset.displayWidth--;
+          asset.displayHeight--;
+          asset.direction = "down";
+        } else {
+          asset.displayWidth++;
+          asset.displayHeight++;
+        }
+      } else {
+        DEBUG && console.log("down");
+        if( asset.displayWidth <= asset.basedisplayWidth * 0.3){
+          asset.displayWidth++;
+          asset.displayHeight++;
+          asset.direction = "up";
+        } else {
+          asset.displayWidth--;
+          asset.displayHeight--;
+        }
+      }
+      asset.rotation += 0.01;
+    })
   }
 }
 
