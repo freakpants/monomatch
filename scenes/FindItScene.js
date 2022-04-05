@@ -1,5 +1,6 @@
 export default class FindItScene extends Phaser.Scene {
   preload() {
+    this.load.svg('logo', 'assets/find_it_logo.svg');
     this.load.svg("bg", "assets/drawing-4.svg");
     this.load.plugin(
       "rexglowfilter2pipelineplugin",
