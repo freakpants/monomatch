@@ -160,12 +160,4 @@ export default class EndOfGame extends FindItScene {
       .setOrigin(0.5, 0.5);
   }
 
-  getCenterX() {
-    return this.sys.canvas.width * 0.5;
-  }
-
-  getCenterY() {
-    return this.sys.canvas.height * 0.5;
-  }
-
 }

@@ -1,28 +1,57 @@
-
-import FindItScene from './FindItScene.js';
+import FindItScene from "./FindItScene.js";
 export default class MainMenu extends FindItScene {
-    constructor() {
-        super('mainmenu');
-        this.staticText = 'Welcome to Find It Faster!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n';
+  constructor() {
+    super("mainmenu");
+    this.staticText =
+      "Welcome to Find It Faster!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n";
+  }
+
+  preload() {
+    super.preload();
+    this.load.svg("logo", "assets/find_it_logo.svg");
+  }
+
+  create() {
+    var roundAmount = false;
+    super.create(roundAmount);
+
+    console.log("initiating main menu");
+
+    this.text = this.add
+      .text(
+        this.getCenterX(),
+        this.getCenterY() + 200,
+        this.staticText +
+          "Currently " +
+          document.connectedPlayersAmount +
+          " are connected.",
+        {
+          fontSize: "30px",
+          align: "center",
+          color: "#ffffff",
+          fontFamily: "Luckiest Guy",
+        }
+      )
+      .setOrigin(0.5, 0.5);
+
+    this.assets = [];
+
+    // this.add.image(this.getCenterX(), 300, "logo").setScale(0.5);
+    this.add.image(this.getCenterX(), 300, "logo");
+  }
+
+  // overwrite the function to also update the gametext
+  handlePlayerCount() {
+    super.handlePlayerCount();
+    if (
+      document.connectedPlayersAmount >= 2 &&
+      document.connectedPlayersAmount <= 8
+    ) {
+      this.text.setText(this.staticText + "The game can start.");
+      this.playerAmount.setColor("#00ff00");
+    } else {
+      this.text.setText(this.staticText + "The game cannot start.");
+      this.playerAmount.setColor("#ff0000");
     }
-
-    preload() {
-        super.preload();
-        this.load.svg('logo', 'assets/find_it_logo.svg');
-    }
-
-    create() {
-        var roundAmount = false;
-        super.create(roundAmount);
-
-        console.log("initiating main menu");
-
-        this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
-          
-        this.assets = [];
-
-        // this.add.image(this.getCenterX(), 300, "logo").setScale(0.5);
-        this.add.image(this.getCenterX(), 300, "logo");
-
-    }
+  }
 }

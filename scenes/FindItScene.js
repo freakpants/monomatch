@@ -95,11 +95,5 @@ export default class FindItScene extends Phaser.Scene {
 
   handlePlayerCount() {
     this.playerAmount.setText(document.connectedPlayersAmount);
-    if(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8){
-        this.text.setText(this.staticText + "The game can start.");
-    } else {
-        this.text.setText(this.staticText + "The game cannot start.");
-    }
-    
   }
 }

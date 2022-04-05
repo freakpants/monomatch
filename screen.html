@@ -270,7 +270,9 @@
                     air_console.message(device_id, hide_menu);
                 }
                 // trigger the event on the active scene
-                document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
+                if(document.game.scene.getScenes(true).length > 0){
+                    document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
+                }
             }
 
 
@@ -288,7 +290,9 @@
                     air_console.message(air_console.getMasterControllerDeviceId(), message);
                 }
                 // trigger the event on the active scene
-                document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
+                if(document.game.scene.getScenes(true).length > 0){
+                    document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
+                }
             }
 
         }
