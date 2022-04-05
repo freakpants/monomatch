@@ -41,9 +41,14 @@ export default class FindItScene extends Phaser.Scene {
       40,
       20
     );
-    // place the music icon
+    // place the sound icons
+    if(document.sfxOff === true){
+      this.add.dom(document.game.canvas.width - 70, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-volume-xmark"></i>');
+    } else {
+      this.add.dom(document.game.canvas.width - 70, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-volume-low"></i>');
+    }
     this.add.dom(document.game.canvas.width - 125, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-music"></i>');
-    this.add.dom(document.game.canvas.width - 70, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-volume-low"></i>');
+    
 
     
 
