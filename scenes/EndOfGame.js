@@ -5,6 +5,7 @@ export default class EndOfGame extends FindItScene {
   }
 
   preload() {
+    super.preload();
     const url =
       "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgridtableplugin.min.js";
     this.load.plugin("rexgridtableplugin", url, true);
@@ -22,6 +23,9 @@ export default class EndOfGame extends FindItScene {
   }
 
   create() {
+    var roundAmount = false;
+    super.create(roundAmount);
+
     const cellwidth = 200;
     const cellheight = 64;
     const columnCount = 4;
@@ -31,7 +35,8 @@ export default class EndOfGame extends FindItScene {
     const gridwidth = columnCount * cellwidth;
     const gridheight = rowCount * cellheight;
 
-    var graphics = this.add.graphics();
+    document.graphics = this.graphics;
+
 
     document.wideCells = [];
 
@@ -66,10 +71,8 @@ export default class EndOfGame extends FindItScene {
       } else {
         bgColor = Phaser.Display.Color.HexStringToColor("#2962ff").color;
       }
-      var bg = scene.add
-        .graphics(0, 0)
-        .fillStyle(bgColor)
-        .fillRect(0, 0, 200, 64);
+
+      var cellBg = scene.add.graphics(0, 0).fillStyle(bgColor).fillRect(0, 0, 200, 64);
 
       switch (cell.index) {
         case 0:
@@ -116,10 +119,10 @@ export default class EndOfGame extends FindItScene {
       DEBUG && console.log()
       if(image !== null){
         DEBUG && console.log("we should be adding the image");
-        container = scene.add.container(0, 0, [bg, image]);
+        container = scene.add.container(0, 0, [cellBg, image]);
       } else {
         var txt = scene.add.text(100, 32, cellText,{fontSize: "35px", fontFamily: "Luckiest Guy"}).setOrigin(0.5, 0.5);;
-        container = scene.add.container(0, 0, [bg, txt]);
+        container = scene.add.container(0, 0, [cellBg, txt]);
       }      
 
       return container;
@@ -146,13 +149,6 @@ export default class EndOfGame extends FindItScene {
 
     console.log("initiating end of game screen");
 
-    graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
-    graphics.fillRect(
-      0,
-      0,
-      document.body.offsetWidth,
-      document.body.offsetHeight
-    );
 
     this.add
       .text(this.getCenterX(), 100, "The Game has ended!\n", {

@@ -42,12 +42,6 @@ export default class Guessing extends FindItScene {
   create() {
     super.create();
 
-    console.log(document.body.offsetHeight);
-
-    this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
-    this.graphics.lineStyle(4, 0x002171, 1);
-    this.graphics.strokeRoundedRect(32, 92, 150, 40, 20);
-
     /* white line that helps see bounds 
     this.graphics.lineStyle(4, 0xffffff, 1);
     this.graphics.beginPath();
@@ -73,21 +67,6 @@ export default class Guessing extends FindItScene {
     this.assets = [];
     this.effects = [];
 
-    var hashtag = this.add.text(20, 60, "#", {
-      fontSize: "90px",
-      align: "center",
-      color: "#002171",
-      fontFamily: "Luckiest Guy",
-    });
-
-    this.postFxPlugin.add(hashtag, {
-      distance: 5,
-      outerStrength: 1,
-      innerStrength: 1,
-      glowColor: 0xffffff,
-      quality: 1,
-    });
-
     var round = this.add.text(
       90,
       95,
@@ -104,17 +83,13 @@ export default class Guessing extends FindItScene {
     layer.add([
       this.bg,
       this.graphics,
-      hashtag,
+      this.hashtag,
       round,
       this.players,
       this.playerAmount,
     ]);
 
-    layer.bringToTop(hashtag);
-
-    // this.add.image(100, this.sys.canvas.height - 100, "logo").setScale(0.4);
-
-    // this.text = this.add.text(this.sys.canvas.width - 110, this.sys.canvas.height - 20, "Round " +  + " of " +  , { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
+    // layer.bringToTop(hashtag);
 
     var i = 0;
     var col, row;

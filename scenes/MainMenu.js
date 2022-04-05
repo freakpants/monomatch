@@ -12,9 +12,9 @@ export default class MainMenu extends FindItScene {
     }
 
     create() {
-        super.create();
+        var roundAmount = false;
+        super.create(roundAmount);
         
-
         const timedEvent = this.time.addEvent({
             delay: 1000,
             callback: this.onEvent,
@@ -23,8 +23,6 @@ export default class MainMenu extends FindItScene {
           });
 
         console.log("initiating main menu");
-        
-        
 
         this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
           

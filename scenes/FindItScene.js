@@ -9,7 +9,7 @@ export default class FindItScene extends Phaser.Scene {
     );
   }
 
-  create() {
+  create(roundAmount = true) {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     // determine the lower of two numbers
     const a = 3840 / document.game.canvas.width;
@@ -18,10 +18,32 @@ export default class FindItScene extends Phaser.Scene {
     DEBUG && console.log("scale:" + scale);
     this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
     this.graphics = this.add.graphics();
+    // draw the ui area for the player amount
     this.graphics.fillStyle(0x2962ff, 1);
     this.graphics.fillRoundedRect(32, 32, 150, 40, 20);
     this.graphics.lineStyle(4, 0x002171, 1);
     this.graphics.strokeRoundedRect(32, 32, 150, 40, 20);
+    if(roundAmount){
+      // draw the ui area for the round amount
+      this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
+      this.graphics.lineStyle(4, 0x002171, 1);
+      this.graphics.strokeRoundedRect(32, 92, 150, 40, 20);
+      // place the hashtag icon
+      this.hashtag = this.add.text(20, 60, "#", {
+        fontSize: "90px",
+        align: "center",
+        color: "#002171",
+        fontFamily: "Luckiest Guy",
+      });
+      // place glow on hashtag icon
+      this.postFxPlugin.add(this.hashtag, {
+        distance: 5,
+        outerStrength: 1,
+        innerStrength: 1,
+        glowColor: 0xffffff,
+        quality: 1,
+      });
+    }
     this.players = this.add.text(20, 20, "👥", {
       fontSize: "45px",
       align: "center",
