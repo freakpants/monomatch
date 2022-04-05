@@ -1,6 +1,6 @@
 export default class FindItScene extends Phaser.Scene {
   preload() {
-    this.load.svg('logo', 'assets/find_it_logo.svg');
+    this.load.svg("logo", "assets/find_it_logo.svg");
     this.load.svg("bg", "assets/drawing-4.svg");
     this.load.plugin(
       "rexglowfilter2pipelineplugin",
@@ -11,7 +11,7 @@ export default class FindItScene extends Phaser.Scene {
 
   create(roundAmount = true) {
     // listen for playerConnection events triggered by the AirConsole
-    this.events.on('playerConnectionEvent', this.handlePlayerCount, this);
+    this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     // determine the lower of two numbers
     const a = 3840 / document.game.canvas.width;
@@ -25,7 +25,29 @@ export default class FindItScene extends Phaser.Scene {
     this.graphics.fillRoundedRect(32, 32, 150, 40, 20);
     this.graphics.lineStyle(4, 0x002171, 1);
     this.graphics.strokeRoundedRect(32, 32, 150, 40, 20);
-    if(roundAmount){
+    // draw the ui area for the sound elements
+    this.graphics.fillRoundedRect(
+      document.game.canvas.width - 152,
+      32,
+      120,
+      40,
+      20
+    );
+    this.graphics.lineStyle(4, 0x002171, 1);
+    this.graphics.strokeRoundedRect(
+      document.game.canvas.width - 152,
+      32,
+      120,
+      40,
+      20
+    );
+    // place the music icon
+    this.add.dom(document.game.canvas.width - 125, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-music"></i>');
+    this.add.dom(document.game.canvas.width - 70, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-volume-low"></i>');
+
+    
+
+    if (roundAmount) {
       // draw the ui area for the round amount
       this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
       this.graphics.lineStyle(4, 0x002171, 1);
@@ -57,7 +79,6 @@ export default class FindItScene extends Phaser.Scene {
           fontFamily: "Luckiest Guy",
         }
       );
-  
     }
     this.players = this.add.text(20, 20, "👥", {
       fontSize: "45px",
@@ -66,12 +87,12 @@ export default class FindItScene extends Phaser.Scene {
       fontFamily: "Luckiest Guy",
     });
     this.postFxPlugin.add(this.players, {
-        distance: 5,
-        outerStrength: 1,
-        innerStrength: 1,
-        glowColor: 0xffffff,
-        quality: 1,
-      });
+      distance: 5,
+      outerStrength: 1,
+      innerStrength: 1,
+      glowColor: 0xffffff,
+      quality: 1,
+    });
     this.playerAmount = this.add.text(
       112,
       35,

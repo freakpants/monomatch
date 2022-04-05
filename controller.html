@@ -55,6 +55,7 @@
                 $("#quit").hide();
                 $("#resume").hide();
                 $("#confirm").css("display", "flex");
+                $("#options").css("display", "flex");
                 var command = [];
                 command.push({ type: "back_to_main" });
                 air_console.message(0, command);
@@ -68,6 +69,7 @@
                 $("#quit").css("pointer-events", "auto");
                 $("#resume").css("pointer-events", "auto");
                 $("#resume").css("display", "flex");
+                $("#options").hide();
                 var command = [];
                 command.push({ type: "pause" });
                 air_console.broadcast(command);
@@ -168,6 +170,7 @@
                             DEBUG && console.log("i am master");
                             $("#waiting_for_start").hide();
                             $("#confirm").css("display", "flex");
+                            $("#options").css("display", "flex");
                         } else {
                             DEBUG && console.log("i am not master");
                             $("#waiting_for_start").css("display", "flex");
@@ -363,6 +366,9 @@
 <div id="menu">
     <div class="button" id="confirm">
         Start
+    </div>
+    <div class="button" id="options">
+        Options
     </div>
     <div id="resume" class="button">
         Resume

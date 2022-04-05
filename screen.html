@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald|Roboto" rel="stylesheet">
 
     <script src="js/fontLoader.js"></script>
+    <script src="https://kit.fontawesome.com/e986f25b5a.js" crossorigin="anonymous"></script>
 
     <style>
         html,
@@ -270,7 +271,7 @@
                     air_console.message(device_id, hide_menu);
                 }
                 // trigger the event on the active scene
-                if(document.game.scene.getScenes(true).length > 0){
+                if (document.game.scene.getScenes(true).length > 0) {
                     document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
                 }
             }
@@ -290,7 +291,7 @@
                     air_console.message(air_console.getMasterControllerDeviceId(), message);
                 }
                 // trigger the event on the active scene
-                if(document.game.scene.getScenes(true).length > 0){
+                if (document.game.scene.getScenes(true).length > 0) {
                     document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
                 }
             }
@@ -324,6 +325,9 @@
                     arcade: {
                         gravity: { y: 200 }
                     }
+                },
+                dom: {
+                    createContainer: true
                 },
                 scene: [MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen]
             };
