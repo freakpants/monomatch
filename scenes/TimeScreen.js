@@ -53,30 +53,7 @@ export default class TimeScreen extends FindItScene {
     );
 
     this.text.setOrigin(0.5, 0.5);
-
-    this.add
-      .text(
-        this.sys.canvas.width - 110,
-        this.sys.canvas.height - 20,
-        "Round " + document.round + " of " + document.maxRound,
-        {
-          fontSize: "30px",
-          align: "center",
-          color: "#ffffff",
-          fontFamily: "Luckiest Guy",
-        }
-      )
-      .setOrigin(0.5, 0.5);
-
     this.assets = [];
-  }
-
-  getCenterX() {
-    return this.sys.canvas.width * 0.5;
-  }
-
-  getCenterY() {
-    return this.sys.canvas.height * 0.5;
   }
 
   onEvent() {

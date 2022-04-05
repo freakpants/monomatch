@@ -68,7 +68,7 @@ export default class Guessing extends FindItScene {
       canvas: document.game.canvas,
     };
     this.aGrid = new AlignGrid(gridConfig);
-    this.aGrid.showNumbers(1, document.game.canvas.width, document.game.canvas.height);
+    // this.aGrid.showNumbers(1, document.game.canvas.width, document.game.canvas.height);
 
     this.assets = [];
     this.effects = [];

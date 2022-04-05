@@ -10,17 +10,12 @@ export default class FindItScene extends Phaser.Scene {
 
   create() {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
-
-
     // determine the lower of two numbers
     const a = 3840 / document.game.canvas.width;
     const b = 2160 / document.game.canvas.height;
     const scale = 1 / (a < b ? a : b);
     DEBUG && console.log("scale:" + scale);
-
-
-
-    var bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
+    this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
     this.graphics = this.add.graphics();
     this.graphics.fillStyle(0x2962ff, 1);
     this.graphics.fillRoundedRect(32, 32, 150, 40, 20);
