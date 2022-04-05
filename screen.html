@@ -15,6 +15,7 @@
             height: 100%;
             margin: 0;
         }
+
         canvas {
             width: 100%;
             height: 100%;
@@ -240,6 +241,7 @@
                 }
             };
             air_console.onConnect = function (device_id) {
+
                 // update player count
                 document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
 
@@ -267,6 +269,8 @@
                     DEBUG && console.log("device " + device_id + " is not a master");
                     air_console.message(device_id, hide_menu);
                 }
+                // trigger the event on the active scene
+                document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
             }
 
 
@@ -283,6 +287,8 @@
                     });
                     air_console.message(air_console.getMasterControllerDeviceId(), message);
                 }
+                // trigger the event on the active scene
+                document.game.scene.getScenes(true)[0].events.emit("playerConnectionEvent");
             }
 
         }

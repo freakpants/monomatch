@@ -10,6 +10,8 @@ export default class FindItScene extends Phaser.Scene {
   }
 
   create(roundAmount = true) {
+    // listen for playerConnection events triggered by the AirConsole
+    this.events.on('playerConnectionEvent', this.handlePlayerCount, this);
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     // determine the lower of two numbers
     const a = 3840 / document.game.canvas.width;
@@ -89,5 +91,15 @@ export default class FindItScene extends Phaser.Scene {
 
   getCenterY() {
     return this.sys.canvas.height * 0.5;
+  }
+
+  handlePlayerCount() {
+    this.playerAmount.setText(document.connectedPlayersAmount);
+    if(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8){
+        this.text.setText(this.staticText + "The game can start.");
+    } else {
+        this.text.setText(this.staticText + "The game cannot start.");
+    }
+    
   }
 }

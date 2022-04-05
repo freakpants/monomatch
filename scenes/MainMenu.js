@@ -14,13 +14,6 @@ export default class MainMenu extends FindItScene {
     create() {
         var roundAmount = false;
         super.create(roundAmount);
-        
-        const timedEvent = this.time.addEvent({
-            delay: 1000,
-            callback: this.onEvent,
-            callbackScope: this,
-            loop: true,
-          });
 
         console.log("initiating main menu");
 
@@ -32,14 +25,4 @@ export default class MainMenu extends FindItScene {
         this.add.image(this.getCenterX(), 300, "logo");
 
     }
-
-    onEvent() {
-        this.playerAmount.setText(document.connectedPlayersAmount);
-        if(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8){
-            this.text.setText(this.staticText + "The game can start.");
-        } else {
-            this.text.setText(this.staticText + "The game cannot start.");
-        }
-        
-      }
 }
