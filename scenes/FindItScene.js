@@ -43,6 +43,19 @@ export default class FindItScene extends Phaser.Scene {
         glowColor: 0xffffff,
         quality: 1,
       });
+      // place the round Amount text
+      this.round = this.add.text(
+        90,
+        95,
+        document.round + "/" + document.maxRound,
+        {
+          fontSize: "30px",
+          align: "center",
+          color: "white",
+          fontFamily: "Luckiest Guy",
+        }
+      );
+  
     }
     this.players = this.add.text(20, 20, "👥", {
       fontSize: "45px",

@@ -67,30 +67,6 @@ export default class Guessing extends FindItScene {
     this.assets = [];
     this.effects = [];
 
-    var round = this.add.text(
-      90,
-      95,
-      document.round + "/" + document.maxRound,
-      {
-        fontSize: "30px",
-        align: "center",
-        color: "white",
-        fontFamily: "Luckiest Guy",
-      }
-    );
-
-    const layer = this.add.layer();
-    layer.add([
-      this.bg,
-      this.graphics,
-      this.hashtag,
-      round,
-      this.players,
-      this.playerAmount,
-    ]);
-
-    // layer.bringToTop(hashtag);
-
     var i = 0;
     var col, row;
     for (col = 0; col < 4; col++) {
