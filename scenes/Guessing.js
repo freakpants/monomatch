@@ -41,19 +41,34 @@ export default class Guessing extends FindItScene {
 
   create() {
     super.create();
+
+    console.log(document.body.offsetHeight);
     
     this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
     this.graphics.lineStyle(4, 0x002171, 1);
     this.graphics.strokeRoundedRect(32, 92, 150, 40, 20);
+
+    this.graphics.lineStyle(4, 0xffffff, 1);
+
+    this.graphics.beginPath();
+    this.graphics.moveTo(0, 0);
+    this.graphics.lineTo(0, document.body.offsetHeight);
+    this.graphics.lineTo(document.body.offsetWidth / 2, document.body.offsetHeight / 2);
+    this.graphics.lineTo(0, 0);
+
+    this.graphics.strokePath();
+
+    DEBUG && console.log("canvas: ") + this.canvas;
 
     var gridConfig = {
       scene: this,
       cols: 4,
       rows: 2,
       graphics: this.graphics,
+      canvas: document.game.canvas
     };
     this.aGrid = new AlignGrid(gridConfig);
-    //this.aGrid.showNumbers();
+    this.aGrid.showNumbers();
 
     this.assets = [];
     this.effects = [];
@@ -150,10 +165,10 @@ class AlignGrid {
       config.cols = 3;
     }
     if (!config.width) {
-      config.width = document.body.offsetWidth;
+      config.width = config.canvas.style.width;
     }
     if (!config.height) {
-      config.height = document.body.offsetHeight * 0.8;
+      config.height = config.canvas.style.height * 0.8;
     }
     this.h = config.height;
     this.w = config.width;
@@ -173,12 +188,12 @@ class AlignGrid {
 
     this.graphics.beginPath();
     for (var i = 0; i < this.w; i += this.cw) {
-      this.graphics.moveTo(i, 0);
-      this.graphics.lineTo(i, this.h);
+      this.graphics.moveTo(i, 0 + (this.h * 0.2));
+      this.graphics.lineTo(i, this.h + (this.h * 0.2));
     }
     for (var i = 0; i < this.h; i += this.ch) {
-      this.graphics.moveTo(0, i);
-      this.graphics.lineTo(this.w, i);
+      this.graphics.moveTo(0, i + (this.h * 0.2));
+      this.graphics.lineTo(this.w, i + (this.h * 0.2));
     }
 
     this.graphics.strokePath();
@@ -190,7 +205,7 @@ class AlignGrid {
     //by adding half of the height and width
     //to the x and y of the coordinates
     var x2 = this.cw * xx + this.cw / 2;
-    var y2 = this.ch * yy + this.ch / 2 + document.body.offsetHeight * 0.2;
+    var y2 = this.ch * yy + this.ch / 2 + (this.h * 0.2);
     obj.x = x2;
     obj.y = y2;
   }

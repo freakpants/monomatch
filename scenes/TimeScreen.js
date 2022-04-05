@@ -29,8 +29,6 @@ export default class TimeScreen extends FindItScene {
     });
 
     console.log("initiating timer scene");
-    window.addEventListener("resize", this.resize);
-    this.resize();
 
     this.winner = air_console.getNickname(document.winningPlayerId);
 
@@ -108,9 +106,4 @@ export default class TimeScreen extends FindItScene {
     }
   }
 
-  resize() {
-    var canvas = this.game.canvas;
-    canvas.style.width = document.body.offsetWidth + "px";
-    canvas.style.height = document.body.offsetHeight + "px";
-  }
 }

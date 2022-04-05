@@ -145,8 +145,6 @@ export default class EndOfGame extends FindItScene {
     );
 
     console.log("initiating end of game screen");
-    window.addEventListener("resize", this.resize);
-    this.resize();
 
     graphics.fillGradientStyle(0x0d47a1, 0x0d47a1, 0x002171, 0x002171);
     graphics.fillRect(
@@ -174,9 +172,4 @@ export default class EndOfGame extends FindItScene {
     return this.sys.canvas.height * 0.5;
   }
 
-  resize() {
-    var canvas = this.game.canvas;
-    canvas.style.width = document.body.offsetWidth + "px";
-    canvas.style.height = document.body.offsetHeight + "px";
-  }
 }

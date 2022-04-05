@@ -16,8 +16,6 @@ export default class PauseScreen extends FindItScene {
         
 
         console.log("initiating pause screen");
-        window.addEventListener('resize', this.resize);
-        this.resize();
 
         var graphics = this.add.graphics();
 
@@ -42,11 +40,5 @@ export default class PauseScreen extends FindItScene {
     getCenterY()
     {
        return ( this.sys.canvas.height  ) * .5
-    }
-
-    resize() {
-        var canvas = this.game.canvas;
-        canvas.style.width = document.body.offsetWidth + 'px';
-        canvas.style.height = document.body.offsetHeight + 'px';
     }
 }
