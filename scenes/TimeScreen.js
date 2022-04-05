@@ -105,5 +105,4 @@ export default class TimeScreen extends FindItScene {
       document.somebodyScoredThisRound = false;
     }
   }
-
 }

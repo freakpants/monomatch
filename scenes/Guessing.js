@@ -43,18 +43,18 @@ export default class Guessing extends FindItScene {
     super.create();
 
     console.log(document.body.offsetHeight);
-    
+
     this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
     this.graphics.lineStyle(4, 0x002171, 1);
     this.graphics.strokeRoundedRect(32, 92, 150, 40, 20);
 
+    /* white line that helps see bounds 
     this.graphics.lineStyle(4, 0xffffff, 1);
-
     this.graphics.beginPath();
     this.graphics.moveTo(0, 0);
     this.graphics.lineTo(0, document.body.offsetHeight);
     this.graphics.lineTo(document.body.offsetWidth / 2, document.body.offsetHeight / 2);
-    this.graphics.lineTo(0, 0);
+    this.graphics.lineTo(0, 0); */
 
     this.graphics.strokePath();
 
@@ -65,10 +65,10 @@ export default class Guessing extends FindItScene {
       cols: 4,
       rows: 2,
       graphics: this.graphics,
-      canvas: document.game.canvas
+      canvas: document.game.canvas,
     };
     this.aGrid = new AlignGrid(gridConfig);
-    this.aGrid.showNumbers();
+    this.aGrid.showNumbers(1, document.game.canvas.width, document.game.canvas.height);
 
     this.assets = [];
     this.effects = [];
@@ -103,7 +103,14 @@ export default class Guessing extends FindItScene {
     );
 
     const layer = this.add.layer();
-    layer.add([bg, this.graphics, hashtag, round, this.players, this.playerAmount]);
+    layer.add([
+      bg,
+      this.graphics,
+      hashtag,
+      round,
+      this.players,
+      this.playerAmount,
+    ]);
 
     layer.bringToTop(hashtag);
 
@@ -120,20 +127,17 @@ export default class Guessing extends FindItScene {
           0,
           "asset" + document.set[0].icons[i]
         );
-        // this.assets[i] = this.add.image(0, 0, "asset" + 0);
-        this.aGrid.placeAt(col, row, this.assets[i]);
+        this.aGrid.placeAt(col, row, this.assets[i], document.game.canvas.height);
         this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
 
         // get a random number between 60 and 100
         var randomNumber = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
         randomNumber = randomNumber / 100;
         DEBUG && console.log("random: " + randomNumber);
-        this.assets[i].displayWidth =
-          this.assets[i].displayWidth * randomNumber;
+
+        this.assets[i].displayWidth * randomNumber;
 
         this.assets[i].scaleY = this.assets[i].scaleX;
-
-        // this.assets[i].setPostPipeline(GlowFilterPostFx);
 
         this.postFxPlugin.add(this.assets[i], {
           distance: 5,
@@ -165,10 +169,10 @@ class AlignGrid {
       config.cols = 3;
     }
     if (!config.width) {
-      config.width = config.canvas.style.width;
+      config.width = config.canvas.width;
     }
     if (!config.height) {
-      config.height = config.canvas.style.height * 0.8;
+      config.height = config.canvas.height * 0.8;
     }
     this.h = config.height;
     this.w = config.width;
@@ -180,32 +184,35 @@ class AlignGrid {
     this.cw = this.w / this.cols;
     //ch cell height is the scene height divided the number of rows
     this.ch = this.h / this.rows;
+
+    DEBUG && console.log("config: ");
+    DEBUG && console.log(config);
   }
   //mostly for planning and debugging this will
   //create a visual representation of the grid
-  showNumbers(a = 1) {
+  showNumbers(a = 1, canvasWidth, canvasHeight ) {
     this.graphics.lineStyle(4, 0xff0000, a);
 
     this.graphics.beginPath();
     for (var i = 0; i < this.w; i += this.cw) {
-      this.graphics.moveTo(i, 0 + (this.h * 0.2));
-      this.graphics.lineTo(i, this.h + (this.h * 0.2));
+      this.graphics.moveTo(i, 0 + canvasHeight * 0.2);
+      this.graphics.lineTo(i, this.h + canvasHeight * 0.2);
     }
     for (var i = 0; i < this.h; i += this.ch) {
-      this.graphics.moveTo(0, i + (this.h * 0.2));
-      this.graphics.lineTo(this.w, i + (this.h * 0.2));
+      this.graphics.moveTo(0, i + canvasHeight * 0.2);
+      this.graphics.lineTo(this.w, i + canvasHeight * 0.2);
     }
 
     this.graphics.strokePath();
   }
 
   //place an object in relation to the grid
-  placeAt(xx, yy, obj) {
+  placeAt(xx, yy, obj, canvasHeight) {
     //calculate the center of the cell
     //by adding half of the height and width
     //to the x and y of the coordinates
     var x2 = this.cw * xx + this.cw / 2;
-    var y2 = this.ch * yy + this.ch / 2 + (this.h * 0.2);
+    var y2 = this.ch * yy + this.ch / 2 + canvasHeight * 0.2;
     obj.x = x2;
     obj.y = y2;
   }
