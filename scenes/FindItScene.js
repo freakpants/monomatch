@@ -9,6 +9,8 @@ export default class FindItScene extends Phaser.Scene {
   }
 
   create() {
+    window.addEventListener('resize', this.resize);
+    this.resize();
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     var bg = this.add.image(0, 0, "bg").setScale(0.39).setOrigin(0, 0);
     this.graphics = this.add.graphics();
@@ -51,7 +53,7 @@ export default class FindItScene extends Phaser.Scene {
   }
 
   resize() {
-    var canvas = this.game.canvas;
+    var canvas = document.game.canvas;
     canvas.style.width = document.body.offsetWidth + "px";
     canvas.style.height = document.body.offsetHeight + "px";
   }

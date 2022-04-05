@@ -41,8 +41,6 @@ export default class Guessing extends FindItScene {
 
   create() {
     super.create();
-    window.addEventListener("resize", this.resize);
-    this.resize();
     
     this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
     this.graphics.lineStyle(4, 0x002171, 1);

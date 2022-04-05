@@ -23,8 +23,8 @@ export default class MainMenu extends FindItScene {
           });
 
         console.log("initiating main menu");
-        window.addEventListener('resize', this.resize);
-        this.resize();
+        
+        
 
         this.text = this.add.text(this.getCenterX(), this.getCenterY() + 200, this.staticText + 'Currently ' + document.connectedPlayersAmount + " are connected.", { fontSize: "30px", align: "center", color: '#ffffff', fontFamily: 'Luckiest Guy' }).setOrigin(0.5, 0.5);
           
