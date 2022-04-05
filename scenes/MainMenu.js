@@ -15,6 +15,7 @@ export default class MainMenu extends FindItScene {
     var roundAmount = false;
     super.create(roundAmount);
 
+
     console.log("initiating main menu");
 
     this.text = this.add
@@ -33,6 +34,10 @@ export default class MainMenu extends FindItScene {
         }
       )
       .setOrigin(0.5, 0.5);
+
+    
+    // this is mostly for when we come back from other places
+    this.handlePlayerCount();
 
     this.assets = [];
 
