@@ -33,10 +33,6 @@ export default class Guessing extends FindItScene {
 
   preload() {
     super.preload();
-    objects.forEach((object) => {
-      this.load.image("asset" + object.id, "assets/asset" + object.id + ".png");
-    });
-    this.load.svg("logo", "assets/find_it_logo.svg");
   }
 
   create() {

@@ -1,5 +1,9 @@
+import { objects } from "../objects.js";
 export default class FindItScene extends Phaser.Scene {
   preload() {
+    objects.forEach((object) => {
+      this.load.image("asset" + object.id, "assets/asset" + object.id + ".png");
+    });
     this.load.svg("logo", "assets/find_it_logo.svg");
     this.load.svg("bg", "assets/drawing-4.svg");
     this.load.image("music", "assets/music.png");
@@ -134,6 +138,6 @@ export default class FindItScene extends Phaser.Scene {
   }
 
   handleSceneChange(args) {
-    this.scene.start(args.targetScene);
+      this.scene.start(args.targetScene);
   }
 }

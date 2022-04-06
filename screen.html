@@ -51,8 +51,6 @@
         function init() {
             air_console = new AirConsole();
 
-            
-
             // Listen for messages from other devices
             air_console.onMessage = function (from, message) {
                 // handle message
@@ -314,12 +312,7 @@
                     height: "100%",
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
-                physics: {
-                    default: 'arcade',
-                    arcade: {
-                        gravity: { y: 200 }
-                    }
-                },
+                transparent: true,
                 dom: {
                     createContainer: true
                 },
