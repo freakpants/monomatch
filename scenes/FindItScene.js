@@ -2,6 +2,8 @@ export default class FindItScene extends Phaser.Scene {
   preload() {
     this.load.svg("logo", "assets/find_it_logo.svg");
     this.load.svg("bg", "assets/drawing-4.svg");
+    this.load.image("music", "assets/music.png");
+    this.load.image("music-slash", "assets/music-slash.png");
     this.load.plugin(
       "rexglowfilter2pipelineplugin",
       "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js",
@@ -12,6 +14,8 @@ export default class FindItScene extends Phaser.Scene {
   create(roundAmount = true) {
     // listen for playerConnection events triggered by the AirConsole
     this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
+    // listen for sceneChange by AirConsole
+    this.events.once("sceneChange", this.handleSceneChange, this);
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     // determine the lower of two numbers
     const a = 3840 / document.game.canvas.width;
@@ -47,8 +51,14 @@ export default class FindItScene extends Phaser.Scene {
     } else {
       this.add.dom(document.game.canvas.width - 70, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-volume-low"></i>');
     }
-    this.add.dom(document.game.canvas.width - 125, 53).createFromHTML('<i style="color:white; font-size: 30px" class="fa-solid fa-music"></i>');
-    
+    // place the music icon    
+    if(document.musicOff === true){
+      // strike through the music icon if music is off
+      this.music = this.add.image(document.game.canvas.width - 140, 35, "music-slash").setOrigin(0, 0);
+    } else {
+      this.music = this.add.image(document.game.canvas.width - 135, 35, "music").setScale(0.90).setOrigin(0, 0);
+    }
+
 
     
 
@@ -121,5 +131,9 @@ export default class FindItScene extends Phaser.Scene {
 
   handlePlayerCount() {
     this.playerAmount.setText(document.connectedPlayersAmount);
+  }
+
+  handleSceneChange(args) {
+    this.scene.start(args.targetScene);
   }
 }

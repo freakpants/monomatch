@@ -48,9 +48,9 @@ export default class Guessing extends FindItScene {
     this.graphics.moveTo(0, 0);
     this.graphics.lineTo(0, document.body.offsetHeight);
     this.graphics.lineTo(document.body.offsetWidth / 2, document.body.offsetHeight / 2);
-    this.graphics.lineTo(0, 0); */
+    this.graphics.lineTo(0, 0); 
 
-    this.graphics.strokePath();
+    this.graphics.strokePath(); */ 
 
     DEBUG && console.log("canvas: ") + this.canvas;
 
@@ -109,10 +109,7 @@ export default class Guessing extends FindItScene {
 
   update(){
     this.assets.forEach((asset) => {
-      console.log(asset.basedisplayWidth);
-      console.log(asset.displayWidth);
       if(asset.direction === "up"){
-        DEBUG && console.log("up");
         if(asset.displayWidth >= asset.basedisplayWidth){
           asset.displayWidth--;
           asset.displayHeight--;
@@ -122,7 +119,6 @@ export default class Guessing extends FindItScene {
           asset.displayHeight++;
         }
       } else {
-        DEBUG && console.log("down");
         if( asset.displayWidth <= asset.basedisplayWidth * 0.3){
           asset.displayWidth++;
           asset.displayHeight++;

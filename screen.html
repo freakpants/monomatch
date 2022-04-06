@@ -43,8 +43,15 @@
         */
 
         var DEBUG = true;
+        function sceneChange(targetScene){
+            DEBUG && console.log("scenechange to " + targetScene + " was triggered.");
+            document.game.scene.getScenes(true)[0].events.emit("sceneChange", {targetScene: targetScene});
+        }
+
         function init() {
             air_console = new AirConsole();
+
+            
 
             // Listen for messages from other devices
             air_console.onMessage = function (from, message) {
@@ -53,30 +60,20 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "options":
+                    break;
                     case "resume":
-                        document.game.scene.stop('timescreen');
-                        document.game.scene.stop('endofgame');
-                        document.game.scene.stop('mainmenu');
-                        document.game.scene.stop('pausescreen');
-                        document.game.scene.start('guessing');
+                        sceneChange("guessing");
                         var command = [];
                         command.push({ type: "resume" });
                         air_console.broadcast(command);
                         break;
                     case "pause":
                         // pause game
-                        document.game.scene.stop('timescreen');
-                        document.game.scene.stop('guessing');
-                        document.game.scene.stop('endofgame');
-                        document.game.scene.stop('mainmenu');
-                        document.game.scene.start('pausescreen');
+                        sceneChange("pausescreen");
                         break;
                     case "back_to_main":
-                        document.game.scene.stop('timescreen');
-                        document.game.scene.stop('guessing');
-                        document.game.scene.stop('endofgame');
-                        document.game.scene.stop('pausescreen');
-                        document.game.scene.start('mainmenu');
+                        sceneChange("mainmenu");
                         break;
                     case "correct":
                         if (document.somebodyScoredThisRound) {
@@ -143,12 +140,10 @@
                             game_over_message.push({ type: "game_over" });
                             DEBUG && console.log("sending game over message");
                             air_console.broadcast(game_over_message);
-                            document.game.scene.start('endofgame');
+                            sceneChange('endofgame');
                         } else {
                             // change the phaser scene
-                            document.game.scene.stop('guessing');
-                            document.game.scene.stop('timescreen');
-                            document.game.scene.start('timescreen');
+                            sceneChange("timescreen");
                             document.next_set_id = message[0].set_id;
 
                             document.round++;
@@ -235,8 +230,7 @@
                         });
 
                         // change the phaser scene
-                        document.game.scene.stop('mainmenu');
-                        document.game.scene.start('guessing');
+                        sceneChange("guessing");
 
                         break;
                 }

@@ -46,6 +46,11 @@
                 command.push({ type: "resume" });
                 air_console.message(0, command);
             });
+            $("#options").click(function (event) {
+                var command = [];
+                command.push({ type: "options" });
+                air_console.message(0, command);
+            });
             $("#quit").click(function (event) {
                 // get other clients to show waiting for master screen
                 game_over_message = [];
