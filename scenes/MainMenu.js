@@ -37,7 +37,7 @@ export default class MainMenu extends FindItScene {
 
     
     // this is mostly for when we come back from other places
-    this.handlePlayerCount();
+    // this.handlePlayerCount();
 
     this.assets = [];
 
@@ -45,18 +45,15 @@ export default class MainMenu extends FindItScene {
     this.add.image(this.getCenterX(), 300, "logo");
   }
 
-  // overwrite the function to also update the gametext
+  // update the gametext
   handlePlayerCount() {
-    super.handlePlayerCount();
     if (
       document.connectedPlayersAmount >= 2 &&
       document.connectedPlayersAmount <= 8
     ) {
       this.text.setText(this.staticText + "The game can start.");
-      this.playerAmount.setColor("#00ff00");
     } else {
       this.text.setText(this.staticText + "The game cannot start.");
-      this.playerAmount.setColor("#ff0000");
     }
   }
 }
