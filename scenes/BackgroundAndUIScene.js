@@ -2,6 +2,7 @@ import FindItScene from "./FindItScene.js";
 export default class BackGroundAndUIScene extends FindItScene {
   constructor() {
     super("backgroundanduiscene");
+    this.showRoundAmount = false;
   }
   preload() {
     super.preload();
@@ -15,7 +16,7 @@ export default class BackGroundAndUIScene extends FindItScene {
     this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
   }
 
-  create(roundAmount = true) {
+  create() {
     super.create();
     // listen for playerConnection events triggered by the AirConsole
     this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
@@ -57,39 +58,6 @@ export default class BackGroundAndUIScene extends FindItScene {
         .setOrigin(0, 0);
     }
 
-    if (roundAmount) {
-      // draw the ui area for the round amount
-      this.graphics.fillRoundedRect(32, 92, 150, 40, 20);
-      this.graphics.lineStyle(4, 0x002171, 1);
-      this.graphics.strokeRoundedRect(32, 92, 150, 40, 20);
-      // place the hashtag icon
-      this.hashtag = this.add.text(20, 60, "#", {
-        fontSize: "90px",
-        align: "center",
-        color: "#002171",
-        fontFamily: "Luckiest Guy",
-      });
-      // place glow on hashtag icon
-      this.postFxPlugin.add(this.hashtag, {
-        distance: 5,
-        outerStrength: 1,
-        innerStrength: 1,
-        glowColor: 0xffffff,
-        quality: 1,
-      });
-      // place the round Amount text
-      this.round = this.add.text(
-        90,
-        95,
-        document.round + "/" + document.maxRound,
-        {
-          fontSize: "30px",
-          align: "center",
-          color: "white",
-          fontFamily: "Luckiest Guy",
-        }
-      );
-    }
     this.players = this.add.text(20, 20, "👥", {
       fontSize: "45px",
       align: "center",
@@ -122,10 +90,49 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleSceneChange(scene) {
+    if (scene === "mainmenu") {
+        this.roundAmountGraphics.destroy();
+        this.hashtag.destroy();
+        this.round.destroy();
+    } else if (this.roundAmountGraphics === undefined || this.roundAmountGraphics.scene === undefined) {
+      // draw the ui area for the round amount
+      this.roundAmountGraphics = this.add.graphics();
+      this.roundAmountGraphics.fillRoundedRect(32, 92, 150, 40, 20);
+      this.roundAmountGraphics.lineStyle(4, 0x002171, 1);
+      this.roundAmountGraphics.strokeRoundedRect(32, 92, 150, 40, 20);
+      // place the hashtag icon
+      this.hashtag = this.add.text(20, 60, "#", {
+        fontSize: "90px",
+        align: "center",
+        color: "#002171",
+        fontFamily: "Luckiest Guy",
+      });
+      // place glow on hashtag icon
+      this.postFxPlugin.add(this.hashtag, {
+        distance: 5,
+        outerStrength: 1,
+        innerStrength: 1,
+        glowColor: 0xffffff,
+        quality: 1,
+      });
+      // place the round Amount text
+      this.round = this.add.text(
+        90,
+        95,
+        document.round + "/" + document.maxRound,
+        {
+          fontSize: "30px",
+          align: "center",
+          color: "white",
+          fontFamily: "Luckiest Guy",
+        }
+      );
+    }
+
     DEBUG && console.log("handleSceneChange was invoked with:");
     DEBUG && console.log(scene);
     // stop the second scene that is running above us
     this.scene.stop(document.game.scene.getScenes(true)[1]);
     this.scene.launch(scene);
-}
+  }
 }

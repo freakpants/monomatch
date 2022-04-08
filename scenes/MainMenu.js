@@ -12,10 +12,7 @@ export default class MainMenu extends FindItScene {
   }
 
   create() {
-    var roundAmount = false;
-    super.create(roundAmount);
-
-
+    super.create();
     console.log("initiating main menu");
 
     this.text = this.add

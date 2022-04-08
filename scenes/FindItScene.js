@@ -17,7 +17,6 @@ export default class FindItScene extends Phaser.Scene {
 
   create() {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
-  
   }
 
   getCenterX() {
