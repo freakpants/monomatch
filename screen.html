@@ -297,6 +297,7 @@
         import TimeScreen from './scenes/TimeScreen.js';
         import EndOfGame from './scenes/EndOfGame.js';
         import PauseScreen from './scenes/PauseScreen.js';
+        import BootScene from './scenes/BootScene.js';
         import { objects, projective_sets } from './objects.js';
 
         $(document).ready(function () {
@@ -312,7 +313,7 @@
                     height: "100%",
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
-                scene: [MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen]
+                scene: [BootScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen]
             };
 
             document.game = new Phaser.Game(config);

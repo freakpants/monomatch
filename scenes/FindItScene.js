@@ -15,18 +15,21 @@ export default class FindItScene extends Phaser.Scene {
     );
   }
 
+  init(){
+    const a = 3840 / document.game.canvas.width;
+    const b = 2160 / document.game.canvas.height;
+    const scale = 1 / (a < b ? a : b);
+    DEBUG && console.log("scale:" + scale);
+    this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
+  }
+
   create(roundAmount = true) {
     // listen for playerConnection events triggered by the AirConsole
     this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
     // listen for sceneChange by AirConsole
     this.events.once("sceneChange", this.handleSceneChange, this);
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
-    // determine the lower of two numbers
-    const a = 3840 / document.game.canvas.width;
-    const b = 2160 / document.game.canvas.height;
-    const scale = 1 / (a < b ? a : b);
-    DEBUG && console.log("scale:" + scale);
-    this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
+    
     this.graphics = this.add.graphics();
     // draw the ui area for the player amount
     this.graphics.fillStyle(0x2962ff, 1);
