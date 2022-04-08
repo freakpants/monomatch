@@ -19,6 +19,14 @@ export default class FindItScene extends Phaser.Scene {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
   }
 
+  update(){
+    if(document.game.scale.gameSize._width !== document.game.scale.parentSize._width || document.game.scale.gameSize._height !== document.game.scale.parentSize._height){
+      DEBUG && console.log("resize event");
+      document.game.scale.resize(document.game.scale.parentSize._width, document.game.scale.parentSize._height);
+      this.scene.restart();
+    } 
+  }
+
   getCenterX() {
     return this.sys.canvas.width * 0.5;
   }

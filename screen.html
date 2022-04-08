@@ -44,7 +44,7 @@
         */
 
         var DEBUG = true;
-        function sceneChange(targetScene){
+        function sceneChange(targetScene) {
             DEBUG && console.log("scenechange to " + targetScene + " was triggered.");
             document.game.scene.getScene('backgroundanduiscene').events.emit("sceneChange", targetScene);
         }
@@ -60,7 +60,7 @@
 
                 switch (type) {
                     case "options":
-                    break;
+                        break;
                     case "resume":
                         sceneChange("guessing");
                         var command = [];

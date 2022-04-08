@@ -42,6 +42,10 @@ export default class MainMenu extends FindItScene {
     this.add.image(this.getCenterX(), 300, "logo");
   }
 
+  update(){
+    super.update();
+  }
+
   // update the gametext
   handlePlayerCount() {
     if (
