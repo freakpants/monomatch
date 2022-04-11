@@ -73,7 +73,7 @@ export default class Guessing extends FindItScene {
           "asset" + document.set[0].icons[i]
         );
         this.aGrid.placeAt(col, row, this.assets[i], document.game.canvas.height);
-        this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6;
+        this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6 * document.uiScale;
         this.assets[i].basedisplayWidth = this.assets[i].displayWidth;
         // assign random direction
         this.assets[i].direction = Math.random() > 0.5 ? "up" : "down";
