@@ -34,11 +34,15 @@ export default class FindItScene extends Phaser.Scene {
         // null check in case our background scene crashes
         document.game.scene.getScenes(true)[1].scene.restart();
       }
-      if(document.game.scene.getScene("backgroundanduiscene") !== undefined){
-        document.game.scene.getScene("backgroundanduiscene").scene.restart({origin: "resize", mainmenuactive: document.game.scene.getScenes(true)[1].scene.key === 'mainmenu'});
+      DEBUG && console.log("attempting to get backgorund scene:");
+      DEBUG && console.log(document.game.scene.getScene("backgroundanduiscene"));
+      const bgScene = document.game.scene.getScene("backgroundanduiscene");
+      const secondScene = document.game.scene.getScenes(true)[1];
+      if(bgScene !== undefined && secondScene !== undefined){
+        bgScene.scene.restart({origin: "resize", mainmenuactive: secondScene.scene.key === 'mainmenu'});
       } else {
         // attempt to restart the crashed bg
-        this.game.launch("backgroundanduiscene");
+        this.scene.launch("backgroundanduiscene");
       }
      
     } 
