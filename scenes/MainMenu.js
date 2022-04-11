@@ -13,18 +13,19 @@ export default class MainMenu extends FindItScene {
 
   create() {
     super.create();
+    const uiScale = document.uiScale;
     console.log("initiating main menu");
 
     this.text = this.add
       .text(
         this.getCenterX(),
-        this.getCenterY() + 200,
+        this.getCenterY() + 200 * uiScale,
         this.staticText +
           "Currently " +
           document.connectedPlayersAmount +
           " are connected.",
         {
-          fontSize: "30px",
+          fontSize: 30 * uiScale + "px",
           align: "center",
           color: "#ffffff",
           fontFamily: "Luckiest Guy",
@@ -39,7 +40,7 @@ export default class MainMenu extends FindItScene {
     this.assets = [];
 
     // this.add.image(this.getCenterX(), 300, "logo").setScale(0.5);
-    this.add.image(this.getCenterX(), 300, "logo");
+    this.add.image(this.getCenterX(), 300 * uiScale, "logo").setScale(0.75 * uiScale);
   }
 
   // update the gametext

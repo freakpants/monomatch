@@ -28,43 +28,45 @@ export default class BackGroundAndUIScene extends FindItScene {
       this.events.on("sceneChange", this.handleSceneChange, this);
     }
 
+    const uiScale = document.uiScale;
+
     this.graphics = this.add.graphics();
     // draw the ui area for the player amount
     this.graphics.fillStyle(0x2962ff, 1);
-    this.graphics.fillRoundedRect(32, 32, 150, 40, 20);
+    this.graphics.fillRoundedRect(32 * uiScale, 32 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
     this.graphics.lineStyle(4, 0x002171, 1);
-    this.graphics.strokeRoundedRect(32, 32, 150, 40, 20);
+    this.graphics.strokeRoundedRect(32 * uiScale, 32 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
     // draw the ui area for the sound elements
     this.graphics.fillRoundedRect(
-      document.game.canvas.width - 152,
-      32,
-      120,
-      40,
-      20
+      document.game.canvas.width - 152  * uiScale,
+      32  * uiScale,
+      120  * uiScale,
+      40  * uiScale,
+      20  * uiScale
     );
     this.graphics.lineStyle(4, 0x002171, 1);
     this.graphics.strokeRoundedRect(
-      document.game.canvas.width - 152,
-      32,
-      120,
-      40,
-      20
+      document.game.canvas.width - 152  * uiScale,
+      32 * uiScale,
+      120 * uiScale,
+      40 * uiScale,
+      20 * uiScale
     );
     // place the music icon
     if (document.musicOff === true) {
       // strike through the music icon if music is off
       this.music = this.add
-        .image(document.game.canvas.width - 140, 35, "music-slash")
+        .image(document.game.canvas.width - 140 * uiScale, 35 * uiScale, "music-slash")
         .setOrigin(0, 0);
     } else {
       this.music = this.add
-        .image(document.game.canvas.width - 135, 35, "music")
-        .setScale(0.9)
+        .image(document.game.canvas.width - 135 * uiScale, 35 * uiScale, "music")
+        .setScale(0.9 * uiScale)
         .setOrigin(0, 0);
     }
 
-    this.players = this.add.text(20, 20, "👥", {
-      fontSize: "45px",
+    this.players = this.add.text(20 * uiScale, 20 * uiScale, "👥", {
+      fontSize: 45 * uiScale + "px",
       align: "center",
       color: "#002171",
       fontFamily: "Luckiest Guy",
@@ -77,11 +79,11 @@ export default class BackGroundAndUIScene extends FindItScene {
       quality: 1,
     });
     this.playerAmount = this.add.text(
-      112,
-      35,
+      112 * uiScale,
+      35 * uiScale,
       document.connectedPlayersAmount,
       {
-        fontSize: "30px",
+        fontSize: 30 * uiScale + "px",
         align: "center",
         color: "white",
         fontFamily: "Luckiest Guy",
@@ -103,14 +105,16 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   drawRoundAmountUi() {
+    const uiScale = document.uiScale;
+
     // draw the ui area for the round amount
     this.roundAmountGraphics = this.add.graphics();
-    this.roundAmountGraphics.fillRoundedRect(32, 92, 150, 40, 20);
+    this.roundAmountGraphics.fillRoundedRect(32 * uiScale, 92 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
     this.roundAmountGraphics.lineStyle(4, 0x002171, 1);
-    this.roundAmountGraphics.strokeRoundedRect(32, 92, 150, 40, 20);
+    this.roundAmountGraphics.strokeRoundedRect(32 * uiScale, 92 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
     // place the hashtag icon
-    this.hashtag = this.add.text(20, 60, "#", {
-      fontSize: "90px",
+    this.hashtag = this.add.text(20 * uiScale, 60 * uiScale, "#", {
+      fontSize: 90 * uiScale + "px",
       align: "center",
       color: "#002171",
       fontFamily: "Luckiest Guy",
@@ -125,11 +129,11 @@ export default class BackGroundAndUIScene extends FindItScene {
     });
     // place the round Amount text
     this.round = this.add.text(
-      90,
-      95,
+      90 * uiScale,
+      95 * uiScale,
       document.round + "/" + document.maxRound,
       {
-        fontSize: "30px",
+        fontSize: 30 * uiScale  + "px",
         align: "center",
         color: "white",
         fontFamily: "Luckiest Guy",

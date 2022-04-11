@@ -24,6 +24,7 @@ export default class FindItScene extends Phaser.Scene {
       DEBUG && console.log("resize event from scene:" + this.scene.key);
       DEBUG && console.log("active scenes:");
       DEBUG && console.log(document.game.scene.getScenes(true));
+      document.uiScale = 1016 / document.game.scale.parentSize._height;
       document.game.scale.resize(document.game.scale.parentSize._width, document.game.scale.parentSize._height);
       // restart all active scenes so the background is also resized
       document.game.scene.getScenes(true)[1].scene.restart();

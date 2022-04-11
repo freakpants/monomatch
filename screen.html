@@ -321,6 +321,8 @@
 
             document.game = new Phaser.Game(config);
 
+            document.uiScale = 1016 / document.game.scale.parentSize._height;
+
         });
 
         var air_console;
