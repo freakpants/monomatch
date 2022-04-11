@@ -34,7 +34,7 @@ export default class BackGroundAndUIScene extends FindItScene {
     // draw the ui area for the player amount
     this.graphics.fillStyle(0x2962ff, 1);
     this.graphics.fillRoundedRect(32 * uiScale, 32 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
-    this.graphics.lineStyle(4, 0x002171, 1);
+    this.graphics.lineStyle(4 * uiScale, 0x002171, 1);
     this.graphics.strokeRoundedRect(32 * uiScale, 32 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
     // draw the ui area for the sound elements
     this.graphics.fillRoundedRect(
@@ -110,7 +110,7 @@ export default class BackGroundAndUIScene extends FindItScene {
     // draw the ui area for the round amount
     this.roundAmountGraphics = this.add.graphics();
     this.roundAmountGraphics.fillRoundedRect(32 * uiScale, 92 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
-    this.roundAmountGraphics.lineStyle(4, 0x002171, 1);
+    this.roundAmountGraphics.lineStyle(4 * uiScale, 0x002171, 1);
     this.roundAmountGraphics.strokeRoundedRect(32 * uiScale, 92 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
     // place the hashtag icon
     this.hashtag = this.add.text(20 * uiScale, 60 * uiScale, "#", {

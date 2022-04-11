@@ -13,7 +13,7 @@ export default class PauseScreen extends FindItScene {
     super.create();
     const uiScale = document.uiScale;
     console.log("initiating pause screen");
-    this.add.image(this.getCenterX(), 300 * uiScale, "logo");
+    this.add.image(this.getCenterX(), 300 * uiScale, "logo").setScale(0.75 * uiScale);
     this.text = this.add
       .text(this.getCenterX(), this.getCenterY() + 200 * uiScale , this.staticText, {
         fontSize: 45 * uiScale + "px",
