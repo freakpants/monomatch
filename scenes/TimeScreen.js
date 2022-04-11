@@ -6,14 +6,7 @@ export default class TimeScreen extends FindItScene {
   }
 
   preload() {
-    document.profile_pictures = [];
-    // get the avatar image of the winner from airconsole
-    // this.load.image("winner_avatar", air_console.getProfilePicture(document.winningPlayerId));
-    air_console.getControllerDeviceIds().forEach((id) => {
-      const asset_id = "profile_" + id;
-      this.load.image(asset_id, air_console.getProfilePicture(id));
-      document.profile_pictures[id] = asset_id;
-    });
+    super.preload();
   }
 
   create() {
@@ -35,7 +28,7 @@ export default class TimeScreen extends FindItScene {
 
     this.add.image(
       this.getCenterX(),
-      300 * uiScale,
+      this.getCenterY() - 150 * uiScale,
       document.profile_pictures[document.winningPlayerId]
     );
 

@@ -13,6 +13,12 @@ export default class FindItScene extends Phaser.Scene {
       "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js",
       true
     );
+    document.profile_pictures = [];
+    air_console.getControllerDeviceIds().forEach((id) => {
+      const asset_id = "profile_" + id;
+      this.load.image(asset_id, air_console.getProfilePicture(id, Math.floor(110 * document.uiScale)));
+      document.profile_pictures[id] = asset_id;
+    });
   }
 
   create() {
