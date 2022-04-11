@@ -21,11 +21,10 @@ export default class BackGroundAndUIScene extends FindItScene {
     // listen for playerConnection events triggered by the AirConsole
     this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
     // only add event listener if it doesnt exist already
-    if(this.events._events.sceneChange === undefined){
-        // listen for sceneChange by AirConsole
-        this.events.on("sceneChange", this.handleSceneChange, this);
+    if (this.events._events.sceneChange === undefined) {
+      // listen for sceneChange by AirConsole
+      this.events.on("sceneChange", this.handleSceneChange, this);
     }
-    
 
     this.graphics = this.add.graphics();
     // draw the ui area for the player amount
@@ -86,7 +85,10 @@ export default class BackGroundAndUIScene extends FindItScene {
         fontFamily: "Luckiest Guy",
       }
     );
-    this.scene.launch("mainmenu");
+    // if we are coming from the bootscene, initialize the mainmenu
+    if(document.game.scene.getScenes(true).length === 0){
+        this.scene.launch("mainmenu");
+    }
   }
 
   handlePlayerCount() {
@@ -95,10 +97,13 @@ export default class BackGroundAndUIScene extends FindItScene {
 
   handleSceneChange(scene) {
     if (scene === "mainmenu") {
-        this.roundAmountGraphics.destroy();
-        this.hashtag.destroy();
-        this.round.destroy();
-    } else if (this.roundAmountGraphics === undefined || this.roundAmountGraphics.scene === undefined) {
+      this.roundAmountGraphics.destroy();
+      this.hashtag.destroy();
+      this.round.destroy();
+    } else if (
+      this.roundAmountGraphics === undefined ||
+      this.roundAmountGraphics.scene === undefined
+    ) {
       // draw the ui area for the round amount
       this.roundAmountGraphics = this.add.graphics();
       this.roundAmountGraphics.fillRoundedRect(32, 92, 150, 40, 20);
