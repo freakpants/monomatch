@@ -321,7 +321,7 @@
 
             document.game = new Phaser.Game(config);
 
-            document.uiScale = 1016 / document.game.scale.parentSize._height;
+            document.uiScale = (1920 * 1016) / (document.game.scale.parentSize._width * document.game.scale.parentSize._height);
 
         });
 
