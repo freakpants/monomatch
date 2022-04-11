@@ -27,7 +27,7 @@ export default class FindItScene extends Phaser.Scene {
       document.game.scale.resize(document.game.scale.parentSize._width, document.game.scale.parentSize._height);
       // restart all active scenes so the background is also resized
       document.game.scene.getScenes(true)[1].scene.restart();
-      document.game.scene.getScene("backgroundanduiscene").scene.restart({origin: "resize"});
+      document.game.scene.getScene("backgroundanduiscene").scene.restart({origin: "resize", mainmenuactive: document.game.scene.getScenes(true)[1].scene.key === 'mainmenu'});
     } 
   }
 

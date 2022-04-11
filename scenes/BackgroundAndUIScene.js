@@ -10,6 +10,7 @@ export default class BackGroundAndUIScene extends FindItScene {
 
   init(data) {
     this.origin = data.origin;
+    this.mainmenuactive = data.mainmenuactive;
     const a = 3840 / document.game.canvas.width;
     const b = 2160 / document.game.canvas.height;
     const scale = 1 / (a < b ? a : b);
@@ -86,6 +87,10 @@ export default class BackGroundAndUIScene extends FindItScene {
         fontFamily: "Luckiest Guy",
       }
     );
+    if(this.origin === "resize" && this.mainmenuactive === false){
+        this.drawRoundAmountUi();
+    }
+
     // if we are coming from the bootscene, initialize the mainmenu
     if(this.origin === "bootscene") {
         DEBUG && console.log("coming from bootscene, launching mainmenu");
@@ -97,6 +102,41 @@ export default class BackGroundAndUIScene extends FindItScene {
     this.playerAmount.setText(document.connectedPlayersAmount);
   }
 
+  drawRoundAmountUi() {
+    // draw the ui area for the round amount
+    this.roundAmountGraphics = this.add.graphics();
+    this.roundAmountGraphics.fillRoundedRect(32, 92, 150, 40, 20);
+    this.roundAmountGraphics.lineStyle(4, 0x002171, 1);
+    this.roundAmountGraphics.strokeRoundedRect(32, 92, 150, 40, 20);
+    // place the hashtag icon
+    this.hashtag = this.add.text(20, 60, "#", {
+      fontSize: "90px",
+      align: "center",
+      color: "#002171",
+      fontFamily: "Luckiest Guy",
+    });
+    // place glow on hashtag icon
+    this.postFxPlugin.add(this.hashtag, {
+      distance: 5,
+      outerStrength: 1,
+      innerStrength: 1,
+      glowColor: 0xffffff,
+      quality: 1,
+    });
+    // place the round Amount text
+    this.round = this.add.text(
+      90,
+      95,
+      document.round + "/" + document.maxRound,
+      {
+        fontSize: "30px",
+        align: "center",
+        color: "white",
+        fontFamily: "Luckiest Guy",
+      }
+    );
+  }
+
   handleSceneChange(scene) {
     if (scene === "mainmenu") {
       this.roundAmountGraphics.destroy();
@@ -106,38 +146,7 @@ export default class BackGroundAndUIScene extends FindItScene {
       this.roundAmountGraphics === undefined ||
       this.roundAmountGraphics.scene === undefined
     ) {
-      // draw the ui area for the round amount
-      this.roundAmountGraphics = this.add.graphics();
-      this.roundAmountGraphics.fillRoundedRect(32, 92, 150, 40, 20);
-      this.roundAmountGraphics.lineStyle(4, 0x002171, 1);
-      this.roundAmountGraphics.strokeRoundedRect(32, 92, 150, 40, 20);
-      // place the hashtag icon
-      this.hashtag = this.add.text(20, 60, "#", {
-        fontSize: "90px",
-        align: "center",
-        color: "#002171",
-        fontFamily: "Luckiest Guy",
-      });
-      // place glow on hashtag icon
-      this.postFxPlugin.add(this.hashtag, {
-        distance: 5,
-        outerStrength: 1,
-        innerStrength: 1,
-        glowColor: 0xffffff,
-        quality: 1,
-      });
-      // place the round Amount text
-      this.round = this.add.text(
-        90,
-        95,
-        document.round + "/" + document.maxRound,
-        {
-          fontSize: "30px",
-          align: "center",
-          color: "white",
-          fontFamily: "Luckiest Guy",
-        }
-      );
+      this.drawRoundAmountUi();
     }
 
     DEBUG && console.log("handleSceneChange was invoked with:");
