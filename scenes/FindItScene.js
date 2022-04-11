@@ -17,18 +17,30 @@ export default class FindItScene extends Phaser.Scene {
 
   create() {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
+    this.resizeHappening = false;
   }
 
   update(){
-    if(document.game.scale.gameSize._width !== document.game.scale.parentSize._width || document.game.scale.gameSize._height !== document.game.scale.parentSize._height){
+    if(!this.resizeHappening && document.game.scale.gameSize._width !== document.game.scale.parentSize._width || document.game.scale.gameSize._height !== document.game.scale.parentSize._height){
+      this.resizeHappening = true;
+      this.time.delayedCall(1000, () => (this.resizeHappening = false));
       DEBUG && console.log("resize event from scene:" + this.scene.key);
       DEBUG && console.log("active scenes:");
       DEBUG && console.log(document.game.scene.getScenes(true));
       document.uiScale = Math.sqrt((document.game.scale.parentSize._width * document.game.scale.parentSize._height) / (1920 * 1016));
       document.game.scale.resize(document.game.scale.parentSize._width, document.game.scale.parentSize._height);
       // restart all active scenes so the background is also resized
-      document.game.scene.getScenes(true)[1].scene.restart();
-      document.game.scene.getScene("backgroundanduiscene").scene.restart({origin: "resize", mainmenuactive: document.game.scene.getScenes(true)[1].scene.key === 'mainmenu'});
+      if(document.game.scene.getScenes(true).length > 1){
+        // null check in case our background scene crashes
+        document.game.scene.getScenes(true)[1].scene.restart();
+      }
+      if(document.game.scene.getScene("backgroundanduiscene") !== undefined){
+        document.game.scene.getScene("backgroundanduiscene").scene.restart({origin: "resize", mainmenuactive: document.game.scene.getScenes(true)[1].scene.key === 'mainmenu'});
+      } else {
+        // attempt to restart the crashed bg
+        this.game.launch("backgroundanduiscene");
+      }
+     
     } 
   }
 
