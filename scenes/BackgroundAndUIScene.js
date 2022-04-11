@@ -20,8 +20,12 @@ export default class BackGroundAndUIScene extends FindItScene {
     super.create();
     // listen for playerConnection events triggered by the AirConsole
     this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
-    // listen for sceneChange by AirConsole
-    this.events.on("sceneChange", this.handleSceneChange, this);
+    // only add event listener if it doesnt exist already
+    if(this.events._events.sceneChange === undefined){
+        // listen for sceneChange by AirConsole
+        this.events.on("sceneChange", this.handleSceneChange, this);
+    }
+    
 
     this.graphics = this.add.graphics();
     // draw the ui area for the player amount
@@ -132,7 +136,12 @@ export default class BackGroundAndUIScene extends FindItScene {
     DEBUG && console.log("handleSceneChange was invoked with:");
     DEBUG && console.log(scene);
     // stop the second scene that is running above us
-    this.scene.stop(document.game.scene.getScenes(true)[1]);
+    const stopScene = document.game.scene.getScenes(true)[1];
+    DEBUG && console.log("stopScene:");
+    DEBUG && console.log(stopScene);
+    this.scene.stop(stopScene);
+    DEBUG && console.log("launching scene:");
+    DEBUG && console.log(scene);
     this.scene.launch(scene);
   }
 }
