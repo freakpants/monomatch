@@ -18,6 +18,7 @@ export default class TimeScreen extends FindItScene {
 
   create() {
     super.create();
+    const uiScale = document.uiScale;
     this.initialTime = 5;
 
     // Each 1000 ms call onEvent
@@ -34,7 +35,7 @@ export default class TimeScreen extends FindItScene {
 
     this.add.image(
       this.getCenterX(),
-      300,
+      300 * uiScale,
       document.profile_pictures[document.winningPlayerId]
     );
 
@@ -45,7 +46,7 @@ export default class TimeScreen extends FindItScene {
         " was the fastest!\nNext Round begins in" +
         this.initialTime,
       {
-        fontSize: "45px",
+        fontSize: 45 * uiScale + "px",
         align: "center",
         color: "#ffffff",
         fontFamily: "Luckiest Guy",
