@@ -8,7 +8,8 @@ export default class BackGroundAndUIScene extends FindItScene {
     super.preload();
   }
 
-  init() {
+  init(data) {
+    this.origin = data.origin;
     const a = 3840 / document.game.canvas.width;
     const b = 2160 / document.game.canvas.height;
     const scale = 1 / (a < b ? a : b);
@@ -86,7 +87,8 @@ export default class BackGroundAndUIScene extends FindItScene {
       }
     );
     // if we are coming from the bootscene, initialize the mainmenu
-    if(document.game.scene.getScenes(true).length === 0){
+    if(this.origin === "bootscene") {
+        DEBUG && console.log("coming from bootscene, launching mainmenu");
         this.scene.launch("mainmenu");
     }
   }

@@ -8,7 +8,7 @@ export default class BootScene extends FindItScene {
     }
     
     create () {
-      this.scene.start('backgroundanduiscene');
+      this.scene.start('backgroundanduiscene', {origin: "bootscene"});
     }
   }
   
