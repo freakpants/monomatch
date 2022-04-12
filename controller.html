@@ -121,6 +121,15 @@
 
             DEBUG && console.log("airconsole init");
 
+            // listen for players connecting, that could possible mean we are not master anymore
+            air_console.onConnect = function () {
+                DEBUG && console.log("checking if this controller is not master anymore");
+                if (!am_i_master()) {
+                    // hide all menu buttons
+                    $(".button").hide();
+                }
+            };
+
             air_console.onMessage = function (from, data) {
 
                 DEBUG && console.log("received " + data[0].type + " message on controller");
