@@ -58,6 +58,11 @@
                 command.push({ type: "toggle-music" });
                 air_console.message(0, command);
             });
+            $("#sfx").click(function (event) {
+                var command = [];
+                command.push({ type: "toggle-sfx" });
+                air_console.message(0, command);
+            });
             $("#quit").click(function (event) {
                 // get other clients to show waiting for master screen
                 game_over_message = [];

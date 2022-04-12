@@ -70,7 +70,9 @@ export default class BackGroundAndUIScene extends FindItScene {
       20 * uiScale
     );
     // place the music icon
-    this.drawMusicIcon(document.musicOff);
+    this.drawMusicIcon();
+    // place the sfx icon
+    this.drawSFXIcon();
 
     this.players = this.add.text(20 * uiScale, 20 * uiScale, "👥", {
       fontSize: 45 * uiScale + "px",
@@ -106,10 +108,10 @@ export default class BackGroundAndUIScene extends FindItScene {
       this.scene.launch("mainmenu");
     }
   }
-  
-  drawMusicIcon(){
+
+  drawMusicIcon() {
     const uiScale = document.uiScale;
-    if(typeof this.music !== "undefined"){
+    if (typeof this.music !== "undefined") {
       this.music.destroy();
     }
     if (document.musicOff) {
@@ -129,6 +131,28 @@ export default class BackGroundAndUIScene extends FindItScene {
           35 * uiScale,
           "music"
         )
+        .setScale(0.9 * uiScale)
+        .setOrigin(0, 0);
+    }
+  }
+
+  drawSFXIcon() {
+    const uiScale = document.uiScale;
+    if (typeof this.sfx !== "undefined") {
+      this.sfx.destroy();
+    }
+    if (document.sfxOff) {
+      this.sfx = this.add
+        .image(
+          document.game.canvas.width - 90 * uiScale,
+          37 * uiScale,
+          "sfx-cross"
+        )
+        .setScale(0.9 * uiScale)
+        .setOrigin(0, 0);
+    } else {
+      this.sfx = this.add
+        .image(document.game.canvas.width - 90 * uiScale, 37 * uiScale, "sfx")
         .setScale(0.9 * uiScale)
         .setOrigin(0, 0);
     }
@@ -188,10 +212,13 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleOptionChange(option) {
-    switch(option){
+    switch (option) {
       case "music":
         this.drawMusicIcon();
-      break;
+        break;
+      case "sfx":
+        this.drawSFXIcon();
+        break;
     }
   }
 

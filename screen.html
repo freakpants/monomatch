@@ -59,15 +59,24 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "toggle-sfx":
+                        if (document.sfxOff) {
+                            document.sfxOff = false;
+                        } else {
+                            document.sfxOff = true;
+                        }
+                        document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "sfx");
+                        sceneChange("musicoptionsscene");
+                        break;
                     case "toggle-music":
-                        
-                        if(document.musicOff){
+
+                        if (document.musicOff) {
                             $("#music-element").prop("volume", 1);
                             document.musicOff = false;
                         } else {
                             $("#music-element").prop("volume", 0);
                             document.musicOff = true;
-                        } 
+                        }
                         document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "music");
                         sceneChange("musicoptionsscene");
                         break;

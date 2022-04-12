@@ -10,6 +10,12 @@ export default class FindItScene extends Phaser.Scene {
     this.load.image("music-big", "assets/music-big.png");
     this.load.image("music-slash", "assets/music-slash.png");
     this.load.image("music-slash-big", "assets/music-slash-big.png");
+
+    this.load.image("sfx", "assets/sfx.png");
+    this.load.image("sfx-big", "assets/sfx-big.png");
+    this.load.image("sfx-cross", "assets/sfx-cross.png");
+    this.load.image("sfx-cross-big", "assets/sfx-cross-big.png");
+
     this.load.plugin(
       "rexglowfilter2pipelineplugin",
       "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js",
