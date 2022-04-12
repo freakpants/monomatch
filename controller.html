@@ -53,6 +53,15 @@
                 $(".mainmenu-option").hide();
                 $(".music-option").css("display", "flex");
             });
+            $("#back").click(function (event) {
+                var command = [];
+                command.push({ type: "back" });
+                air_console.message(0, command);
+                if($(".music-option").css("display") === "flex"){
+                    $(".music-option").hide();
+                    $(".mainmenu-option").css("display", "flex");
+                }
+            });
             $("#music").click(function (event) {
                 var command = [];
                 command.push({ type: "toggle-music" });

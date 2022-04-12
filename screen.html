@@ -59,6 +59,13 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "back":
+                        switch (document.game.scene.getScenes(true)[1].scene.key) {
+                            case "musicoptionsscene":
+                                sceneChange("mainmenu");
+                                break;
+                        }
+                        break;
                     case "toggle-sfx":
                         if (document.sfxOff) {
                             document.sfxOff = false;
