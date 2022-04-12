@@ -54,6 +54,12 @@
             air_console.broadcast(command);
         }
 
+        function update_maxRound_on_controllers() {
+            var command = [];
+            command.push({ type: "maxRound", maxRound: document.maxRound });
+            air_console.broadcast(command);
+        }
+
         function init() {
             air_console = new AirConsole();
 
@@ -64,10 +70,29 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "more":
+                        document.maxRound+=5;
+                        update_maxRound_on_controllers();
+                        break;
+                    case "less":
+                        document.maxRound-=5;
+                        update_maxRound_on_controllers();
+                        break;
+                    case "next":
+                        // change to next scene depending on current scene in a switch
+                        switch (document.gameScene) {
+                            case "musicoptionsscene":
+                                sceneChange("roundoptionsscene");
+                                break;
+                        }
+                        break;
                     case "back":
-                        switch (document.game.scene.getScenes(true)[1].scene.key) {
+                        switch (document.gameScene) {
                             case "musicoptionsscene":
                                 sceneChange("mainmenu");
+                                break;
+                            case "roundoptionsscene":
+                                sceneChange("musicoptionsscene");
                                 break;
                         }
                         break;
@@ -275,6 +300,8 @@
                 command.push({ type: "sceneChange", scene: document.gameScene });
                 air_console.message(device_id, command);
 
+                update_maxRound_on_controllers();
+
                 // update player count
                 document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
 
@@ -340,6 +367,7 @@
         import BootScene from './scenes/BootScene.js';
         import BackgroundAndUIScene from './scenes/BackgroundAndUIScene.js';
         import MusicOptions from './scenes/MusicOptions.js';
+        import RoundOptions from './scenes/RoundOptions.js';
         import { objects, projective_sets } from './objects.js';
 
         $(document).ready(function () {
@@ -355,7 +383,7 @@
                     height: "100%",
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
-                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions],
+                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions, RoundOptions],
                 transparent: true
             };
 

@@ -26,6 +26,7 @@
         document.was_correct = false;
 
         document.gameScene = "mainmenu";
+        document.maxRound = 20;
 
         $(document).ready(function () {
             $("#confirm").click(function (event) {
@@ -48,14 +49,66 @@
                 $(".mainmenu-option").hide();
                 $(".music-option").css("display", "flex");
             });
+            $("#more").click(function (event) {
+                if(document.maxRound === 45){
+                    // hide the more button
+                    $("#more").hide();
+                } else {
+                   // show both buttons
+                    $("#more").css("display", "flex");
+                    $("#less").css("display", "flex");
+                }
+                document.maxRound+=5;
+                var command = [];
+                command.push({ type: "more" });
+                air_console.message(0, command);
+            });
+            $("#less").click(function (event) {
+                if(document.maxRound === 5){
+                    // hide the less button
+                    $("#less").hide();
+                } else {
+                    // show both buttons
+                    $("#more").css("display", "flex");
+                    $("#less").css("display", "flex");
+                }
+                document.maxRound-=5;
+                var command = [];
+                command.push({ type: "less" });
+                air_console.message(0, command);
+            });
+
+
             $("#back").click(function (event) {
                 var command = [];
                 command.push({ type: "back" });
                 air_console.message(0, command);
-                if ($(".music-option").css("display") === "flex") {
-                    $(".music-option").hide();
-                    $(".mainmenu-option").css("display", "flex");
+
+                // show buttons depending on gameScene in a switch
+                $(".button").hide();
+                switch (document.gameScene) {
+                    case "musicoptionsscene":
+                        $(".mainmenu-option").css("display", "flex");
+                        break;
+                    case "roundoptionsscene":
+                        $(".music-option").css("display", "flex");
+                        break;
                 }
+            });
+            // when the next button is clicked, inform the screen
+            $("#next").click(function (event) {
+                var command = [];
+                command.push({ type: "next" });
+                air_console.message(0, command);
+                // show buttons depending on gameScene in a switch
+                $(".button").hide();
+                switch (document.gameScene) {
+                    case "musicoptionsscene":
+                        // show the round option buttons
+                        $(".round-option").css("display", "flex");
+                        break;
+                }
+
             });
             $("#music").click(function (event) {
                 var command = [];
@@ -142,6 +195,9 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "maxRound":
+                        document.maxRound = data[0].maxRound;
+                        break;
                     case "sceneChange":
                         // save the scene in the document
                         document.gameScene = data[0].scene;
@@ -422,10 +478,16 @@
     <div class="button music-option" id="sfx">
         Toggle Sfx
     </div>
-    <div class="button music-option" id="next">
+    <div class="button round-option" id="less">
+        Less
+    </div>
+    <div class="button round-option" id="more">
+        More
+    </div>
+    <div class="button music-option round-option" id="next">
         Next
     </div>
-    <div class="button music-option" id="back">
+    <div class="button music-option round-option" id="back">
         Back
     </div>
     <div class="button pause-option" id="resume">

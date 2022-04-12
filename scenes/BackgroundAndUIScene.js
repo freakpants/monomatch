@@ -226,7 +226,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleSceneChange(scene) {
-    if (scene === "mainmenu" || scene === "musicoptionsscene") {
+    if (scene === "mainmenu" || scene === "musicoptionsscene" || scene === "roundoptionsscene") {
       if (typeof this.roundAmountGraphics !== "undefined") {
         this.roundAmountGraphics.destroy();
         this.hashtag.destroy();
