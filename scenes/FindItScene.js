@@ -74,7 +74,7 @@ export default class FindItScene extends Phaser.Scene {
       if (bgScene !== undefined && secondScene !== undefined) {
         bgScene.scene.restart({
           origin: "resize",
-          mainmenuactive: secondScene.scene.key === "mainmenu",
+          mainmenuactive: secondScene.scene.key === "mainmenu" || secondScene.scene.key === "musicoptionsscene",
         });
       } else {
         // attempt to restart the crashed bg

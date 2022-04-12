@@ -56,5 +56,28 @@ export default class MusicOptions extends FindItScene {
         .setOrigin(1, 0.5)
         .setScale(uiScale);
     }
+    // place the sfx icon
+    if (document.sfxOff === true) {
+      if(typeof this.sfx !== "undefined") {
+        this.sfx.destroy();
+      }
+      this.sfx = this.add
+        .image(
+          this.getCenterX() + 100 * uiScale,
+          this.getCenterY(),
+          "sfx-cross-big"
+        )
+        .setOrigin(0, 0.5)
+        .setScale(uiScale);
+    } else {
+      this.sfx = this.add
+        .image(
+          this.getCenterX() + 100 * uiScale,
+          this.getCenterY(),
+          "sfx-big"
+        )
+        .setOrigin(0, 0.5)
+        .setScale(uiScale);
+    }
   }
 }
