@@ -33,20 +33,32 @@ export default class BackGroundAndUIScene extends FindItScene {
     this.graphics = this.add.graphics();
     // draw the ui area for the player amount
     this.graphics.fillStyle(0x2962ff, 1);
-    this.graphics.fillRoundedRect(32 * uiScale, 32 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
+    this.graphics.fillRoundedRect(
+      32 * uiScale,
+      32 * uiScale,
+      150 * uiScale,
+      40 * uiScale,
+      20 * uiScale
+    );
     this.graphics.lineStyle(4 * uiScale, 0x002171, 1);
-    this.graphics.strokeRoundedRect(32 * uiScale, 32 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
+    this.graphics.strokeRoundedRect(
+      32 * uiScale,
+      32 * uiScale,
+      150 * uiScale,
+      40 * uiScale,
+      20 * uiScale
+    );
     // draw the ui area for the sound elements
     this.graphics.fillRoundedRect(
-      document.game.canvas.width - 152  * uiScale,
-      32  * uiScale,
-      120  * uiScale,
-      40  * uiScale,
-      20  * uiScale
+      document.game.canvas.width - 152 * uiScale,
+      32 * uiScale,
+      120 * uiScale,
+      40 * uiScale,
+      20 * uiScale
     );
     this.graphics.lineStyle(4, 0x002171, 1);
     this.graphics.strokeRoundedRect(
-      document.game.canvas.width - 152  * uiScale,
+      document.game.canvas.width - 152 * uiScale,
       32 * uiScale,
       120 * uiScale,
       40 * uiScale,
@@ -56,11 +68,19 @@ export default class BackGroundAndUIScene extends FindItScene {
     if (document.musicOff === true) {
       // strike through the music icon if music is off
       this.music = this.add
-        .image(document.game.canvas.width - 140 * uiScale, 35 * uiScale, "music-slash")
+        .image(
+          document.game.canvas.width - 140 * uiScale,
+          35 * uiScale,
+          "music-slash"
+        )
         .setOrigin(0, 0);
     } else {
       this.music = this.add
-        .image(document.game.canvas.width - 135 * uiScale, 35 * uiScale, "music")
+        .image(
+          document.game.canvas.width - 135 * uiScale,
+          35 * uiScale,
+          "music"
+        )
         .setScale(0.9 * uiScale)
         .setOrigin(0, 0);
     }
@@ -89,14 +109,14 @@ export default class BackGroundAndUIScene extends FindItScene {
         fontFamily: "Luckiest Guy",
       }
     );
-    if(this.origin === "resize" && this.mainmenuactive === false){
-        this.drawRoundAmountUi();
+    if (this.origin === "resize" && this.mainmenuactive === false) {
+      this.drawRoundAmountUi();
     }
 
     // if we are coming from the bootscene, initialize the mainmenu
-    if(this.origin === "bootscene") {
-        DEBUG && console.log("coming from bootscene, launching mainmenu");
-        this.scene.launch("mainmenu");
+    if (this.origin === "bootscene") {
+      DEBUG && console.log("coming from bootscene, launching mainmenu");
+      this.scene.launch("mainmenu");
     }
   }
 
@@ -109,9 +129,21 @@ export default class BackGroundAndUIScene extends FindItScene {
 
     // draw the ui area for the round amount
     this.roundAmountGraphics = this.add.graphics();
-    this.roundAmountGraphics.fillRoundedRect(32 * uiScale, 92 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
+    this.roundAmountGraphics.fillRoundedRect(
+      32 * uiScale,
+      92 * uiScale,
+      150 * uiScale,
+      40 * uiScale,
+      20 * uiScale
+    );
     this.roundAmountGraphics.lineStyle(4 * uiScale, 0x002171, 1);
-    this.roundAmountGraphics.strokeRoundedRect(32 * uiScale, 92 * uiScale, 150 * uiScale, 40 * uiScale, 20 * uiScale);
+    this.roundAmountGraphics.strokeRoundedRect(
+      32 * uiScale,
+      92 * uiScale,
+      150 * uiScale,
+      40 * uiScale,
+      20 * uiScale
+    );
     // place the hashtag icon
     this.hashtag = this.add.text(20 * uiScale, 60 * uiScale, "#", {
       fontSize: 90 * uiScale + "px",
@@ -133,7 +165,7 @@ export default class BackGroundAndUIScene extends FindItScene {
       95 * uiScale,
       document.round + "/" + document.maxRound,
       {
-        fontSize: 30 * uiScale  + "px",
+        fontSize: 30 * uiScale + "px",
         align: "center",
         color: "white",
         fontFamily: "Luckiest Guy",
@@ -142,10 +174,12 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleSceneChange(scene) {
-    if (scene === "mainmenu") {
-      this.roundAmountGraphics.destroy();
-      this.hashtag.destroy();
-      this.round.destroy();
+    if (scene === "mainmenu" || scene === "musicoptionsscene") {
+      if (typeof this.roundAmountGraphics !== "undefined") {
+        this.roundAmountGraphics.destroy();
+        this.hashtag.destroy();
+        this.round.destroy();
+      }
     } else if (
       this.roundAmountGraphics === undefined ||
       this.roundAmountGraphics.scene === undefined

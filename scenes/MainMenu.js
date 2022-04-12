@@ -8,7 +8,6 @@ export default class MainMenu extends FindItScene {
 
   preload() {
     super.preload();
-    this.load.svg("logo", "assets/find_it_logo.svg");
   }
 
   create() {

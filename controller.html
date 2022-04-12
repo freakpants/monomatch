@@ -50,6 +50,13 @@
                 var command = [];
                 command.push({ type: "options" });
                 air_console.message(0, command);
+                $(".mainmenu-option").hide();
+                $(".music-option").css("display", "flex");
+            });
+            $("#music").click(function (event) {
+                var command = [];
+                command.push({ type: "toggle-music" });
+                air_console.message(0, command);
             });
             $("#quit").click(function (event) {
                 // get other clients to show waiting for master screen
@@ -372,11 +379,23 @@
 </div>
 
 <div id="menu">
-    <div class="button" id="confirm">
+    <div class="button mainmenu-option" id="confirm">
         Start
     </div>
-    <div class="button" id="options">
+    <div class="button mainmenu-option" id="options">
         Options
+    </div>
+    <div class="button music-option" id="music">
+        Toggle Music
+    </div>
+    <div class="button music-option" id="sfx">
+        Toggle Sfx
+    </div>
+    <div class="button music-option" id="next">
+        Next
+    </div>
+    <div class="button music-option" id="back">
+        Back
     </div>
     <div id="resume" class="button">
         Resume

@@ -26,7 +26,7 @@
 </head>
 
 <body onload="init()">
-    <audio autoplay loop>
+    <audio id="music-element" autoplay loop>
         <source src="audio/flaing-piano-loop-8782.mp3" type="audio/mpeg">
     </audio>
     <script>
@@ -59,7 +59,18 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 switch (type) {
+                    case "toggle-music":
+                        if(document.musicOff){
+                            $("#music-element").prop("volume", 1);
+                            document.musicOff = false;
+                        } else {
+                            $("#music-element").prop("volume", 0);
+                            document.musicOff = true;
+                        } 
+                        sceneChange("musicoptionsscene");
+                        break;
                     case "options":
+                        sceneChange("musicoptionsscene");
                         break;
                     case "resume":
                         sceneChange("guessing");
@@ -264,7 +275,7 @@
                     air_console.message(device_id, hide_menu);
                 }
                 // trigger the event on the active scene
-                if (document.game.scene.getScenes(true).length > 0) {
+                if (typeof document.game !== "undefined" && document.game.scene.getScenes(true).length > 0) {
                     document.game.scene.getScene('backgroundanduiscene').events.emit("playerConnectionEvent");
                 }
             }
@@ -300,6 +311,7 @@
         import PauseScreen from './scenes/PauseScreen.js';
         import BootScene from './scenes/BootScene.js';
         import BackgroundAndUIScene from './scenes/BackgroundAndUIScene.js';
+        import MusicOptions from './scenes/MusicOptions.js';
         import { objects, projective_sets } from './objects.js';
 
         $(document).ready(function () {
@@ -315,7 +327,7 @@
                     height: "100%",
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
-                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen],
+                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions],
                 transparent: true
             };
 
