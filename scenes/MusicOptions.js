@@ -33,7 +33,19 @@ export default class MusicOptions extends FindItScene {
     this.graphics.strokePath();
 
     // place the music icon
+    this.musicText = this.add.text(
+      this.getCenterX() - (315 * uiScale / 2) - 100 * uiScale,
+      this.getCenterY() + (372 * uiScale / 2) + 100 * uiScale,
+      "",
+      {
+        fontSize: 60 * uiScale + "px",
+        align: "center",
+        color: "white",
+        fontFamily: "Luckiest Guy",
+      }
+    ).setOrigin(0.5, 0.5);
     if (document.musicOff === true) {
+      this.musicText.setText("Music: OFF");
       if(typeof this.music !== "undefined") {
         this.music.destroy();
       }
@@ -47,6 +59,7 @@ export default class MusicOptions extends FindItScene {
         .setOrigin(1, 0.5)
         .setScale(uiScale);
     } else {
+      this.musicText.setText("Music: ON");
       this.music = this.add
         .image(
           this.getCenterX() - 100 * uiScale,
@@ -57,7 +70,19 @@ export default class MusicOptions extends FindItScene {
         .setScale(uiScale);
     }
     // place the sfx icon
+    this.sfxText = this.add.text(
+      this.getCenterX() + (315 * uiScale / 2) + 100 * uiScale,
+      this.getCenterY() + (372 * uiScale / 2) + 100 * uiScale,
+      "",
+      {
+        fontSize: 60 * uiScale + "px",
+        align: "center",
+        color: "white",
+        fontFamily: "Luckiest Guy",
+      }
+    ).setOrigin(0.5, 0.5);
     if (document.sfxOff === true) {
+      this.sfxText.setText("SFX: OFF");
       if(typeof this.sfx !== "undefined") {
         this.sfx.destroy();
       }
@@ -70,6 +95,7 @@ export default class MusicOptions extends FindItScene {
         .setOrigin(0, 0.5)
         .setScale(uiScale);
     } else {
+      this.sfxText.setText("SFX: ON");
       this.sfx = this.add
         .image(
           this.getCenterX() + 100 * uiScale,

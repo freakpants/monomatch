@@ -219,6 +219,9 @@ export default class BackGroundAndUIScene extends FindItScene {
       case "sfx":
         this.drawSFXIcon();
         break;
+      case "round":
+        this.drawRoundAmountUi();
+        break;
     }
   }
 

@@ -72,6 +72,8 @@ export default class TimeScreen extends FindItScene {
       document.set = projective_sets.filter((obj) => {
         return obj.id === document.set_id;
       });
+      // redraw the round amount
+      document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "round");
       this.scene.start("guessing");
       document.somebodyScoredThisRound = false;
     }
