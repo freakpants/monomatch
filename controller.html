@@ -280,6 +280,7 @@
 
                     $(".object-container").css("pointer-events", "none");
                     if (correct) {
+                        window.navigator.vibrate(200);
                         document.was_correct = true;
                         // signal correctness to player by blinking
                         $("#correct").css('opacity', '1');
@@ -292,6 +293,8 @@
                         command.push({ type: "correct", set_id: correct_set_id });
                         air_console.message(0, command);
                     } else {
+                        window.navigator.vibrate(200);
+                        window.navigator.vibrate(200);
                         $("#wrong").css('opacity', '1');
                         $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
                         $(event.target).css("opacity", "0.25");
