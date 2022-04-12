@@ -60,6 +60,7 @@
 
                 switch (type) {
                     case "toggle-music":
+                        
                         if(document.musicOff){
                             $("#music-element").prop("volume", 1);
                             document.musicOff = false;
@@ -67,6 +68,7 @@
                             $("#music-element").prop("volume", 0);
                             document.musicOff = true;
                         } 
+                        document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "music");
                         sceneChange("musicoptionsscene");
                         break;
                     case "options":

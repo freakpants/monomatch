@@ -28,6 +28,11 @@ export default class BackGroundAndUIScene extends FindItScene {
       this.events.on("sceneChange", this.handleSceneChange, this);
     }
 
+    if (this.events._events.optionsChange === undefined) {
+      // listen for optionsChange by AirConsole
+      this.events.on("optionChange", this.handleOptionChange, this);
+    }
+
     const uiScale = document.uiScale;
 
     this.graphics = this.add.graphics();
@@ -65,25 +70,7 @@ export default class BackGroundAndUIScene extends FindItScene {
       20 * uiScale
     );
     // place the music icon
-    if (document.musicOff === true) {
-      // strike through the music icon if music is off
-      this.music = this.add
-        .image(
-          document.game.canvas.width - 140 * uiScale,
-          35 * uiScale,
-          "music-slash"
-        )
-        .setOrigin(0, 0);
-    } else {
-      this.music = this.add
-        .image(
-          document.game.canvas.width - 135 * uiScale,
-          35 * uiScale,
-          "music"
-        )
-        .setScale(0.9 * uiScale)
-        .setOrigin(0, 0);
-    }
+    this.drawMusicIcon(document.musicOff);
 
     this.players = this.add.text(20 * uiScale, 20 * uiScale, "👥", {
       fontSize: 45 * uiScale + "px",
@@ -117,6 +104,33 @@ export default class BackGroundAndUIScene extends FindItScene {
     if (this.origin === "bootscene") {
       DEBUG && console.log("coming from bootscene, launching mainmenu");
       this.scene.launch("mainmenu");
+    }
+  }
+  
+  drawMusicIcon(){
+    const uiScale = document.uiScale;
+    if(typeof this.music !== "undefined"){
+      this.music.destroy();
+    }
+    if (document.musicOff) {
+      // strike through the music icon if music is off
+      this.music = this.add
+        .image(
+          document.game.canvas.width - 135 * uiScale,
+          35 * uiScale,
+          "music-slash"
+        )
+        .setScale(0.9 * uiScale)
+        .setOrigin(0, 0);
+    } else {
+      this.music = this.add
+        .image(
+          document.game.canvas.width - 135 * uiScale,
+          35 * uiScale,
+          "music"
+        )
+        .setScale(0.9 * uiScale)
+        .setOrigin(0, 0);
     }
   }
 
@@ -171,6 +185,14 @@ export default class BackGroundAndUIScene extends FindItScene {
         fontFamily: "Luckiest Guy",
       }
     );
+  }
+
+  handleOptionChange(option) {
+    switch(option){
+      case "music":
+        this.drawMusicIcon();
+      break;
+    }
   }
 
   handleSceneChange(scene) {
