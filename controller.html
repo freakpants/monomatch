@@ -25,15 +25,10 @@
         var DEBUG = true;
         document.was_correct = false;
 
+        document.gameScene = "mainmenu";
+
         $(document).ready(function () {
             $("#confirm").click(function (event) {
-
-                // in case the button was the only button, resize it to normal size
-                // $("#confirm").css("width", "50vw");
-                // $("#confirm").css("height", "50vh");
-                // $("#confirm").css("position", "relative");
-
-                // $("#confirm").css("display", "flex");
 
                 var command = [];
                 command.push({ type: "confirm" });
@@ -57,7 +52,7 @@
                 var command = [];
                 command.push({ type: "back" });
                 air_console.message(0, command);
-                if($(".music-option").css("display") === "flex"){
+                if ($(".music-option").css("display") === "flex") {
                     $(".music-option").hide();
                     $(".mainmenu-option").css("display", "flex");
                 }
@@ -78,24 +73,19 @@
                 game_over_message.push({ type: "game_over" });
                 DEBUG && console.log("sending game over message");
                 air_console.broadcast(game_over_message);
-                $("#quit").hide();
-                $("#resume").hide();
-                $("#confirm").css("display", "flex");
-                $("#options").css("display", "flex");
+                $(".pause-option").hide();
+                $(".mainmenu-option").css("display", "flex");
                 var command = [];
                 command.push({ type: "back_to_main" });
                 air_console.message(0, command);
             });
             $("#pause_button").click(function (event) {
                 $("#score_and_objects_wrapper").hide();
-                $("#confirm").hide();
+                $(".button").hide();
                 $("#menu").css("display", "flex");
                 $("#menu").css("pointer-events", "auto");
-                $("#quit").css("display", "flex");
-                $("#quit").css("pointer-events", "auto");
-                $("#resume").css("pointer-events", "auto");
-                $("#resume").css("display", "flex");
-                $("#options").hide();
+                $(".pause-option").css("display", "flex");
+                $(".pause-option").css("pointer-events", "auto");
                 var command = [];
                 command.push({ type: "pause" });
                 air_console.broadcast(command);
@@ -116,6 +106,19 @@
             return (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === air_console.getDeviceId());
         }
 
+        function show_correct_buttons() {
+            // first, hide all buttons
+            $(".button").hide();
+            switch (document.gameScene) {
+                case "mainmenu":
+                    $(".mainmenu-option").css("display", "flex");
+                    break;
+                case "musicoptionsscene":
+                    $(".music-option").css("display", "flex");
+                    break;
+            }
+        }
+
         function init() {
             air_console = new AirConsole();
 
@@ -127,6 +130,8 @@
                 if (!am_i_master()) {
                     // hide all menu buttons
                     $(".button").hide();
+                } else {
+                    show_correct_buttons();
                 }
             };
 
@@ -137,6 +142,10 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "sceneChange":
+                        // save the scene in the document
+                        document.gameScene = data[0].scene;
+                        break;
                     case "resume":
                         $("#score_and_objects_wrapper").css("display", "flex");
                         $("#waiting_for_next_round").hide();
@@ -204,12 +213,11 @@
                         if (am_i_master()) {
                             DEBUG && console.log("i am master");
                             $("#waiting_for_start").hide();
-                            $("#confirm").css("display", "flex");
-                            $("#options").css("display", "flex");
+                            show_correct_buttons();
                         } else {
                             DEBUG && console.log("i am not master");
                             $("#waiting_for_start").css("display", "flex");
-                            $("#confirm").hide();
+                            $(".button").hide();
                         }
                         break;
                     case "new_screen_set":
@@ -420,10 +428,10 @@
     <div class="button music-option" id="back">
         Back
     </div>
-    <div id="resume" class="button">
+    <div class="button pause-option" id="resume">
         Resume
     </div>
-    <div id="quit" class="button">
+    <div class="button pause-option" id="quit">
         Quit
     </div>
     <div id="waiting_for_next_round">

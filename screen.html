@@ -35,6 +35,7 @@
         document.playerScores = [];
         document.connectedPlayersAmount = 0;
         document.maxRound = 20;
+        document.gameScene = "mainmenu";
 
         /* 
         jump to last round for 2 players by using this BEFORE the first guess
@@ -45,8 +46,12 @@
 
         var DEBUG = true;
         function sceneChange(targetScene) {
+            document.gameScene = targetScene;
             DEBUG && console.log("scenechange to " + targetScene + " was triggered.");
             document.game.scene.getScene('backgroundanduiscene').events.emit("sceneChange", targetScene);
+            var command = [];
+            command.push({ type: "sceneChange", scene: targetScene });
+            air_console.broadcast(command);
         }
 
         function init() {
@@ -264,6 +269,11 @@
                 }
             };
             air_console.onConnect = function (device_id) {
+
+                // let the new controller know which screen we are on
+                var command = [];
+                command.push({ type: "sceneChange", scene: document.gameScene });
+                air_console.message(device_id, command);
 
                 // update player count
                 document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
