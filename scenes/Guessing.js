@@ -104,28 +104,13 @@ export default class Guessing extends FindItScene {
   }
 
   update(){
-    this.assets.forEach((asset) => {
-      if(asset.direction === "up"){
-        if(asset.displayWidth >= asset.basedisplayWidth){
-          asset.displayWidth--;
-          asset.displayHeight--;
-          asset.direction = "down";
-        } else {
-          asset.displayWidth++;
-          asset.displayHeight++;
-        }
-      } else {
-        if( asset.displayWidth <= asset.basedisplayWidth * 0.3){
-          asset.displayWidth++;
-          asset.displayHeight++;
-          asset.direction = "up";
-        } else {
-          asset.displayWidth--;
-          asset.displayHeight--;
-        }
-      }
-      asset.rotation += 0.01;
-    })
+    super.update();
+    if(!document.rotationOff){
+      this.rotateAssets();
+    }
+    if(!document.scalingOff){
+      this.scaleAssets();
+    }
   }
 }
 

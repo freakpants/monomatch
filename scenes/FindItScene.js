@@ -34,6 +34,36 @@ export default class FindItScene extends Phaser.Scene {
     }
   }
 
+  rotateAssets() {
+    this.assets.forEach((asset) => {
+      asset.rotation += 0.01;
+    });
+  }
+
+  scaleAssets() {
+    this.assets.forEach((asset) => {
+      if (asset.direction === "up") {
+        if (asset.displayWidth >= asset.basedisplayWidth) {
+          asset.displayWidth--;
+          asset.displayHeight--;
+          asset.direction = "down";
+        } else {
+          asset.displayWidth++;
+          asset.displayHeight++;
+        }
+      } else {
+        if (asset.displayWidth <= asset.basedisplayWidth * 0.3) {
+          asset.displayWidth++;
+          asset.displayHeight++;
+          asset.direction = "up";
+        } else {
+          asset.displayWidth--;
+          asset.displayHeight--;
+        }
+      }
+    });
+  }
+
   create() {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     this.resizeHappening = false;
@@ -74,7 +104,12 @@ export default class FindItScene extends Phaser.Scene {
       if (bgScene !== undefined && secondScene !== undefined) {
         bgScene.scene.restart({
           origin: "resize",
-          mainmenuactive: document.gameScene === "mainmenu" || document.gameScene === "musicoptionsscene" || document.gameScene === "roundoptionsscene"
+          mainmenuactive:
+            document.gameScene === "mainmenu" ||
+            document.gameScene === "musicoptionsscene" ||
+            document.gameScene === "roundoptionsscene" ||
+            document.gameScene === "difficultyoptionsscene" ||
+            document.gameScene === "gameover",
         });
       } else {
         // attempt to restart the crashed bg

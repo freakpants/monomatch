@@ -50,21 +50,21 @@
                 $(".music-option").css("display", "flex");
             });
             $("#more").click(function (event) {
-                if(document.maxRound === 45){
+                if (document.maxRound === 45) {
                     // hide the more button
                     $("#more").hide();
                 } else {
-                   // show both buttons
+                    // show both buttons
                     $("#more").css("display", "flex");
                     $("#less").css("display", "flex");
                 }
-                document.maxRound+=5;
+                document.maxRound += 5;
                 var command = [];
                 command.push({ type: "more" });
                 air_console.message(0, command);
             });
             $("#less").click(function (event) {
-                if(document.maxRound === 5){
+                if (document.maxRound === 5) {
                     // hide the less button
                     $("#less").hide();
                 } else {
@@ -72,7 +72,7 @@
                     $("#more").css("display", "flex");
                     $("#less").css("display", "flex");
                 }
-                document.maxRound-=5;
+                document.maxRound -= 5;
                 var command = [];
                 command.push({ type: "less" });
                 air_console.message(0, command);
@@ -93,6 +93,9 @@
                     case "roundoptionsscene":
                         $(".music-option").css("display", "flex");
                         break;
+                    case "difficultyoptionsscene":
+                        $(".difficulty-option").css("display", "flex");
+                        break;
                 }
             });
             // when the next button is clicked, inform the screen
@@ -107,6 +110,10 @@
                         // show the round option buttons
                         $(".round-option").css("display", "flex");
                         break;
+                    case "roundoptionsscene":
+                        // show the difficulty option buttons
+                        $(".difficulty-option").css("display", "flex");
+                        break;
                 }
 
             });
@@ -118,6 +125,16 @@
             $("#sfx").click(function (event) {
                 var command = [];
                 command.push({ type: "toggle-sfx" });
+                air_console.message(0, command);
+            });
+            $("#rotation").click(function (event) {
+                var command = [];
+                command.push({ type: "toggle-rotation" });
+                air_console.message(0, command);
+            });
+            $("#scaling").click(function (event) {
+                var command = [];
+                command.push({ type: "toggle-scaling" });
                 air_console.message(0, command);
             });
             $("#quit").click(function (event) {
@@ -466,7 +483,7 @@
 </div>
 
 <div id="menu">
-    <div class="button mainmenu-option" id="confirm">
+    <div class="button mainmenu-option difficulty-option" id="confirm">
         Start
     </div>
     <div class="button mainmenu-option" id="options">
@@ -478,6 +495,12 @@
     <div class="button music-option" id="sfx">
         Toggle Sfx
     </div>
+    <div class="button difficulty-option" id="rotation">
+        Toggle Rotation
+    </div>
+    <div class="button difficulty-option" id="scaling">
+        Toggle Scaling
+    </div>
     <div class="button round-option" id="less">
         Less
     </div>
@@ -487,7 +510,7 @@
     <div class="button music-option round-option" id="next">
         Next
     </div>
-    <div class="button music-option round-option" id="back">
+    <div class="button music-option round-option difficulty-option" id="back">
         Back
     </div>
     <div class="button pause-option" id="resume">
