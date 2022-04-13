@@ -118,6 +118,11 @@ export default class Guessing extends FindItScene {
     if (!document.scalingOff) {
       this.scaleAssets();
     }
+    if(document.tweenComplete){
+      // set tween to false
+      document.tweenComplete = false;
+      sceneChange("timescreen");
+    }
     // check if an icon is correct
     if (document.correct_icon_id !== -1) {
       // loop all assets in foreach
@@ -128,11 +133,21 @@ export default class Guessing extends FindItScene {
             this.tweens.add({
               targets: asset,
               duration: 2000,
-              y: 650,
+              rotation: 0,  
+              scaleX: 2.5 * document.uiScale,
+              scaleY: 2.5 * document.uiScale,
+              x: this.getCenterX(),
+              y: this.getCenterY(),
               delay: Math.random() * 2,
               ease: "Sine.easeInOut",
-              repeat: -1,
-              yoyo: true,
+              onComplete: () => {document.tweenComplete = true;}
+            });
+          } else {
+            this.tweens.add({
+              targets: asset,
+              duration: 2000,
+              x: document.game.canvas.width + asset.x + asset.displayWidth,
+              ease: "Sine.easeInOut",
             });
           }
         }.bind(this)
