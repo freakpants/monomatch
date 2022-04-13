@@ -112,14 +112,18 @@ export default class Guessing extends FindItScene {
 
   update() {
     super.update();
-    if (!document.rotationOff) {
-      this.rotateAssets();
+    // stop animating during the tween
+    if(!document.tweenComplete){
+      if (!document.rotationOff) {
+        this.rotateAssets();
+      }
+      if (!document.scalingOff) {
+        this.scaleAssets();
+      }
     }
-    if (!document.scalingOff) {
-      this.scaleAssets();
-    }
-    if(document.tweenComplete){
+    if(document.aftertweenComplete){
       // set tween to false
+      document.aftertweenComplete = false;
       document.tweenComplete = false;
       sceneChange("timescreen");
     }
@@ -132,7 +136,7 @@ export default class Guessing extends FindItScene {
             DEBUG && console.log(asset);
             this.tweens.add({
               targets: asset,
-              duration: 2000,
+              duration: 1800,
               rotation: 0,  
               scaleX: 2.5 * document.uiScale,
               scaleY: 2.5 * document.uiScale,
@@ -140,12 +144,13 @@ export default class Guessing extends FindItScene {
               y: this.getCenterY(),
               delay: Math.random() * 2,
               ease: "Sine.easeInOut",
-              onComplete: () => {document.tweenComplete = true;}
+              onComplete: () => { document.tweenComplete = true; setTimeout(() => {document.aftertweenComplete = true;}, 1250);}
             });
           } else {
+            // move the other assets off the screen in right direction
             this.tweens.add({
               targets: asset,
-              duration: 2000,
+              duration: 1500,
               x: document.game.canvas.width + asset.x + asset.displayWidth,
               ease: "Sine.easeInOut",
             });
