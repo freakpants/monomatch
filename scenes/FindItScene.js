@@ -70,6 +70,13 @@ export default class FindItScene extends Phaser.Scene {
   }
 
   update() {
+    if(document.game.scene.getScenes(true)[2] !== undefined){
+      // there should never be a third scene!
+      document.game.scene.getScenes(true)[2].scene.stop();
+      document.game.scene.getScenes(true)[1].scene.stop();
+      this.scene.launch(document.gameScene);
+    }
+
     if (
       (!this.resizeHappening &&
         document.game.scale.gameSize._width !==
