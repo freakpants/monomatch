@@ -38,6 +38,7 @@
         document.gameScene = "mainmenu";
         document.rotationOff = true;
         document.scalingOff = true;
+        document.correct_icon_id = -1;
 
         var DEBUG = true;
         function sceneChange(targetScene) {
@@ -230,8 +231,8 @@
                             sceneChange('endofgame');
                         } else {
                             // change the phaser scene
-                            sceneChange("timescreen");
-
+                            // sceneChange("timescreen");
+                            document.correct_icon_id = message[0].correct_icon_id;
 
                             document.next_set_id = message[0].set_id;
                             document.round++;

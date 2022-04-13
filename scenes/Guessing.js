@@ -46,7 +46,7 @@ export default class Guessing extends FindItScene {
     this.graphics.lineTo(document.body.offsetWidth / 2, document.body.offsetHeight / 2);
     this.graphics.lineTo(0, 0); 
 
-    this.graphics.strokePath(); */ 
+    this.graphics.strokePath(); */
 
     DEBUG && console.log("canvas: ") + this.canvas;
 
@@ -72,8 +72,15 @@ export default class Guessing extends FindItScene {
           0,
           "asset" + document.set[0].icons[i]
         );
-        this.aGrid.placeAt(col, row, this.assets[i], document.game.canvas.height);
-        this.assets[i].displayWidth = (document.body.offsetWidth / 4) * 0.6 * document.uiScale;
+        this.assets[i].id = document.set[0].icons[i];
+        this.aGrid.placeAt(
+          col,
+          row,
+          this.assets[i],
+          document.game.canvas.height
+        );
+        this.assets[i].displayWidth =
+          (document.body.offsetWidth / 4) * 0.6 * document.uiScale;
         this.assets[i].basedisplayWidth = this.assets[i].displayWidth;
         // assign random direction
         this.assets[i].direction = Math.random() > 0.5 ? "up" : "down";
@@ -103,13 +110,34 @@ export default class Guessing extends FindItScene {
     }
   }
 
-  update(){
+  update() {
     super.update();
-    if(!document.rotationOff){
+    if (!document.rotationOff) {
       this.rotateAssets();
     }
-    if(!document.scalingOff){
+    if (!document.scalingOff) {
       this.scaleAssets();
+    }
+    // check if an icon is correct
+    if (document.correct_icon_id !== -1) {
+      // loop all assets in foreach
+      this.assets.forEach(
+        function (asset) {
+          if (asset.id === document.correct_icon_id) {
+            DEBUG && console.log(asset);
+            this.tweens.add({
+              targets: asset,
+              duration: 2000,
+              y: 650,
+              delay: Math.random() * 2,
+              ease: "Sine.easeInOut",
+              repeat: -1,
+              yoyo: true,
+            });
+          }
+        }.bind(this)
+      );
+      document.correct_icon_id = -1;
     }
   }
 }
@@ -148,7 +176,7 @@ class AlignGrid {
   }
   //mostly for planning and debugging this will
   //create a visual representation of the grid
-  showNumbers(a = 1, canvasWidth, canvasHeight ) {
+  showNumbers(a = 1, canvasWidth, canvasHeight) {
     this.graphics.lineStyle(4, 0xff0000, a);
 
     this.graphics.beginPath();

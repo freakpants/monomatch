@@ -421,11 +421,12 @@
                         $("#correct").css('opacity', '1');
                         $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
 
-                        // wait for the animations to finish
                         const correct_set_id = $("#objects").data("set-id");
+                        const correct_icon_id = $("#objects .correct").data("icon-id");
+                        DEBUG && console.log("correct icon id: " + correct_icon_id);
                         // inform screen about correct guess
                         var command = [];
-                        command.push({ type: "correct", set_id: correct_set_id });
+                        command.push({ type: "correct", set_id: correct_set_id, correct_icon_id: correct_icon_id});
                         air_console.message(0, command);
                     } else {
                         air_console.vibrate(200);
