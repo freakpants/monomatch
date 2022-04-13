@@ -231,16 +231,12 @@
                         } else {
                             // change the phaser scene
                             sceneChange("timescreen");
-                            document.next_set_id = message[0].set_id;
 
+
+                            document.next_set_id = message[0].set_id;
                             document.round++;
 
                             // check if the game is ending
-                            if (document.round === document.maxRound - 1) {
-                                DEBUG && console.log("game is ending next round!");
-                                document.lastRound = true;
-                            }
-
                             if (document.round === document.maxRound) {
                                 DEBUG && console.log("game is ending this round!");
                                 document.lastRound = true;
@@ -263,7 +259,7 @@
                             message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
                             air_console.broadcast(message);
 
-                            // also inform all clients that are not us that they were to slow 
+                            // also inform all clients that are not the reporting client that they were to slow 
                             air_console.getControllerDeviceIds().forEach(function (id) {
                                 if (id !== from) {
                                     message = [];

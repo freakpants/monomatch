@@ -64,7 +64,7 @@
                 air_console.message(0, command);
             });
             $("#less").click(function (event) {
-                if (document.maxRound === 5) {
+                if (document.maxRound === 10) {
                     // hide the less button
                     $("#less").hide();
                 } else {
@@ -137,13 +137,13 @@
                 command.push({ type: "toggle-scaling" });
                 air_console.message(0, command);
             });
-            $("#quit").click(function (event) {
+            $(".quit-option").click(function (event) {
                 // get other clients to show waiting for master screen
                 game_over_message = [];
                 game_over_message.push({ type: "game_over" });
                 DEBUG && console.log("sending game over message");
                 air_console.broadcast(game_over_message);
-                $(".pause-option").hide();
+                $(".button").hide();
                 $(".mainmenu-option").css("display", "flex");
                 var command = [];
                 command.push({ type: "back_to_main" });
@@ -159,14 +159,6 @@
                 var command = [];
                 command.push({ type: "pause" });
                 air_console.broadcast(command);
-            });
-            $("#game_over").click(function (event) {
-                // inform screen to go back to main
-                var command = [];
-                command.push({ type: "back_to_main" });
-                air_console.message(0, command);
-                $("#game_over").hide();
-                $("#menu").css("display", "flex");
             });
         });
 
@@ -210,14 +202,14 @@
 
             DEBUG && console.log("airconsole init");
 
-            if(am_i_master()){
+            if (am_i_master()) {
                 show_correct_buttons();
             }
 
             // listen for players connecting, that could possible mean we are not master anymore
             air_console.onConnect = function (device_id) {
                 DEBUG && console.log("checking if this controller is not master anymore");
-                if(am_i_master()){
+                if (am_i_master()) {
                     show_correct_buttons();
                 } else {
                     $(".button").hide();
@@ -238,7 +230,7 @@
                     case "sceneChange":
                         // save the scene in the document
                         document.gameScene = data[0].scene;
-                        if(document.gameScene === "guessing" && $("#objects").children().length === 0){
+                        if (document.gameScene === "guessing" && $("#objects").children().length === 0) {
                             // request icons
                             var command = [];
                             command.push({ type: "request_icons" });
@@ -261,10 +253,11 @@
                         $("#slow").hide();
                         $("#fast").hide();
                         $("#score_and_objects_wrapper").hide();
+                        $("#menu").css("display", "flex");
+                        $(".button").hide();
                         if (am_i_master()) {
-                            $("#game_over").css("display", "flex");
+                            $(".game-over-option").css("display", "flex");
                         } else {
-                            $("#menu").css("display", "flex");
                             $("#waiting_for_pause").hide();
                             $("#waiting_for_start").css("display", "flex");
                         }
@@ -508,10 +501,6 @@
     </p>
 </div>
 
-<div id="game_over">
-    Game over!</br>
-    Touch to go back to the main menu.
-</div>
 
 <div id="menu">
     <div class="button difficulty-option" id="rotation">
@@ -550,8 +539,11 @@
     <div class="button pause-option" id="resume">
         Resume
     </div>
-    <div class="button pause-option" id="quit">
+    <div class="button pause-option quit-option" id="quit">
         Quit
+    </div>
+    <div class="button game-over-option quit-option" id="game-over">
+        Back To Menu
     </div>
     <div id="waiting_for_next_round">
         Please wait for the next round to begin.
