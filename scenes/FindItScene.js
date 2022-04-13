@@ -1,6 +1,7 @@
 import { objects } from "../objects.js";
 export default class FindItScene extends Phaser.Scene {
   preload() {
+    this.load.audio('success', 'audio/success.mp3');
     objects.forEach((object) => {
       this.load.image("asset" + object.id, "assets/asset" + object.id + ".png");
     });
@@ -67,6 +68,7 @@ export default class FindItScene extends Phaser.Scene {
   create() {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     this.resizeHappening = false;
+    this.success = this.sound.add("success");
   }
 
   update() {

@@ -129,6 +129,9 @@ export default class Guessing extends FindItScene {
     }
     // check if an icon is correct
     if (document.correct_icon_id !== -1) {
+      if(!document.sfxOff){
+        this.success.play();
+      }
       // loop all assets in foreach
       this.assets.forEach(
         function (asset) {
