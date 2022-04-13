@@ -94,7 +94,7 @@
                         $(".music-option").css("display", "flex");
                         break;
                     case "difficultyoptionsscene":
-                        $(".difficulty-option").css("display", "flex");
+                        $(".round-option").css("display", "flex");
                         break;
                 }
             });
@@ -483,6 +483,12 @@
 </div>
 
 <div id="menu">
+    <div class="button difficulty-option" id="rotation">
+        Toggle Rotation
+    </div>
+    <div class="button difficulty-option" id="scaling">
+        Toggle Scaling
+    </div>
     <div class="button mainmenu-option difficulty-option" id="confirm">
         Start
     </div>
@@ -494,12 +500,6 @@
     </div>
     <div class="button music-option" id="sfx">
         Toggle Sfx
-    </div>
-    <div class="button difficulty-option" id="rotation">
-        Toggle Rotation
-    </div>
-    <div class="button difficulty-option" id="scaling">
-        Toggle Scaling
     </div>
     <div class="button round-option" id="less">
         Less
