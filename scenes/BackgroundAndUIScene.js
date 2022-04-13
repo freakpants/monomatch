@@ -99,6 +99,7 @@ export default class BackGroundAndUIScene extends FindItScene {
       }
     );
     if (this.origin === "resize" && this.mainmenuactive === false) {
+      DEBUG && console.log("drawing round amount because of resize");
       this.drawRoundAmountUi();
     }
 
@@ -163,7 +164,15 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   drawRoundAmountUi() {
+    DEBUG && console.log("drawRoundAmountUi was called"); 
     const uiScale = document.uiScale;
+
+    // start over instead of overdrwaing
+    if (typeof this.roundAmountGraphics !== "undefined") {
+      this.roundAmountGraphics.destroy();
+      this.hashtag.destroy();
+      this.round.destroy();
+    }
 
     // draw the ui area for the round amount
     this.roundAmountGraphics = this.add.graphics();
@@ -212,6 +221,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleOptionChange(option) {
+    DEBUG && console.log("handleOptionChange was called");
     switch (option) {
       case "music":
         this.drawMusicIcon();
@@ -226,6 +236,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleSceneChange(scene) {
+    DEBUG && console.log("handleSceneChange was called");
     if (scene === "mainmenu" || scene === "musicoptionsscene" || scene === "roundoptionsscene" || scene === "difficultyoptionsscene") {
       if (typeof this.roundAmountGraphics !== "undefined") {
         this.roundAmountGraphics.destroy();
@@ -233,9 +244,9 @@ export default class BackGroundAndUIScene extends FindItScene {
         this.round.destroy();
       }
     } else if (
-      this.roundAmountGraphics === undefined ||
-      this.roundAmountGraphics.scene === undefined
+      this.roundAmountGraphics === undefined
     ) {
+      DEBUG && console.log("drawing round amount ui");
       this.drawRoundAmountUi();
     }
 

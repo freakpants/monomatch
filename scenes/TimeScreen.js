@@ -36,7 +36,7 @@ export default class TimeScreen extends FindItScene {
       this.getCenterX(),
       this.getCenterY(),
       this.winner +
-        " was the fastest!\nNext Round begins in" +
+        " was the fastest!\nNext Round begins in " +
         this.initialTime,
       {
         fontSize: 45 * uiScale + "px",
@@ -74,7 +74,7 @@ export default class TimeScreen extends FindItScene {
       });
       // redraw the round amount
       document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "round");
-      this.scene.start("guessing");
+      sceneChange("guessing");
       document.somebodyScoredThisRound = false;
     }
   }

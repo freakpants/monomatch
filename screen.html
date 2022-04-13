@@ -132,6 +132,7 @@
                         } else {
                             document.sfxOff = true;
                         }
+                        DEBUG && console.log("emmitting optionChange event");
                         document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "sfx");
                         sceneChange("musicoptionsscene");
                         break;
@@ -144,6 +145,7 @@
                             $("#music-element").prop("volume", 0);
                             document.musicOff = true;
                         }
+                        DEBUG && console.log("emmitting optionChange event");
                         document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "music");
                         sceneChange("musicoptionsscene");
                         break;
