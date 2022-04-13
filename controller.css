@@ -9,7 +9,7 @@ $secondary-dark: #0039cb;
 
 @media (max-width: 320px) {
 	#credits#credits{
-		font-size: 0.8em;
+		/* font-size: 0.8em; */
 	}
 	.button_text, .vertical-container {
 		font-size: 1em;
@@ -134,17 +134,6 @@ body{
 #score_report {
 	
 	display:none;
-}
-
-#score_report, #credits {
-	font-size: 1.2em;
-	flex-direction: column;
-	align-items: center;
-	text-transform:none;
-}
-
-#credits {
-	display: flex;
 }
 
 #score_report .button_text{
