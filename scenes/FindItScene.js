@@ -2,6 +2,8 @@ import { objects } from "../objects.js";
 export default class FindItScene extends Phaser.Scene {
   preload() {
     this.load.audio('success', 'audio/success.mp3');
+    this.load.audio('click', 'audio/click.mp3');
+    this.load.audio('clock', 'audio/clock.mp3');
     objects.forEach((object) => {
       this.load.image("asset" + object.id, "assets/asset" + object.id + ".png");
     });
@@ -69,9 +71,17 @@ export default class FindItScene extends Phaser.Scene {
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     this.resizeHappening = false;
     this.success = this.sound.add("success");
+    this.clock =  this.sound.add("clock");
+    this.click = this.sound.add("click");
   }
 
   update() {
+    if(document.playClick){
+      if(!document.sfxOff){
+        this.click.play();
+      }
+      document.playClick = false;
+    }
     if(document.game.scene.getScenes(true)[2] !== undefined){
       // there should never be a third scene!
       document.game.scene.getScenes(true)[2].scene.stop();

@@ -53,6 +53,9 @@ export default class TimeScreen extends FindItScene {
   onEvent() {
     console.log(this.initialTime);
     if (this.initialTime !== 1) {
+      if(!document.sfxOff){
+        this.clock.play();
+      }
       console.log("initalTime is not 1");
       this.initialTime -= 1; // One second
       this.text.setText(

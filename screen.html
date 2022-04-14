@@ -77,6 +77,15 @@
                 var type = message[0].type;
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
+                // collect all the types of messages that should produce a click sound
+                const clickTypes = ["more", "less", "next", "back", "toggle-rotation", "toggle-scaling", "toggle-music", "toggle-sfx", "options", "pause", "resume", "back_to_main"];
+
+                // check if the click types array contains the string type
+                if (clickTypes.includes(type)) {
+                    // let phaser know to play a click sound
+                    document.playClick = true;
+                }
+
                 switch (type) {
                     case "request_icons":
                         if (document.stack.length === 0) {
