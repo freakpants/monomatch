@@ -36,14 +36,28 @@ export default class HighScore extends FindItScene {
       document.highScoreSettingChanged = false;
       document.scores = false;
     }
-    if (document.scores) {
+    if (document.scores && this.scoreBuildingInProgress == false) {
+      this.scoreBuildingInProgress = true;
+      // conventionally sort the scores
+      document.scores.sort(function (a, b) {
+        if (a.correct > b.correct) {
+          return -1;
+        }
+        if (a.correct < b.correct) {
+          return 1;
+        }
+        return 0;
+      });
+
       // cache profile pictures
       let loader = new Phaser.Loader.LoaderPlugin(this);
-      let requested = [];
+      var requested = [];
       document.scores.forEach((score) => {
         const uids = score.uids;
         uids.forEach((uid) => {
           const image_id = "user_" + uid;
+          DEBUG && console.log("requested image array:");
+          DEBUG && console.log(requested);
           if (!requested.includes(image_id)) {
             loader.image(
               image_id,
@@ -226,6 +240,7 @@ export default class HighScore extends FindItScene {
           }
         );
         document.scores = false;
+        this.scoreBuildingInProgress = false;
       });
       loader.start();
     }
@@ -234,6 +249,7 @@ export default class HighScore extends FindItScene {
   create() {
     super.create(roundAmount);
 
+    this.scoreBuildingInProgress = false;
     const uiScale = document.uiScale;
     var roundAmount = false;
 
