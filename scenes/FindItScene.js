@@ -128,6 +128,7 @@ export default class FindItScene extends Phaser.Scene {
             document.gameScene === "musicoptionsscene" ||
             document.gameScene === "roundoptionsscene" ||
             document.gameScene === "difficultyoptionsscene" ||
+            document.gameScene === "credits" ||
             document.gameScene === "gameover",
         });
       } else {

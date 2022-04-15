@@ -118,6 +118,7 @@
                         break;
                     case "back":
                         switch (document.gameScene) {
+                            case "credits":
                             case "musicoptionsscene":
                                 sceneChange("mainmenu");
                                 break;
@@ -157,6 +158,9 @@
                         DEBUG && console.log("emmitting optionChange event");
                         document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "music");
                         sceneChange("musicoptionsscene");
+                        break;
+                    case "credits":
+                        sceneChange("credits");
                         break;
                     case "options":
                         sceneChange("musicoptionsscene");
@@ -404,6 +408,7 @@
         import MusicOptions from './scenes/MusicOptions.js';
         import RoundOptions from './scenes/RoundOptions.js';
         import DifficultyOptions from './scenes/DifficultyOptions.js';
+        import Credits from './scenes/Credits.js';
         import { objects, projective_sets } from './objects.js';
 
         $(document).ready(function () {
@@ -419,14 +424,14 @@
                     height: "100%",
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
-                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions, RoundOptions, DifficultyOptions],
+                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions, RoundOptions, DifficultyOptions, Credits],
                 transparent: true
             };
 
-            document.game = new Phaser.Game(config);
-
-            document.uiScale = Math.sqrt((document.game.scale.parentSize._width * document.game.scale.parentSize._height) / (1920 * 1016));
-
+            air_console.onReady = () => {
+                document.game = new Phaser.Game(config);
+                document.uiScale = Math.sqrt((document.game.scale.parentSize._width * document.game.scale.parentSize._height) / (1920 * 1016));
+            };
         });
 
     </script>

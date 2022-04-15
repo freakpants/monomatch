@@ -49,6 +49,13 @@
                 $(".mainmenu-option").hide();
                 $(".music-option").css("display", "flex");
             });
+            $("#credits").click(function (event) {
+                var command = [];
+                command.push({ type: "credits" });
+                air_console.message(0, command);
+                $(".mainmenu-option").hide();
+                $("#back").css("display", "flex");
+            });
             $("#more").click(function (event) {
                 if (document.maxRound === 45) {
                     // hide the more button
@@ -87,6 +94,7 @@
                 // show buttons depending on gameScene in a switch
                 $(".button").hide();
                 switch (document.gameScene) {
+                    case "credits":
                     case "musicoptionsscene":
                         $(".mainmenu-option").css("display", "flex");
                         break;
@@ -172,6 +180,9 @@
             // also hide waiting areas
             $(".waiting_message").hide();
             switch (document.gameScene) {
+                case "credits":
+                    $("#back").css("display", "flex");
+                    break;
                 case "mainmenu":
                     $(".mainmenu-option").css("display", "flex");
                     break;
@@ -269,7 +280,7 @@
                     case "pause":
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");
-                        DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId() );
+                        DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId());
                         $("#waiting_for_start").hide();
                         $("#waiting_for_pause").css("display", "flex");
                         $(".button").hide();
@@ -335,7 +346,7 @@
                             show_correct_buttons();
                         } else {
                             DEBUG && console.log("i am not master");
-                            if(!document.superfluous_controller){
+                            if (!document.superfluous_controller) {
                                 DEBUG && console.log("showing waiting for start because we are not the 9th+ controller");
                                 $("#waiting_for_start").css("display", "flex");
                             }
