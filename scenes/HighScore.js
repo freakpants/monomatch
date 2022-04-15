@@ -24,6 +24,10 @@ export default class HighScore extends FindItScene {
     super.update();
     const uiScale = document.uiScale;
     if (document.highScoreSettingChanged) {
+      let uids = [];
+      air_console.getControllerDeviceIds().forEach((id) => {
+        uids.push(air_console.getUID(id));
+      });
       this.scoreText.setText("Loading HighScores...");
       const levelname =
         document.highScoreRounds +
@@ -40,10 +44,10 @@ export default class HighScore extends FindItScene {
       this.scoreBuildingInProgress = true;
       // conventionally sort the scores
       document.scores.sort(function (a, b) {
-        if (a.correct > b.correct) {
+        if (a.ranks[document.highScoreRegion] < b.ranks[document.highScoreRegion]) {
           return -1;
         }
-        if (a.correct < b.correct) {
+        if (a.ranks[document.highScoreRegion] > b.ranks[document.highScoreRegion]) {
           return 1;
         }
         return 0;
@@ -87,7 +91,7 @@ export default class HighScore extends FindItScene {
 
         const cellwidth = 200 * uiScale;
         const cellheight = 64 * uiScale;
-        const columnCount = 4;
+        const columnCount = 5;
         const rowCount = document.scores.length + 1;
 
         const cellsCount = columnCount * rowCount;
@@ -148,6 +152,9 @@ export default class HighScore extends FindItScene {
             case 3:
               cellText = "Time";
               break;
+            case 4:
+              cellText = "Score";
+              break;
             default:
               cellText = cell.index;
               break;
@@ -199,6 +206,9 @@ export default class HighScore extends FindItScene {
                 } else {
                   cellText = seconds;
                 }
+                break;
+              case 4:
+                cellText = document.scores[rowNumber - 1].score;
                 break;
             }
           }
