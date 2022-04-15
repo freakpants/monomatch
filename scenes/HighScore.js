@@ -39,17 +39,21 @@ export default class HighScore extends FindItScene {
     if (document.scores) {
       // cache profile pictures
       let loader = new Phaser.Loader.LoaderPlugin(this);
+      let requested = [];
       document.scores.forEach((score) => {
         const uids = score.uids;
         uids.forEach((uid) => {
           const image_id = "user_" + uid;
-          loader.image(
-            image_id,
-            air_console.getProfilePicture(
-              uid,
-              Math.floor(110 * document.uiScale)
-            )
-          );
+          if (!requested.includes(image_id)) {
+            loader.image(
+              image_id,
+              air_console.getProfilePicture(
+                uid,
+                Math.floor(110 * document.uiScale)
+              )
+            );
+            requested.push(image_id);
+          }
         });
       });
 
@@ -143,6 +147,7 @@ export default class HighScore extends FindItScene {
             let array_index = Math.floor(Math.random() * uids.length);
             let uid = uids[array_index];
             let image_id = "user_" + uid;
+            let seconds = 0;
 
             switch (remainder) {
               case 0:
@@ -167,7 +172,19 @@ export default class HighScore extends FindItScene {
                 document.wideCells.push(cell.index);
                 break;
               case 3:
-                cellText = document.scores[rowNumber - 1].data.seconds;
+                seconds = document.scores[rowNumber - 1].data.seconds;
+                if (seconds > 60) {
+                  minutes = Math.floor(seconds / 60);
+                  if (minutes < 10) {
+                    celltext =
+                      "0" + minutes + ":" + (seconds > 10 ? "0" : "") + seconds;
+                  } else {
+                    celltext =
+                      minutes + ":" + (seconds > 10 ? "0" : "") + seconds;
+                  }
+                } else {
+                  cellText = seconds;
+                }
                 break;
             }
           }
@@ -208,6 +225,7 @@ export default class HighScore extends FindItScene {
             cellVisibleCallback: onCellVisible.bind(this),
           }
         );
+        document.scores = false;
       });
       loader.start();
     }
