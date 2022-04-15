@@ -71,6 +71,24 @@
         function init() {
             air_console = new AirConsole();
 
+            air_console.onAdShow = () => {
+                document.sfxBeforeAd = document.sfxOff;
+                document.sfxOff = true;  
+                document.musicBeforeAd = document.musicOff;
+                document.musicOff = true;
+                $("#music-element").prop("volume", 0);
+                document.adShowing = true;
+            };
+
+            air_console.onAdComplete = () => {
+                document.sfxOff = document.sfxBeforeAd;
+                document.musicOff = document.musicBeforeAd;
+                if(!document.musicOff) {
+                   $("#music-element").prop("volume", 1);
+                }
+                document.adShowing = false;
+            };
+
             // Listen for messages from other devices
             air_console.onMessage = function (from, message) {
                 // handle message
@@ -235,7 +253,8 @@
 
                         document.winningPlayerId = from;
 
-
+                        // let phaser scene know we have a correct icon, this in turn triggers the animation and sceneChange
+                        document.correct_icon_id = message[0].correct_icon_id;
                         if (document.lastRound) {
                             // if this was the last round, move on to the game over screen
                             DEBUG && console.log("game is ending");
@@ -243,11 +262,8 @@
                             game_over_message.push({ type: "game_over" });
                             DEBUG && console.log("sending game over message");
                             air_console.broadcast(game_over_message);
-                            sceneChange('endofgame');
                         } else {
-                            // change the phaser scene
-                            // sceneChange("timescreen");
-                            document.correct_icon_id = message[0].correct_icon_id;
+
 
                             document.next_set_id = message[0].set_id;
                             document.round++;

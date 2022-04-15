@@ -113,7 +113,7 @@ export default class Guessing extends FindItScene {
   update() {
     super.update();
     // stop animating during the tween
-    if(!document.tweenComplete){
+    if (!document.tweenComplete) {
       if (!document.rotationOff) {
         this.rotateAssets();
       }
@@ -121,15 +121,19 @@ export default class Guessing extends FindItScene {
         this.scaleAssets();
       }
     }
-    if(document.aftertweenComplete){
+    if (document.aftertweenComplete) {
       // set tween to false
       document.aftertweenComplete = false;
       document.tweenComplete = false;
-      sceneChange("timescreen");
+      if (document.lastRound) {
+        sceneChange("endofgame");
+      } else {
+        sceneChange("timescreen");
+      }
     }
     // check if an icon is correct
     if (document.correct_icon_id !== -1) {
-      if(!document.sfxOff){
+      if (!document.sfxOff) {
         this.success.play();
       }
       // loop all assets in foreach
@@ -140,14 +144,19 @@ export default class Guessing extends FindItScene {
             this.tweens.add({
               targets: asset,
               duration: 1800,
-              rotation: 0,  
+              rotation: 0,
               scaleX: 2.5 * document.uiScale,
               scaleY: 2.5 * document.uiScale,
               x: this.getCenterX(),
               y: this.getCenterY(),
               delay: Math.random() * 2,
               ease: "Sine.easeInOut",
-              onComplete: () => { document.tweenComplete = true; setTimeout(() => {document.aftertweenComplete = true;}, 1250);}
+              onComplete: () => {
+                document.tweenComplete = true;
+                setTimeout(() => {
+                  document.aftertweenComplete = true;
+                }, 1250);
+              },
             });
           } else {
             // move the other assets off the screen in right direction

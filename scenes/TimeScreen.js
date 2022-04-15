@@ -11,6 +11,7 @@ export default class TimeScreen extends FindItScene {
 
   create() {
     super.create();
+    air_console.showAd();
     const uiScale = document.uiScale;
     this.initialTime = 5;
 
@@ -51,6 +52,9 @@ export default class TimeScreen extends FindItScene {
   }
 
   onEvent() {
+    if(document.adShowing){
+      return;
+    }
     console.log(this.initialTime);
     if (this.initialTime !== 1) {
       if(!document.sfxOff){
