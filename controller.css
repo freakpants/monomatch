@@ -288,16 +288,16 @@ body{
 	flex-direction:column;
 }
 
-#game_over, #waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready{
+#game_over, .waiting_message, #get_ready{
 	font-size: 1.5em;
 }
 
-#waiting_for_start, #waiting_for_pause{
+.waiting_message{
     height: 100vh;
 	display: none;
 }
 
-#waiting_for_next_round, #waiting_for_start, #waiting_for_pause, #get_ready, #score_report, #game_over{
+.waiting_message, #get_ready, #score_report, #game_over{
 	justify-content: center;
     text-align: center;
 	flex-direction: column;

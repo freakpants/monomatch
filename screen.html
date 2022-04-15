@@ -282,7 +282,7 @@
                         }
                         break;
                     case "confirm":
-                        if (!(document.connectedPlayersAmount >= 2 && document.connectedPlayersAmount <= 8)) {
+                        if (document.connectedPlayersAmount > 8) {
                             return;
                         }
                         document.round = 1;
@@ -372,10 +372,6 @@
                     DEBUG && console.log("device " + device_id + " is not a master");
                     air_console.message(device_id, hide_menu);
                 }
-                // trigger the event on the active scene
-                if (typeof document.game !== "undefined" && document.game.scene.getScenes(true).length > 0) {
-                    document.game.scene.getScene('backgroundanduiscene').events.emit("playerConnectionEvent");
-                }
             }
 
 
@@ -391,10 +387,6 @@
                         type: "show_menu"
                     });
                     air_console.message(air_console.getMasterControllerDeviceId(), message);
-                }
-                // trigger the event on the active scene
-                if (document.game.scene.getScenes(true).length > 0) {
-                    document.game.scene.getScene('backgroundanduiscene').events.emit("playerConnectionEvent");
                 }
             }
 

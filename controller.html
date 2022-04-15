@@ -170,9 +170,7 @@
             // first, hide all buttons
             $(".button").hide();
             // also hide waiting areas
-            $("#waiting_for_start").hide();
-            $("#waiting_for_pause").hide();
-            $("#waiting_for_next_round").hide();
+            $(".waiting_message").hide();
             switch (document.gameScene) {
                 case "mainmenu":
                     $(".mainmenu-option").css("display", "flex");
@@ -206,6 +204,19 @@
                 show_correct_buttons();
             }
 
+
+            air_console.onReady = function () {
+                DEBUG && console.log("controller initing");
+                DEBUG && console.log(air_console.getControllerDeviceIds().length + " controllers present");
+                // if there are more than 8 devices, show the waiting for disconnect screen
+                if (air_console.getControllerDeviceIds().length > 8) {
+                    document.superfluous_controller = true;
+                    $(".waiting_message").hide();
+                    $("#waiting_for_disconnect").css("display", "flex");
+                }
+            };
+
+
             // listen for players connecting, that could possible mean we are not master anymore
             air_console.onConnect = function (device_id) {
                 DEBUG && console.log("checking if this controller is not master anymore");
@@ -215,6 +226,19 @@
                     $(".button").hide();
                 }
                 handle_pause_button();
+            };
+
+            air_console.onDisconnect = function (device_id) {
+                DEBUG && console.log("checking if we have less than 9 controllers");
+                // if there are less than 9 devices, hide the waiting for disconnect screen
+                if (air_console.getControllerDeviceIds().length < 9) {
+                    DEBUG && console.log("we have less than 9 controllers");
+                    document.superfluous_controller = false;
+                    $("#waiting_for_disconnect").hide();
+                    // show waiting for start
+                    DEBUG && console.log("showing waiting for start on controller" + air_console.getDeviceId());
+                    $("#waiting_for_start").css("display", "flex");
+                }
             };
 
             air_console.onMessage = function (from, data) {
@@ -245,6 +269,7 @@
                     case "pause":
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");
+                        DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId() );
                         $("#waiting_for_start").hide();
                         $("#waiting_for_pause").css("display", "flex");
                         $(".button").hide();
@@ -305,11 +330,15 @@
                     case "hide_menu":
                         if (am_i_master()) {
                             DEBUG && console.log("i am master");
+                            DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId());
                             $("#waiting_for_start").hide();
                             show_correct_buttons();
                         } else {
                             DEBUG && console.log("i am not master");
-                            $("#waiting_for_start").css("display", "flex");
+                            if(!document.superfluous_controller){
+                                DEBUG && console.log("showing waiting for start because we are not the 9th+ controller");
+                                $("#waiting_for_start").css("display", "flex");
+                            }
                             $(".button").hide();
                         }
                         break;
@@ -334,6 +363,7 @@
                         }
 
                         $("#menu").hide();
+                        DEBUG && console.log("hiding waiting for start because we received a set");
                         $("#waiting_for_start").hide();
 
                         change_sets_on_controller(data[0].set_id, data[0].screen_set_id, true);
@@ -426,7 +456,7 @@
                         DEBUG && console.log("correct icon id: " + correct_icon_id);
                         // inform screen about correct guess
                         var command = [];
-                        command.push({ type: "correct", set_id: correct_set_id, correct_icon_id: correct_icon_id});
+                        command.push({ type: "correct", set_id: correct_set_id, correct_icon_id: correct_icon_id });
                         air_console.message(0, command);
                     } else {
                         air_console.vibrate(200);
@@ -505,10 +535,10 @@
 
 <div id="menu">
     <div class="button difficulty-option" id="rotation">
-        Toggle Rotation
+        Rotation
     </div>
     <div class="button difficulty-option" id="scaling">
-        Toggle Scaling
+        Scaling
     </div>
     <div class="button mainmenu-option difficulty-option" id="confirm">
         Start
@@ -520,10 +550,10 @@
         Credits
     </div>
     <div class="button music-option" id="music">
-        Toggle Music
+        Music
     </div>
     <div class="button music-option" id="sfx">
-        Toggle Sfx
+        Sfx
     </div>
     <div class="button round-option" id="less">
         Less
@@ -546,13 +576,16 @@
     <div class="button game-over-option quit-option" id="game-over">
         Back To Menu
     </div>
-    <div id="waiting_for_next_round">
+    <div id="waiting_for_disconnect" class="waiting_message">
+        Too many players (>8).</br> Please wait for someone to disconnect.
+    </div>
+    <div id="waiting_for_next_round" class="waiting_message">
         Please wait for the next round to begin.
     </div>
-    <div id="waiting_for_start">
+    <div id="waiting_for_start" class="waiting_message">
         Please wait for the master controller to start the game.
     </div>
-    <div id="waiting_for_pause">
+    <div id="waiting_for_pause" class="waiting_message">
         Please wait for the master controller to resume or quit the game.
     </div>
 </div>

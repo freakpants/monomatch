@@ -3,7 +3,7 @@ export default class MainMenu extends FindItScene {
   constructor() {
     super("mainmenu");
     this.staticText =
-      "Welcome to Find It Faster!\nPress start to play a round with the connected players!\nThis game requires 2-8 players to start.\n";
+      "Welcome to Find It Faster!\nPress start to play a round with the connected players!\nThis game can be played with up to 8 players.\n";
   }
 
   preload() {
@@ -19,10 +19,7 @@ export default class MainMenu extends FindItScene {
       .text(
         this.getCenterX(),
         this.getCenterY() + 200 * uiScale,
-        this.staticText +
-          "Currently " +
-          document.connectedPlayersAmount +
-          " are connected.",
+        this.staticText,
         {
           fontSize: 30 * uiScale + "px",
           align: "center",
@@ -32,25 +29,10 @@ export default class MainMenu extends FindItScene {
       )
       .setOrigin(0.5, 0.5);
 
-    
-    // this is mostly for when we come back from other places
-    // this.handlePlayerCount();
-
     this.assets = [];
 
     // this.add.image(this.getCenterX(), 300, "logo").setScale(0.5);
     this.add.image(this.getCenterX(), 300 * uiScale, "logo").setScale(0.75 * uiScale);
   }
 
-  // update the gametext
-  handlePlayerCount() {
-    if (
-      document.connectedPlayersAmount >= 2 &&
-      document.connectedPlayersAmount <= 8
-    ) {
-      this.text.setText(this.staticText + "The game can start.");
-    } else {
-      this.text.setText(this.staticText + "The game cannot start.");
-    }
-  }
 }

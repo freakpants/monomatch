@@ -18,10 +18,13 @@ export default class BackGroundAndUIScene extends FindItScene {
     this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
   }
 
+  update() {
+    super.update();
+    this.playerAmount.setText(document.connectedPlayersAmount);
+  }
+
   create() {
     super.create();
-    // listen for playerConnection events triggered by the AirConsole
-    this.events.on("playerConnectionEvent", this.handlePlayerCount, this);
     // only add event listener if it doesnt exist already
     if (this.events._events.sceneChange === undefined) {
       // listen for sceneChange by AirConsole
@@ -157,10 +160,6 @@ export default class BackGroundAndUIScene extends FindItScene {
         .setScale(0.9 * uiScale)
         .setOrigin(0, 0);
     }
-  }
-
-  handlePlayerCount() {
-    this.playerAmount.setText(document.connectedPlayersAmount);
   }
 
   drawRoundAmountUi() {
