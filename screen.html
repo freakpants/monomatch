@@ -148,7 +148,7 @@
                             case "difficultyoptionsscene":
                                 sceneChange("roundoptionsscene");
                                 break;
-                            
+
                         }
                         break;
                     case "toggle-rotation":
@@ -181,7 +181,8 @@
                         sceneChange("musicoptionsscene");
                         break;
                     case "highscore":
-                    if (!document.highScorePlayers) {
+                        document.highScoreSettingChanged = true;
+                        if (!document.highScorePlayers) {
                             document.highScorePlayers = air_console.getControllerDeviceIds().length;
                         }
 
