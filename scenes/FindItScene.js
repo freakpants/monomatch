@@ -129,7 +129,8 @@ export default class FindItScene extends Phaser.Scene {
             document.gameScene === "roundoptionsscene" ||
             document.gameScene === "difficultyoptionsscene" ||
             document.gameScene === "credits" ||
-            document.gameScene === "gameover",
+            document.gameScene === "gameover"||
+            document.gameScene === "highscore"
         });
       } else {
         // attempt to restart the crashed bg

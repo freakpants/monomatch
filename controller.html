@@ -56,6 +56,13 @@
                 $(".mainmenu-option").hide();
                 $("#back").css("display", "flex");
             });
+            $("#highscore").click(function (event) {
+                var command = [];
+                command.push({ type: "highscore" });
+                air_console.message(0, command);
+                $(".mainmenu-option").hide();
+                $(".highscore-option").css("display", "flex");
+            });
             $("#more").click(function (event) {
                 if (document.maxRound === 45) {
                     // hide the more button
@@ -94,6 +101,7 @@
                 // show buttons depending on gameScene in a switch
                 $(".button").hide();
                 switch (document.gameScene) {
+                    case "highscore":
                     case "credits":
                     case "musicoptionsscene":
                         $(".mainmenu-option").css("display", "flex");
@@ -558,6 +566,9 @@
     <div class="button mainmenu-option" id="options">
         Options
     </div>
+    <div class="button mainmenu-option" id="highscore">
+        Highscores
+    </div>
     <div class="button mainmenu-option" id="credits">
         Credits
     </div>
@@ -576,7 +587,17 @@
     <div class="button music-option round-option" id="next">
         Next
     </div>
-    <div class="button music-option round-option difficulty-option" id="back">
+
+    <div class="button highscore-option" id="highscore-ladder">
+        Ladder
+    </div>  
+    <div class="button highscore-option" id="highscore-players">
+        Players
+    </div>
+    <div class="button highscore-option" id="highscore-rounds">
+        Rounds
+    </div>
+    <div class="button music-option round-option difficulty-option highscore-option" id="back">
         Back
     </div>
     <div class="button pause-option" id="resume">

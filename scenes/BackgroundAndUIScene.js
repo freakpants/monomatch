@@ -163,7 +163,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   drawRoundAmountUi() {
-    DEBUG && console.log("drawRoundAmountUi was called"); 
+    DEBUG && console.log("drawRoundAmountUi was called");
     const uiScale = document.uiScale;
 
     // start over instead of overdrwaing
@@ -236,15 +236,20 @@ export default class BackGroundAndUIScene extends FindItScene {
 
   handleSceneChange(scene) {
     DEBUG && console.log("handleSceneChange was called");
-    if (scene === "mainmenu" || scene === "musicoptionsscene" || scene === "roundoptionsscene" || scene === "difficultyoptionsscene" || scene === "credits") {
+    if (
+      scene === "mainmenu" ||
+      scene === "musicoptionsscene" ||
+      scene === "roundoptionsscene" ||
+      scene === "difficultyoptionsscene" ||
+      scene === "credits" ||
+      scene === "highscore"
+    ) {
       if (typeof this.roundAmountGraphics !== "undefined") {
         this.roundAmountGraphics.destroy();
         this.hashtag.destroy();
         this.round.destroy();
       }
-    } else if (
-      this.roundAmountGraphics === undefined
-    ) {
+    } else if (this.roundAmountGraphics === undefined) {
       DEBUG && console.log("drawing round amount ui");
       this.drawRoundAmountUi();
     }

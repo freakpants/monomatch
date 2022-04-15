@@ -74,7 +74,7 @@
 
             air_console.onAdShow = () => {
                 document.sfxBeforeAd = document.sfxOff;
-                document.sfxOff = true;  
+                document.sfxOff = true;
                 document.musicBeforeAd = document.musicOff;
                 document.musicOff = true;
                 $("#music-element").prop("volume", 0);
@@ -84,8 +84,8 @@
             air_console.onAdComplete = () => {
                 document.sfxOff = document.sfxBeforeAd;
                 document.musicOff = document.musicBeforeAd;
-                if(!document.musicOff) {
-                   $("#music-element").prop("volume", 1);
+                if (!document.musicOff) {
+                    $("#music-element").prop("volume", 1);
                 }
                 document.adShowing = false;
             };
@@ -137,6 +137,7 @@
                         break;
                     case "back":
                         switch (document.gameScene) {
+                            case "highscore":
                             case "credits":
                             case "musicoptionsscene":
                                 sceneChange("mainmenu");
@@ -147,6 +148,7 @@
                             case "difficultyoptionsscene":
                                 sceneChange("roundoptionsscene");
                                 break;
+                            
                         }
                         break;
                     case "toggle-rotation":
@@ -177,6 +179,20 @@
                         DEBUG && console.log("emmitting optionChange event");
                         document.game.scene.getScene('backgroundanduiscene').events.emit("optionChange", "music");
                         sceneChange("musicoptionsscene");
+                        break;
+                    case "highscore":
+                    if (!document.highScorePlayers) {
+                            document.highScorePlayers = air_console.getControllerDeviceIds().length;
+                        }
+
+                        if (!document.highScoreRegion) {
+                            document.highScoreRegion = "world";
+                        }
+                        // set highscore rounds to default
+                        if (!document.highScoreRounds) {
+                            document.highScoreRounds = document.maxRound;
+                        }
+                        sceneChange("highscore");
                         break;
                     case "credits":
                         sceneChange("credits");
@@ -367,20 +383,20 @@
             air_console.onHighScores = function (scores) {
                 DEBUG && console.log("received high scores");
                 DEBUG && console.log(scores);
-                if(scores.length > 0) {
+                if (scores.length > 0) {
                     document.scores = scores;
-                } 
+                }
             };
             air_console.onHighScoreStored = function (score) {
                 DEBUG && console.log("received high score stored");
                 DEBUG && console.log(score);
-                if(score !== null){
+                if (score !== null) {
                     document.ourScore = score;
                 }
             };
             air_console.onConnect = function (device_id) {
 
-                if(air_console.getControllerDeviceIds().length > document.savedRoundPlayers){
+                if (air_console.getControllerDeviceIds().length > document.savedRoundPlayers) {
                     document.highScoreValid = false;
                 }
 
@@ -451,6 +467,7 @@
         import RoundOptions from './scenes/RoundOptions.js';
         import DifficultyOptions from './scenes/DifficultyOptions.js';
         import Credits from './scenes/Credits.js';
+        import HighScore from './scenes/HighScore.js';
         import { objects, projective_sets } from './objects.js';
 
         $(document).ready(function () {
@@ -468,7 +485,7 @@
                     height: "100%",
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
-                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions, RoundOptions, DifficultyOptions, Credits],
+                scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions, RoundOptions, DifficultyOptions, Credits, HighScore],
                 transparent: true
             };
 
