@@ -39,6 +39,7 @@
         document.rotationOff = true;
         document.scalingOff = true;
         document.correct_icon_id = -1;
+        document.timeElapsed = 0;
 
         var DEBUG = true;
         function sceneChange(targetScene) {
@@ -201,6 +202,9 @@
                             return;
                         }
                         document.somebodyScoredThisRound = true;
+                        document.guessingEnded = new Date();
+                        document.timeElapsed += document.guessingEnded.getTime() - document.guessingStarted.getTime();
+                        document.scores = false;
 
                         DEBUG && console.log("device " + from + " guessed correctly");
                         DEBUG && console.log("correct set was: " + message[0].set_id);
@@ -306,6 +310,9 @@
                             return;
                         }
                         document.round = 1;
+                        document.timeElapsed = 0;
+                        document.highScoreValid = true;
+                        document.savedRoundPlayers = air_console.getControllerDeviceIds().length;
 
                         // document.maxRound = 57 - document.connectedPlayersAmount;
 
@@ -357,7 +364,25 @@
                         break;
                 }
             };
+            air_console.onHighScores = function (scores) {
+                DEBUG && console.log("received high scores");
+                DEBUG && console.log(scores);
+                if(scores.length > 0) {
+                    document.scores = scores;
+                } 
+            };
+            air_console.onHighScoreStored = function (score) {
+                DEBUG && console.log("received high score stored");
+                DEBUG && console.log(score);
+                if(score !== null){
+                    document.ourScore = score;
+                }
+            };
             air_console.onConnect = function (device_id) {
+
+                if(air_console.getControllerDeviceIds().length > document.savedRoundPlayers){
+                    document.highScoreValid = false;
+                }
 
                 // let the new controller know which screen we are on
                 var command = [];
@@ -431,6 +456,8 @@
         $(document).ready(function () {
 
             document.projective_sets = projective_sets;
+
+            const air_console = new AirConsole;
 
             var config = {
                 type: Phaser.AUTO,

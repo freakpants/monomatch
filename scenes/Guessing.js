@@ -38,6 +38,8 @@ export default class Guessing extends FindItScene {
   create() {
     super.create();
 
+    document.guessingStarted = new Date();
+
     /* white line that helps see bounds 
     this.graphics.lineStyle(4, 0xffffff, 1);
     this.graphics.beginPath();
