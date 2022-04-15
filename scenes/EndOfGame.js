@@ -23,11 +23,14 @@ export default class EndOfGame extends FindItScene {
   }
 
   create() {
-    var roundAmount = false;
+    
     super.create(roundAmount);
 
-    const cellwidth = 200;
-    const cellheight = 64;
+    const uiScale = document.uiScale; 
+    var roundAmount = false;
+
+    const cellwidth = 200 * uiScale;
+    const cellheight = 64 * uiScale;
     const columnCount = 4;
     const rowCount = document.playerScores.length + 1;
 
@@ -72,7 +75,7 @@ export default class EndOfGame extends FindItScene {
         bgColor = Phaser.Display.Color.HexStringToColor("#2962ff").color;
       }
 
-      var cellBg = scene.add.graphics(0, 0).fillStyle(bgColor).fillRect(0, 0, 200, 64);
+      var cellBg = scene.add.graphics(0, 0).fillStyle(bgColor).fillRect(0, 0, 200 * uiScale, 64 * uiScale);
 
       switch (cell.index) {
         case 0:
@@ -103,7 +106,9 @@ export default class EndOfGame extends FindItScene {
             case 1:
                 var image_id = document.profile_pictures[document.playerScores[rowNumber-1].player];
                 DEBUG && console.log("adding image from asset id " +  image_id);
-                image = scene.add.image(100,32,  image_id );
+                image = scene.add.image(200 / 2 * uiScale, 64 / 2 * uiScale,  image_id );
+                image.displayWidth = cell.height;
+                image.displayHeight = cell.height;
             break;
             case 2:
                 cellText = air_console.getNickname(document.playerScores[rowNumber-1].player);
@@ -121,7 +126,7 @@ export default class EndOfGame extends FindItScene {
         DEBUG && console.log("we should be adding the image");
         container = scene.add.container(0, 0, [cellBg, image]);
       } else {
-        var txt = scene.add.text(100, 32, cellText,{fontSize: "35px", fontFamily: "Luckiest Guy"}).setOrigin(0.5, 0.5);;
+        var txt = scene.add.text(200 / 2 * uiScale, 64 / 2 * uiScale, cellText,{fontSize: 35 * uiScale + "px", fontFamily: "Luckiest Guy"}).setOrigin(0.5, 0.5);;
         container = scene.add.container(0, 0, [cellBg, txt]);
       }      
 
@@ -151,8 +156,8 @@ export default class EndOfGame extends FindItScene {
 
 
     this.add
-      .text(this.getCenterX(), 100, "The Game has ended!\n", {
-        fontSize: "45px",
+      .text(this.getCenterX(), 100 * uiScale, "The Game has ended!\n", {
+        fontSize: 45 * uiScale + "px",
         align: "center",
         color: "#ffffff",
         fontFamily: "Luckiest Guy",
