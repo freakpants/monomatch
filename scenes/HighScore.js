@@ -24,6 +24,7 @@ export default class HighScore extends FindItScene {
     super.update();
     const uiScale = document.uiScale;
     if (document.highScoreSettingChanged) {
+      this.changeScoreText();
       let uids = [];
       air_console.getControllerDeviceIds().forEach((id) => {
         uids.push(air_console.getUID(id));
@@ -91,42 +92,7 @@ export default class HighScore extends FindItScene {
 
         loader.once(Phaser.Loader.Events.COMPLETE, () => {
           // attempt to draw the high score table
-          let highScoreRegion = document.highScoreRegion;
-          if(document.highScoreRegion === "city" && document.scores.length > 0 && document.scores[0].location_city_name !== undefined) {
-            highScoreRegion = document.scores[0].location_city_name;
-          }
-          if(document.highScoreRegion === "country" && document.scores.length > 0 && document.scores[0].location_country_name !== undefined) {
-            highScoreRegion = document.scores[0].location_country_name;
-          }
-          if(document.highScoreRegion === "region" && document.scores.length > 0 && document.scores[0].location_region_name !== undefined) {
-            highScoreRegion = document.scores[0].location_region_name;
-          }
-          this.scoreText.setText("HighScores");
-          if(document.highScoreRegion === "world" || document.highScoreRegion === "friends") {
-            this.regionText.setText(
-              highScoreRegion +
-                "\n" +
-                document.highScorePlayers +
-                " Player" +
-                (document.highScorePlayers > 1 ? "s" : "") +
-                "\n" +
-                document.highScoreRounds +
-                " Rounds"
-            );
-          }else {
-            this.regionText.setText(
-              document.highScoreRegion + ": " +
-              highScoreRegion +
-                "\n" +
-                document.highScorePlayers +
-                " Player" +
-                (document.highScorePlayers > 1 ? "s" : "") +
-                "\n" +
-                document.highScoreRounds +
-                " Rounds"
-            );
-          }
-
+          this.changeScoreText();
 
           const cellwidth = 200 * uiScale;
           const cellheight = 64 * uiScale;
@@ -326,5 +292,59 @@ export default class HighScore extends FindItScene {
         fontFamily: "Luckiest Guy",
       })
       .setOrigin(0.5, 0.5);
+  }
+
+  changeScoreText() {
+    let highScoreRegion = document.highScoreRegion;
+    if (
+      document.highScoreRegion === "city" &&
+      document.scores.length > 0 &&
+      document.scores[0].location_city_name !== undefined
+    ) {
+      highScoreRegion = document.scores[0].location_city_name;
+    }
+    if (
+      document.highScoreRegion === "country" &&
+      document.scores.length > 0 &&
+      document.scores[0].location_country_name !== undefined
+    ) {
+      highScoreRegion = document.scores[0].location_country_name;
+    }
+    if (
+      document.highScoreRegion === "region" &&
+      document.scores.length > 0 &&
+      document.scores[0].location_region_name !== undefined
+    ) {
+      highScoreRegion = document.scores[0].location_region_name;
+    }
+    this.scoreText.setText("HighScores");
+    if (
+      document.highScoreRegion === "world" ||
+      document.highScoreRegion === "friends"
+    ) {
+      this.regionText.setText(
+        highScoreRegion +
+          "\n" +
+          document.highScorePlayers +
+          " Player" +
+          (document.highScorePlayers > 1 ? "s" : "") +
+          "\n" +
+          document.highScoreRounds +
+          " Rounds"
+      );
+    } else {
+      this.regionText.setText(
+        document.highScoreRegion +
+          ": " +
+          highScoreRegion +
+          "\n" +
+          document.highScorePlayers +
+          " Player" +
+          (document.highScorePlayers > 1 ? "s" : "") +
+          "\n" +
+          document.highScoreRounds +
+          " Rounds"
+      );
+    }
   }
 }

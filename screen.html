@@ -126,6 +126,22 @@
                                 break;
                         }
                         break;
+                    case "highscore_rounds":
+                        document.highScoreSettingChanged = true;
+                        if (document.highScoreRounds < 50) {
+                            document.highScoreRounds += 5;
+                        } else {
+                            document.highScoreRounds = 5;
+                        }
+                        break;
+                    case "highscore_players":
+                        document.highScoreSettingChanged = true;
+                        if (document.highScorePlayers < 8) {
+                            document.highScorePlayers += 1;
+                        } else {
+                            document.highScorePlayers = 1;
+                        }
+                        break;
                     case "request_icons":
                         if (document.stack.length === 0) {
                             generate_stack();
@@ -404,9 +420,7 @@
             air_console.onHighScores = function (scores) {
                 DEBUG && console.log("received high scores");
                 DEBUG && console.log(scores);
-                if (scores.length > 0) {
-                    document.scores = scores;
-                }
+                document.scores = scores;
             };
             air_console.onHighScoreStored = function (score) {
                 DEBUG && console.log("received high score stored");
