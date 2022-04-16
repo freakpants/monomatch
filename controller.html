@@ -29,6 +29,24 @@
         document.maxRound = 20;
 
         $(document).ready(function () {
+            // when clicking on highscore ladder button, send the command
+            $("#highscore-ladder").click(function () {
+                var command = [];
+                command.push({ type: "highscore_ladder" });
+                air_console.message(0, command);
+            });
+            // when clicking on highscore players button, send the command
+            $("#highscore-players").click(function () {
+                var command = [];
+                command.push({ type: "highscore_players" });
+                air_console.message(0, command);
+            });
+            // when clicking on highscore rounds button, send the command
+            $("#highscore-rounds").click(function () {
+                var command = [];
+                command.push({ type: "highscore_rounds" });
+                air_console.message(0, command);
+            });
             $("#confirm").click(function (event) {
 
                 var command = [];

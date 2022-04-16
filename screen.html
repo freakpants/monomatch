@@ -106,6 +106,26 @@
                 }
 
                 switch (type) {
+                    case "highscore_ladder":
+                        document.highScoreSettingChanged = true;
+                        switch (document.highScoreRegion) {
+                            case "world":
+                                document.highScoreRegion = "country";
+                                break;
+                            case "country":
+                                document.highScoreRegion = "region";
+                                break;
+                            case "region":
+                                document.highScoreRegion = "city";
+                                break;
+                            case "city":
+                                document.highScoreRegion = "friends";
+                                break;
+                            case "friends":
+                                document.highScoreRegion = "world";
+                                break;
+                        }
+                        break;
                     case "request_icons":
                         if (document.stack.length === 0) {
                             generate_stack();
