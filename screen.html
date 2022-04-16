@@ -313,6 +313,7 @@
                         // let phaser scene know we have a correct icon, this in turn triggers the animation and sceneChange
                         document.correct_icon_id = message[0].correct_icon_id;
                         if (document.lastRound) {
+                            document.gameEnding = true;
                             // if this was the last round, move on to the game over screen
                             DEBUG && console.log("game is ending");
                             game_over_message = [];
@@ -366,6 +367,7 @@
                         document.timeElapsed = 0;
                         document.highScoreValid = true;
                         document.savedRoundPlayers = air_console.getControllerDeviceIds().length;
+                        document.gameEnding = false;
 
                         // document.maxRound = 57 - document.connectedPlayersAmount;
 

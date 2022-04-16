@@ -127,7 +127,7 @@ export default class Guessing extends FindItScene {
       // set tween to false
       document.aftertweenComplete = false;
       document.tweenComplete = false;
-      if (document.lastRound) {
+      if (document.gameEnding) {
         sceneChange("endofgame");
       } else {
         sceneChange("timescreen");
