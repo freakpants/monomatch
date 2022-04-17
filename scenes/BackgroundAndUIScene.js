@@ -249,7 +249,7 @@ export default class BackGroundAndUIScene extends FindItScene {
         this.hashtag.destroy();
         this.round.destroy();
       }
-    } else if (this.roundAmountGraphics === undefined) {
+    } else if (this.roundAmountGraphics === undefined || this.roundAmountGraphics.scene === undefined) {
       DEBUG && console.log("drawing round amount ui");
       this.drawRoundAmountUi();
     }
