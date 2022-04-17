@@ -432,6 +432,7 @@
                 }
             };
             air_console.onConnect = function (device_id) {
+                DEBUG && console.log("AirConsole onConnect event");
 
                 if (air_console.getControllerDeviceIds().length > document.savedRoundPlayers) {
                     document.highScoreValid = false;
@@ -475,6 +476,7 @@
 
 
             air_console.onDisconnect = function (device_id) {
+                DEBUG && console.log("AirConsole onDisconnect event");
                 // update player count
                 document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
 

@@ -483,7 +483,7 @@
 
                     $(".object-container").css("pointer-events", "none");
                     if (correct) {
-                        air_console.vibrate(200);
+                        air_console.vibrate(400);
                         document.was_correct = true;
                         // signal correctness to player by blinking
                         $("#correct").css('opacity', '1');
@@ -497,8 +497,9 @@
                         command.push({ type: "correct", set_id: correct_set_id, correct_icon_id: correct_icon_id });
                         air_console.message(0, command);
                     } else {
-                        air_console.vibrate(200);
-                        air_console.vibrate(200);
+                        air_console.vibrate(400);
+                        setTimeout(() => {air_console.vibrate(400);}, 400);
+    
                         $("#wrong").css('opacity', '1');
                         $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
                         $(event.target).css("opacity", "0.25");
