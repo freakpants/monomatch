@@ -296,12 +296,14 @@ export default class HighScore extends FindItScene {
 
   changeScoreText() {
     let highScoreRegion = document.highScoreRegion;
+    let specificRegion = false;
     if (
       document.highScoreRegion === "city" &&
       document.scores.length > 0 &&
       document.scores[0].location_city_name !== undefined
     ) {
       highScoreRegion = document.scores[0].location_city_name;
+      specificRegion = true;
     }
     if (
       document.highScoreRegion === "country" &&
@@ -309,6 +311,7 @@ export default class HighScore extends FindItScene {
       document.scores[0].location_country_name !== undefined
     ) {
       highScoreRegion = document.scores[0].location_country_name;
+      specificRegion = true;
     }
     if (
       document.highScoreRegion === "region" &&
@@ -316,6 +319,7 @@ export default class HighScore extends FindItScene {
       document.scores[0].location_region_name !== undefined
     ) {
       highScoreRegion = document.scores[0].location_region_name;
+      specificRegion = true;
     }
     this.scoreText.setText("HighScores");
     if (
@@ -333,18 +337,32 @@ export default class HighScore extends FindItScene {
           " Rounds"
       );
     } else {
-      this.regionText.setText(
-        document.highScoreRegion +
-          ": " +
-          highScoreRegion +
-          "\n" +
-          document.highScorePlayers +
-          " Player" +
-          (document.highScorePlayers > 1 ? "s" : "") +
-          "\n" +
-          document.highScoreRounds +
-          " Rounds"
-      );
+      if (specificRegion) {
+        this.regionText.setText(
+          document.highScoreRegion +
+            ": " +
+            highScoreRegion +
+            "\n" +
+            document.highScorePlayers +
+            " Player" +
+            (document.highScorePlayers > 1 ? "s" : "") +
+            "\n" +
+            document.highScoreRounds +
+            " Rounds"
+        );
+      } else {
+        this.regionText.setText(
+          "Ladder: " +
+            document.highScoreRegion +
+            "\n" +
+            document.highScorePlayers +
+            " Player" +
+            (document.highScorePlayers > 1 ? "s" : "") +
+            "\n" +
+            document.highScoreRounds +
+            " Rounds"
+        );
+      }
     }
   }
 }
