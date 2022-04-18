@@ -51,6 +51,12 @@ export default class EndOfGame extends FindItScene {
   create() {
     super.create(roundAmount);
 
+    // trigger game end on controllers
+    var game_over_message = [];
+    game_over_message.push({ type: "game_over" });
+    DEBUG && console.log("sending game over message");
+    air_console.broadcast(game_over_message);
+
     const uiScale = document.uiScale;
     var roundAmount = false;
 

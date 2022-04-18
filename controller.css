@@ -72,6 +72,9 @@ $secondary-dark: #0039cb;
 	height: 20vh;
 	justify-content: center;
 	align-items: center;
+	background-size: 18vh;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #objects{
@@ -390,7 +393,7 @@ body{
 	background-color: red;
 }
 
-#correct, #wrong, #slow, #fast{
+#correct, #wrong, .slow-fast-message{
 	pointer-events: none;
 	position: absolute;
 	top: 0;
@@ -399,14 +402,14 @@ body{
 	height: 100vh;
 }
 
-#slow, #fast{
+.slow-fast-message{
 	flex-direction: column;
     justify-content: center;
     align-items: center;
 	font-size: 1.5em;
 }
 
-#slow p, #fast p{
+.slow-fast-message p{
 	text-align: center;
 }
 

@@ -36,8 +36,8 @@
         document.connectedPlayersAmount = 0;
         document.maxRound = 20;
         document.gameScene = "mainmenu";
-        document.rotationOff = true;
-        document.scalingOff = true;
+        document.rotationOff = false;
+        document.scalingOff = false;
         document.correct_icon_id = -1;
         document.timeElapsed = 0;
 
@@ -314,12 +314,10 @@
                         document.correct_icon_id = message[0].correct_icon_id;
                         if (document.lastRound) {
                             document.gameEnding = true;
-                            // if this was the last round, move on to the game over screen
-                            DEBUG && console.log("game is ending");
-                            game_over_message = [];
-                            game_over_message.push({ type: "game_over" });
-                            DEBUG && console.log("sending game over message");
-                            air_console.broadcast(game_over_message);
+                            // send winner message to controller
+                            winner_message = [];
+                            winner_message.push({ type: "winner"});
+                            air_console.message(from, winner_message);
                         } else {
 
 
@@ -348,16 +346,15 @@
                             message = [];
                             message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
                             air_console.broadcast(message);
-
-                            // also inform all clients that are not the reporting client that they were to slow 
-                            air_console.getControllerDeviceIds().forEach(function (id) {
-                                if (id !== from) {
-                                    message = [];
-                                    message.push({ type: "correct", player: from });
-                                    air_console.message(id, message);
-                                }
-                            });
                         }
+                        // also inform all clients that are not the reporting client that they were to slow 
+                        air_console.getControllerDeviceIds().forEach(function (id) {
+                            if (id !== from) {
+                                message = [];
+                                message.push({ type: "correct", player: from, lastRound: document.round === document.maxRound });
+                                air_console.message(id, message);
+                            }
+                        });
                         break;
                     case "confirm":
                         if (document.connectedPlayersAmount > 8) {

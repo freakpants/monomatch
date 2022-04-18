@@ -201,6 +201,8 @@
         }
 
         function show_correct_buttons() {
+            DEBUG && console.log("show_correct_buttons is called by controller " + air_console.getDeviceId());
+            DEBUG && console.log("gameScene on controller " + air_console.getDeviceId()  + " is " + document.gameScene);
             // first, hide all buttons
             $(".button").hide();
             // also hide waiting areas
@@ -229,6 +231,12 @@
                     $("#score_and_objects_wrapper").css("margin-top", "initial");
                     $("#pause_button").css("display", "flex");
                     break;
+                case "highscore":
+                    $(".highscore-option").css("display", "flex");
+                    break;
+                case "endofgame":
+                    $(".game-over-option").css("display", "flex");
+                    break;
             }
         }
 
@@ -243,7 +251,7 @@
 
 
             air_console.onReady = function () {
-                DEBUG && console.log("controller initing");
+                DEBUG && console.log("controller " + air_console.getDeviceId() + " initing");
                 DEBUG && console.log(air_console.getControllerDeviceIds().length + " controllers present");
                 // if there are more than 8 devices, show the waiting for disconnect screen
                 if (air_console.getControllerDeviceIds().length > 8) {
@@ -256,8 +264,9 @@
 
             // listen for players connecting, that could possible mean we are not master anymore
             air_console.onConnect = function (device_id) {
-                DEBUG && console.log("checking if this controller is not master anymore");
+                DEBUG && console.log("checking if controller " + air_console.getDeviceId() + " is not master anymore");
                 if (am_i_master()) {
+                    DEBUG && console.log("controller " + air_console.getDeviceId() + " is calling show_correct_buttons");
                     show_correct_buttons();
                 } else {
                     $(".button").hide();
@@ -280,7 +289,7 @@
 
             air_console.onMessage = function (from, data) {
 
-                DEBUG && console.log("received " + data[0].type + " message on controller");
+                DEBUG && console.log("received " + data[0].type + " message on controller " + air_console.getDeviceId());
                 if (data === undefined || data[0] === undefined || data[0].type === undefined) {
                     return;
                 }
@@ -314,6 +323,8 @@
                     case "game_over":
                         $("#slow").hide();
                         $("#fast").hide();
+                        $("#fast-end").hide();
+                        $("#slow-end").hide();
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");
                         $(".button").hide();
@@ -351,8 +362,7 @@
 
                         break;
                     case "countdown_over":
-                        $("#slow").hide();
-                        $("#fast").hide();
+                        $(".slow-fast-message").hide();
                         $("#score_and_objects_wrapper").css("display", "flex");
                         break;
                     case "correct":
@@ -360,20 +370,27 @@
                         $("#round_winner").html(air_console.getNickname(data[0].player));
                         // reset all icons to full opacity
                         $(".object-container img").css("opacity", "1");
-                        $("#slow").css("display", "flex");
-                        $("#slow").css("opacity", 1);
+                        // if it is the last round, show slow-end
+                        if (data[0].lastRound) {
+                            $("#slow-end").css("display", "flex");
+                            $("#slow-end").css("opacity", "1");
+                        } else {
+                            $("#slow").css("display", "flex");
+                            $("#slow").css("opacity", "1");
+                        }
+
                         break;
                     case "show_menu":
                     case "hide_menu":
                         if (am_i_master()) {
                             DEBUG && console.log("i am master");
-                            DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId());
+                            DEBUG && console.log("hiding waiting for start on controller " + air_console.getDeviceId());
                             $("#waiting_for_start").hide();
                             show_correct_buttons();
                         } else {
-                            DEBUG && console.log("i am not master");
+                            DEBUG && console.log("device " + air_console.getDeviceId() + ": i am not master");
                             if (!document.superfluous_controller) {
-                                DEBUG && console.log("showing waiting for start because we are not the 9th+ controller");
+                                DEBUG && console.log("showing waiting for start because controller " + air_console.getDeviceId() + " is not 9th+");
                                 $("#waiting_for_start").css("display", "flex");
                             }
                             $(".button").hide();
@@ -386,6 +403,12 @@
                         DEBUG && console.log("current set id: " + current_set);
                         change_sets_on_controller(current_set, data[0].screen_set_id, false);
 
+                        break;
+                    case "winner":
+                        // in the last round, we don't receive a new screen set, we just display the player as the winner
+                        $("#score_and_objects_wrapper").hide();
+                        $("#fast-end").css("opacity", 1);
+                        $("#fast-end").css("display", "flex");
                         break;
                     case "set":
                         DEBUG && console.log("received set info from screen");
@@ -472,7 +495,7 @@
                         correctClass = "";
                     }
                     $("#objects").attr("data-set-id", controller_set_id);
-                    $("#objects").append('<div data-icon-id="' + asset_id + '"  class="object-container ' + correctClass + '"><img src="assets/asset' + asset_id + '.png"></div>');
+                    $("#objects").append('<div data-icon-id="' + asset_id + '"  class="object-container ' + correctClass + '" style="background-image:url(\'assets/asset' + asset_id + '.png\')"></div>');
                 });
 
                 $(".object-container").bind('touchstart mousedown click', function (event) {
@@ -498,8 +521,8 @@
                         air_console.message(0, command);
                     } else {
                         air_console.vibrate(400);
-                        setTimeout(() => {air_console.vibrate(400);}, 500);
-    
+                        setTimeout(() => { air_console.vibrate(400); }, 500);
+
                         $("#wrong").css('opacity', '1');
                         $("#wrong").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
                         $(event.target).css("opacity", "0.25");
@@ -556,7 +579,7 @@
 
 </div>
 
-<div id="slow">
+<div id="slow" class="slow-fast-message">
     <p>
         Too slow!</br>
         <span id="round_winner">Player x</span>&nbsp;was faster than you.</br>
@@ -564,10 +587,22 @@
     </p>
 </div>
 
-<div id="fast">
+<div id="slow-end" class="slow-fast-message">
+    <p>
+        Too slow!</br>
+        <span id="round_winner">Player x</span>&nbsp;was faster than you.</br>
+    </p>
+</div>
+
+<div id="fast" class="slow-fast-message">
     <p>
         You scored!</br>
         A new round will begin shortly.
+    </p>
+</div>
+<div id="fast-end" class="slow-fast-message">
+    <p>
+        You scored!</br>
     </p>
 </div>
 
@@ -609,7 +644,7 @@
 
     <div class="button highscore-option" id="highscore-ladder">
         Ladder
-    </div>  
+    </div>
     <div class="button highscore-option" id="highscore-players">
         Players
     </div>
