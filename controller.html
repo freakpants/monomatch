@@ -369,7 +369,7 @@
                         $("#score_and_objects_wrapper").hide();
                         $("#round_winner").html(air_console.getNickname(data[0].player));
                         // reset all icons to full opacity
-                        $(".object-container img").css("opacity", "1");
+                        $(".object-container").css("opacity", "1");
                         // if it is the last round, show slow-end
                         if (data[0].lastRound) {
                             $("#slow-end").css("display", "flex");
