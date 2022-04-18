@@ -206,6 +206,9 @@ export default class EndOfGame extends FindItScene {
 
       const negativePointsPerSecond = 1000 / (10 * document.maxRound);
       const points = Math.floor(1000 - negativePointsPerSecond * this.seconds);
+      if(points < 0){
+        points = 0;
+      }  
 
       const uids = [];
       air_console.getControllerDeviceIds().forEach((id) => {
