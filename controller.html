@@ -317,8 +317,13 @@
                         $("#menu").css("display", "flex");
                         DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId());
                         $("#waiting_for_start").hide();
-                        $("#waiting_for_pause").css("display", "flex");
-                        $(".button").hide();
+                        if(am_i_master()){
+                            $("#score_and_objects_wrapper").hide();
+                            show_correct_buttons();
+                        } else {
+                            $(".button").hide();
+                            $("#waiting_for_pause").css("display", "flex");
+                        }
                         break;
                     case "game_over":
                         $("#slow").hide();
