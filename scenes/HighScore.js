@@ -173,7 +173,7 @@ export default class HighScore extends FindItScene {
               let array_index = Math.floor(Math.random() * uids.length);
               let uid = uids[array_index];
               let image_id = "user_" + uid;
-              let seconds = 0;
+              let seconds, minutes = 0;
 
               switch (remainder) {
                 case 0:
@@ -202,15 +202,16 @@ export default class HighScore extends FindItScene {
                   seconds = document.scores[rowNumber - 1].data.seconds;
                   if (seconds > 60) {
                     minutes = Math.floor(seconds / 60);
+                    seconds = Math.floor(seconds - minutes * 60);
                     if (minutes < 10) {
-                      celltext =
+                      cellText =
                         "0" +
                         minutes +
                         ":" +
-                        (seconds > 10 ? "0" : "") +
+                        (seconds < 10 ? "0" : "") +
                         seconds;
                     } else {
-                      celltext =
+                      cellText =
                         minutes + ":" + (seconds > 10 ? "0" : "") + seconds;
                     }
                   } else {
