@@ -204,7 +204,7 @@ export default class EndOfGame extends FindItScene {
     if (document.highScoreValid === true) {
       this.seconds = document.timeElapsed / 1000;
 
-      const negativePointsPerSecond = 1000 / (60 * document.maxRound);
+      const negativePointsPerSecond = 1000 / (10 * document.maxRound);
       const points = Math.floor(1000 - negativePointsPerSecond * this.seconds);
 
       const uids = [];

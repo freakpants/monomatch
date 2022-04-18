@@ -81,13 +81,16 @@
                 document.adShowing = true;
             };
 
-            air_console.onAdComplete = () => {
-                document.sfxOff = document.sfxBeforeAd;
-                document.musicOff = document.musicBeforeAd;
-                if (!document.musicOff) {
-                    $("#music-element").prop("volume", 1);
+            air_console.onAdComplete = (ad_was_shown) => {
+                if (ad_was_shown) {
+                    document.sfxOff = document.sfxBeforeAd;
+                    document.musicOff = document.musicBeforeAd;
+                    if (!document.musicOff) {
+                        $("#music-element").prop("volume", 1);
+                    }
                 }
                 document.adShowing = false;
+
             };
 
             // Listen for messages from other devices
@@ -316,7 +319,7 @@
                             document.gameEnding = true;
                             // send winner message to controller
                             winner_message = [];
-                            winner_message.push({ type: "winner"});
+                            winner_message.push({ type: "winner" });
                             air_console.message(from, winner_message);
                         } else {
 
