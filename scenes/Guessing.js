@@ -40,6 +40,8 @@ export default class Guessing extends FindItScene {
 
     document.guessingStarted = new Date();
 
+    this.graphics = this.add.graphics();
+
     /* white line that helps see bounds 
     this.graphics.lineStyle(4, 0xffffff, 1);
     this.graphics.beginPath();
@@ -101,7 +103,7 @@ export default class Guessing extends FindItScene {
           outerStrength: 1,
           innerStrength: 1,
           glowColor: 0xffffff,
-          quality: 1,
+          quality: 0.1,
         });
 
         // rotate the image by a random amount
@@ -114,6 +116,9 @@ export default class Guessing extends FindItScene {
 
   update() {
     super.update();
+
+    this.graphics.clear();
+
     // stop animating during the tween
     if (!document.tweenComplete) {
       if (!document.rotationOff) {

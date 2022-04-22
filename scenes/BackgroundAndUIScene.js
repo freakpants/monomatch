@@ -88,7 +88,7 @@ export default class BackGroundAndUIScene extends FindItScene {
       outerStrength: 1,
       innerStrength: 1,
       glowColor: 0xffffff,
-      quality: 1,
+      quality: 0.1,
     });
     this.playerAmount = this.add.text(
       112 * uiScale,
@@ -203,7 +203,7 @@ export default class BackGroundAndUIScene extends FindItScene {
       outerStrength: 1,
       innerStrength: 1,
       glowColor: 0xffffff,
-      quality: 1,
+      quality: 0.1,
     });
     // place the round Amount text
     this.round = this.add.text(
