@@ -114,17 +114,17 @@ export default class Guessing extends FindItScene {
     }
   }
 
-  update() {
+  update(time, delta) {
     super.update();
 
     this.graphics.clear();
 
     // stop animating during the tween
-    if (!document.tweenComplete) {
+    if (!document.tweenComplete && delta > 16) {
       if (!document.rotationOff) {
         this.rotateAssets();
       }
-      if (!document.scalingOff) {
+      if (!document.scalingOff && delta > 16) {
         this.scaleAssets();
       }
     }

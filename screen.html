@@ -535,7 +535,10 @@
                     autoCenter: Phaser.Scale.NO_CENTER,
                 },
                 scene: [BootScene, BackgroundAndUIScene, MainMenu, Guessing, TimeScreen, EndOfGame, PauseScreen, MusicOptions, RoundOptions, DifficultyOptions, Credits, HighScore],
-                transparent: true
+                transparent: true,
+                fps: {
+                    target: 60,
+                }
             };
 
             air_console.onReady = () => {
