@@ -13,6 +13,8 @@ export default class RoundOptions extends FindItScene {
     const uiScale = document.uiScale;
     console.log("initiating round options");
 
+    this.drawChevrons();
+
     this.text = this.add
       .text(this.getCenterX(), 32 * uiScale, "How Many Rounds?", {
         fontSize: 75 * uiScale + "px",
@@ -28,7 +30,7 @@ export default class RoundOptions extends FindItScene {
         color: "#ffffff",
         fontFamily: "Luckiest Guy",
       })
-      .setOrigin(0.5, 0);
+      .setOrigin(0.5, 0.5);
       this.postFxPlugin.add(this.roundAmountOption, {
         distance: 5,
         outerStrength: 1,

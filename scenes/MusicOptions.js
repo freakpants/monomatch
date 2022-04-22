@@ -24,13 +24,13 @@ export default class MusicOptions extends FindItScene {
 
     this.graphics = this.add.graphics();
 
-    this.graphics.lineStyle(4, 0xff0000);
+    /* this.graphics.lineStyle(4, 0xff0000);
     this.graphics.beginPath();
-    this.graphics.moveTo(this.getCenterX(), 0);
+    this.graphics.moveTo( 0, this.getCenterY());
 
-    this.graphics.lineTo(this.getCenterX(), document.game.canvas.height);
+    this.graphics.lineTo(document.game.canvas.width, this.getCenterY());
 
-    this.graphics.strokePath();
+    this.graphics.strokePath(); */
 
     // place the music icon
     this.musicText = this.add.text(
@@ -44,6 +44,10 @@ export default class MusicOptions extends FindItScene {
         fontFamily: "Luckiest Guy",
       }
     ).setOrigin(0.5, 0.5);
+
+
+    this.drawChevrons();
+
     if (document.musicOff === true) {
       this.musicText.setText("Music: OFF");
       if(typeof this.music !== "undefined") {

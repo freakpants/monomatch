@@ -25,6 +25,8 @@ export default class DifficultyOptions extends FindItScene {
     const uiScale = document.uiScale;
     DEBUG && console.log("initiating difficulty options");
 
+    this.drawChevrons(true);
+
     this.text = this.add
       .text(this.getCenterX(), 32 * uiScale, "Difficulty", {
         fontSize: 75 * uiScale + "px",

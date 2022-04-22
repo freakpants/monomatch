@@ -19,6 +19,8 @@ export default class FindItScene extends Phaser.Scene {
     this.load.image("sfx-cross", "assets/sfx-cross.png");
     this.load.image("sfx-cross-big", "assets/sfx-cross-big.png");
 
+    this.load.image("chevron-right", "assets/chevron-right.png");
+
     this.load.plugin(
       "rexglowfilter2pipelineplugin",
       "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilter2pipelineplugin.min.js",
@@ -34,6 +36,17 @@ export default class FindItScene extends Phaser.Scene {
         );
         document.profile_pictures[id] = asset_id;
       });
+    }
+  }
+
+  drawChevrons(leftOnly = false) {
+    const uiScale = document.uiScale;
+    this.chevronLeft = this.add.image((100*uiScale), this.getCenterY(), 'chevron-right').setOrigin(0.5, 0.5);
+    this.chevronLeft.flipX = true;
+    this.chevronLeft.setScale(uiScale);
+    if(!leftOnly){
+      this.chevronRight = this.add.image(document.game.canvas.width - (100*uiScale), this.getCenterY(), 'chevron-right').setOrigin(0.5, 0.5);
+      this.chevronRight.setScale(uiScale);
     }
   }
 
