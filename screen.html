@@ -541,6 +541,13 @@
             air_console.onReady = () => {
                 document.game = new Phaser.Game(config);
                 document.uiScale = Math.sqrt((document.game.scale.parentSize._width * document.game.scale.parentSize._height) / (1920 * 1016));
+
+                document.lowPerformance = air_console.devices[AirConsole.SCREEN].client.app !== "web";
+                if(document.lowPerformance){
+                    document.rotationOff = true;
+                    document.scalingOff = true;
+                }
+                console.log("low performance: " + document.lowPerformance);
             };
         });
 

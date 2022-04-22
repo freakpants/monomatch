@@ -138,40 +138,46 @@ export default class Guessing extends FindItScene {
       if (!document.sfxOff) {
         this.success.play();
       }
-      // loop all assets in foreach
-      this.assets.forEach(
-        function (asset) {
-          if (asset.id === document.correct_icon_id) {
-            DEBUG && console.log(asset);
-            this.tweens.add({
-              targets: asset,
-              duration: 1800,
-              rotation: 0,
-              scaleX: 2.5 * document.uiScale,
-              scaleY: 2.5 * document.uiScale,
-              x: this.getCenterX(),
-              y: this.getCenterY(),
-              delay: Math.random() * 2,
-              ease: "Sine.easeInOut",
-              onComplete: () => {
-                document.tweenComplete = true;
-                setTimeout(() => {
-                  document.aftertweenComplete = true;
-                }, 1250);
-              },
-            });
-          } else {
-            // move the other assets off the screen in right direction
-            this.tweens.add({
-              targets: asset,
-              duration: 1500,
-              x: document.game.canvas.width + asset.x + asset.displayWidth,
-              ease: "Sine.easeInOut",
-            });
-          }
-        }.bind(this)
-      );
+      if (!document.lowPerformance) {
+        // loop all assets in foreach
+        this.assets.forEach(
+          function (asset) {
+            if (asset.id === document.correct_icon_id) {
+              DEBUG && console.log(asset);
+
+              this.tweens.add({
+                targets: asset,
+                duration: 1800,
+                rotation: 0,
+                scaleX: 2.5 * document.uiScale,
+                scaleY: 2.5 * document.uiScale,
+                x: this.getCenterX(),
+                y: this.getCenterY(),
+                delay: Math.random() * 2,
+                ease: "Sine.easeInOut",
+                onComplete: () => {
+                  document.tweenComplete = true;
+                  setTimeout(() => {
+                    document.aftertweenComplete = true;
+                  }, 1250);
+                },
+              });
+            } else {
+              // move the other assets off the screen in right direction
+              this.tweens.add({
+                targets: asset,
+                duration: 1500,
+                x: document.game.canvas.width + asset.x + asset.displayWidth,
+                ease: "Sine.easeInOut",
+              });
+            }
+          }.bind(this)
+        );
+      } 
       document.correct_icon_id = -1;
+      if(document.lowPerformance){
+        sceneChange("timescreen");
+      }
     }
   }
 }

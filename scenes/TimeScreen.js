@@ -13,7 +13,13 @@ export default class TimeScreen extends FindItScene {
     super.create();
     air_console.showAd();
     const uiScale = document.uiScale;
-    this.initialTime = 5;
+
+    if(document.lowPerformance){
+      this.initialTime = 5;
+    } else {
+      this.initialTime = 2;
+    }
+    
 
     // Each 1000 ms call onEvent
     const timedEvent = this.time.addEvent({
