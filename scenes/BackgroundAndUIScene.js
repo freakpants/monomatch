@@ -1,4 +1,5 @@
 import FindItScene from "./FindItScene.js";
+import eventsCenter from "../EventsCenter.js";
 export default class BackGroundAndUIScene extends FindItScene {
   constructor() {
     super("backgroundanduiscene");
@@ -259,7 +260,7 @@ export default class BackGroundAndUIScene extends FindItScene {
     const stopScene = document.game.scene.getScenes(true)[1];
     DEBUG && console.log("stopScene:");
     DEBUG && console.log(stopScene);
-    this.scene.stop(stopScene);
+    eventsCenter.emit("stopScene", stopScene.scene.key);
     DEBUG && console.log("launching scene:");
     DEBUG && console.log(scene);
     this.scene.launch(scene);

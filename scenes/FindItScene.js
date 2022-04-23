@@ -1,4 +1,5 @@
 import { objects } from "../objects.js";
+import eventsCenter from "../EventsCenter.js";
 export default class FindItScene extends Phaser.Scene {
   preload() {
     this.load.audio('success', 'audio/success.mp3');
@@ -80,6 +81,8 @@ export default class FindItScene extends Phaser.Scene {
   }
 
   create() {
+    eventsCenter.once('stopScene', this.stop, this);
+
     this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     this.resizeHappening = false;
     this.success = this.sound.add("success");
@@ -157,5 +160,13 @@ export default class FindItScene extends Phaser.Scene {
 
   getCenterY() {
     return this.sys.canvas.height * 0.5;
+  }
+
+  stop(key){
+    console.log("stop was called with key " + key);
+    console.log("my key is " + this.scene.key);
+    if(this.scene.key === key){
+      this.scene.stop();
+    }
   }
 }
