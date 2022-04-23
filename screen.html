@@ -15,6 +15,22 @@
         body {
             height: 100%;
             margin: 0;
+            background-image: url("assets/540-bg.png");
+            background-size: cover;
+            background-position-x: center;
+            background-position-y: center;
+        }
+
+        @media only screen and (min-height: 541px) {
+            body {
+                background-image: url("assets/1080-bg.png");
+            }
+        }
+
+        @media only screen and (min-height: 1081px) {
+            body {
+                background-image: url("assets/4k-bg.png");
+            }
         }
 
         canvas {
@@ -483,7 +499,7 @@
                 // update player count
                 document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
 
-                if(document.gameScene === "guessing"){
+                if (document.gameScene === "guessing") {
                     sceneChange("pausescreen");
                     // send pause command to screen and controlles
                     var command = [];
@@ -546,7 +562,7 @@
                 document.uiScale = Math.sqrt((document.game.scale.parentSize._width * document.game.scale.parentSize._height) / (1920 * 1016));
 
                 document.lowPerformance = air_console.devices[AirConsole.SCREEN].client.app !== "web";
-                if(document.lowPerformance){
+                if (document.lowPerformance) {
                     document.rotationOff = true;
                     document.scalingOff = true;
                 }

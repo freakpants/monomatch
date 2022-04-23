@@ -8,7 +8,6 @@ export default class FindItScene extends Phaser.Scene {
       this.load.image("asset" + object.id, "assets/asset" + object.id + ".png");
     });
     this.load.svg("logo", "assets/find_it_logo.svg");
-    this.load.svg("bg", "assets/drawing-4.svg");
     this.load.image("music", "assets/music.png");
     this.load.image("music-big", "assets/music-big.png");
     this.load.image("music-slash", "assets/music-slash.png");
