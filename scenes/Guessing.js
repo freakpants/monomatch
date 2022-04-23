@@ -112,6 +112,22 @@ export default class Guessing extends FindItScene {
         i++;
       }
     }
+
+    if (!document.rotationOff) {
+      this.rotation = this.tweens.addCounter({
+        from: 0,
+        to: 360,
+        duration: 5000,
+        repeat: -1,
+        onUpdate: function (tween)
+        {
+            this.assets.forEach(function (asset)
+            {
+                asset.setAngle(asset.angle + 1);
+            });
+        }.bind(this)
+    });
+    } 
   }
 
   update(time, delta) {
@@ -121,13 +137,11 @@ export default class Guessing extends FindItScene {
 
     // stop animating during the tween
     if (!document.tweenComplete && delta > 16) {
-      if (!document.rotationOff) {
-        this.rotateAssets();
-      }
       if (!document.scalingOff && delta > 16) {
         this.scaleAssets();
       }
-    }
+    } 
+
     if (document.aftertweenComplete) {
       // set tween to false
       document.aftertweenComplete = false;
@@ -160,6 +174,9 @@ export default class Guessing extends FindItScene {
                 y: this.getCenterY(),
                 delay: Math.random() * 2,
                 ease: "Sine.easeInOut",
+                onStart: () => {
+                  this.rotation.stop();
+                },
                 onComplete: () => {
                   document.tweenComplete = true;
                   setTimeout(() => {
@@ -178,13 +195,13 @@ export default class Guessing extends FindItScene {
             }
           }.bind(this)
         );
-      } 
+      }
       document.correct_icon_id = -1;
-      if(document.lowPerformance){
+      if (document.lowPerformance) {
         sceneChange("timescreen");
       }
-    }
-  }
+    } 
+  } 
 }
 
 class AlignGrid {

@@ -15,9 +15,9 @@ export default class TimeScreen extends FindItScene {
     const uiScale = document.uiScale;
 
     if(document.lowPerformance){
-      this.initialTime = 2;
-    } else {
       this.initialTime = 5;
+    } else {
+      this.initialTime = 2;
     }
     
 

@@ -15,11 +15,12 @@ export default class BackGroundAndUIScene extends FindItScene {
     const b = 2160 / document.game.canvas.height;
     const scale = 1 / (a < b ? a : b);
     DEBUG && console.log("scale:" + scale);
-    this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
+    // this.bg = this.add.image(0, 0, "bg").setScale(scale).setOrigin(0, 0);
   }
 
   update() {
     super.update();
+    this.graphics.clear();
     this.playerAmount.setText(document.connectedPlayersAmount);
   }
 
@@ -30,7 +31,6 @@ export default class BackGroundAndUIScene extends FindItScene {
       // listen for sceneChange by AirConsole
       this.events.on("sceneChange", this.handleSceneChange, this);
     }
-
     if (this.events._events.optionsChange === undefined) {
       // listen for optionsChange by AirConsole
       this.events.on("optionChange", this.handleOptionChange, this);
