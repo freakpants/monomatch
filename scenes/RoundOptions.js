@@ -31,13 +31,13 @@ export default class RoundOptions extends FindItScene {
         fontFamily: "Luckiest Guy",
       })
       .setOrigin(0.5, 0.5);
-      this.postFxPlugin.add(this.roundAmountOption, {
+      /* this.postFxPlugin.add(this.roundAmountOption, {
         distance: 5,
         outerStrength: 1,
         innerStrength: 1,
         glowColor: 0xffffff,
         quality: 1,
-      });
+      }); */
   }
   update(){
     this.roundAmountOption.setText(document.maxRound);

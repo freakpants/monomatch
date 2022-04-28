@@ -264,7 +264,6 @@ export default class HighScore extends FindItScene {
           this.scoreBuildingInProgress = false;
         });
         loader.start();
-        this.postFxPlugin;
       }
     }
   }

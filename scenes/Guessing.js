@@ -98,13 +98,13 @@ export default class Guessing extends FindItScene {
 
         this.assets[i].scaleY = this.assets[i].scaleX;
 
-        this.postFxPlugin.add(this.assets[i], {
+        /* this.postFxPlugin.add(this.assets[i], {
           distance: 5,
           outerStrength: 1,
           innerStrength: 1,
           glowColor: 0xffffff,
           quality: 0.1,
-        });
+        }); */
 
         // rotate the image by a random amount
         this.assets[i].rotation += Math.random() * 360;

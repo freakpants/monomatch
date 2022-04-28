@@ -83,7 +83,7 @@ export default class FindItScene extends Phaser.Scene {
   create() {
     eventsCenter.once('stopScene', this.stop, this);
 
-    this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
+    // this.postFxPlugin = this.plugins.get("rexglowfilter2pipelineplugin");
     this.resizeHappening = false;
     this.success = this.sound.add("success");
     this.clock =  this.sound.add("clock");

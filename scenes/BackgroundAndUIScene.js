@@ -83,13 +83,13 @@ export default class BackGroundAndUIScene extends FindItScene {
       color: "#002171",
       fontFamily: "Luckiest Guy",
     });
-    this.postFxPlugin.add(this.players, {
+    /* this.postFxPlugin.add(this.players, {
       distance: 5,
       outerStrength: 1,
       innerStrength: 1,
       glowColor: 0xffffff,
       quality: 0.1,
-    });
+    }); */
     this.playerAmount = this.add.text(
       112 * uiScale,
       35 * uiScale,
@@ -198,13 +198,13 @@ export default class BackGroundAndUIScene extends FindItScene {
       fontFamily: "Luckiest Guy",
     });
     // place glow on hashtag icon
-    this.postFxPlugin.add(this.hashtag, {
+    /* this.postFxPlugin.add(this.hashtag, {
       distance: 5,
       outerStrength: 1,
       innerStrength: 1,
       glowColor: 0xffffff,
       quality: 0.1,
-    });
+    }); */
     // place the round Amount text
     this.round = this.add.text(
       90 * uiScale,
