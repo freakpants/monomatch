@@ -56,6 +56,7 @@
         document.scalingOff = false;
         document.correct_icon_id = -1;
         document.timeElapsed = 0;
+        document.phaserInitComplete = false;
 
         var DEBUG = true;
         function sceneChange(targetScene) {
@@ -376,7 +377,7 @@
                         });
                         break;
                     case "confirm":
-                        if (document.connectedPlayersAmount > 8) {
+                        if (!document.phaserInitComplete || document.connectedPlayersAmount > 8)  {
                             return;
                         }
                         document.round = 1;

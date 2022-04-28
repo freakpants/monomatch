@@ -12,6 +12,7 @@ export default class MainMenu extends FindItScene {
 
   create() {
     super.create();
+    document.phaserInitComplete = true;
     const uiScale = document.uiScale;
     console.log("initiating main menu");
 
