@@ -377,7 +377,7 @@
                         });
                         break;
                     case "confirm":
-                        if (!document.phaserInitComplete || document.connectedPlayersAmount > 8)  {
+                        if (!document.phaserInitComplete || document.connectedPlayersAmount > 8) {
                             return;
                         }
                         document.round = 1;
@@ -467,6 +467,17 @@
 
                 // update player count
                 document.connectedPlayersAmount = air_console.getControllerDeviceIds().length;
+
+                if (document.connectedPlayersAmount > 8) {
+                    // trigger a pause
+                    if (document.gameScene === "guessing") {
+                        sceneChange("pausescreen");
+                        // send pause command to screen and controlles
+                        var command = [];
+                        command.push({ type: "pause" });
+                        air_console.broadcast(command);
+                    }
+                }
 
                 /* prepare messages for clients */
                 show_menu = [];

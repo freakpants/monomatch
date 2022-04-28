@@ -295,12 +295,13 @@ body{
 }
 
 #game_over, .waiting_message, #get_ready{
-	font-size: 1.5em;
+	font-size: 1.4em;
 }
 
 .waiting_message{
     height: 100vh;
 	display: none;
+	width: 100vw;	
 }
 
 .waiting_message, #get_ready, #score_report, #game_over{

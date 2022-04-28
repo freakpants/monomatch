@@ -24,7 +24,7 @@
         var air_console;
         var DEBUG = true;
         document.was_correct = false;
-        
+
         document.gameScene = "mainmenu";
         document.maxRound = 20;
 
@@ -54,6 +54,10 @@
                 air_console.message(0, command);
             });
             $("#resume").click(function (event) {
+                // if there are more than 8 players, do nothing
+                if (air_console.getControllerDeviceIds().length > 8) {
+                    return;
+                }
                 $(".pause-option").hide();
                 $("#pause_button").css("display", "flex");
                 var command = [];
@@ -200,9 +204,31 @@
             return (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === air_console.getDeviceId());
         }
 
+        function show_correct_waiting_message() {
+            DEBUG && console.log("show_correct_waiting_message was called by controller " + air_console.getDeviceId());
+            if (am_i_master() || document.superfluous_controller) {
+                return;
+            }
+            // hide all waiting messages
+            $(".waiting_message").hide();
+            switch (document.gameScene) {
+                case "pausescreen":
+                    // show waiting for pause
+                    $("#waiting_for_pause").css("display", "flex");
+                    break;
+                case "timescreen":
+                    // show waiting for next round
+                    $("#waiting_for_next_round").css("display", "flex");
+                    break;
+                default:
+                    $("#waiting_for_start").css("display", "flex");
+                    break;
+            }
+        }
+
         function show_correct_buttons() {
             DEBUG && console.log("show_correct_buttons is called by controller " + air_console.getDeviceId());
-            DEBUG && console.log("gameScene on controller " + air_console.getDeviceId()  + " is " + document.gameScene);
+            DEBUG && console.log("gameScene on controller " + air_console.getDeviceId() + " is " + document.gameScene);
             // first, hide all buttons
             $(".button").hide();
             // also hide waiting areas
@@ -255,9 +281,23 @@
                 DEBUG && console.log(air_console.getControllerDeviceIds().length + " controllers present");
                 // if there are more than 8 devices, show the waiting for disconnect screen
                 if (air_console.getControllerDeviceIds().length > 8) {
-                    document.superfluous_controller = true;
-                    $(".waiting_message").hide();
-                    $("#waiting_for_disconnect").css("display", "flex");
+                    if (am_i_master()) {
+                        show_correct_buttons();
+                        // inform the 8th device that it has to disconnect
+                        var command = [];
+                        command.push({ type: "superflous" });
+                        air_console.message(air_console.getControllerDeviceIds()[7], command);
+                    } else {
+                        document.superfluous_controller = true;
+                        $(".waiting_message").hide();
+                        $("#waiting_for_disconnect").css("display", "flex");
+                    }
+                } else {
+                    if (am_i_master()) {
+                        show_correct_buttons();
+                    } else {
+                        show_correct_waiting_message();
+                    }
                 }
             };
 
@@ -270,20 +310,21 @@
                     show_correct_buttons();
                 } else {
                     $(".button").hide();
+                    show_correct_waiting_message();
                 }
                 handle_pause_button();
             };
 
             air_console.onDisconnect = function (device_id) {
                 DEBUG && console.log("checking if we have less than 9 controllers");
-                // if there are less than 9 devices, hide the waiting for disconnect screen
+                // if there are less than 9 devices, hide wrong waiting screens, then replace with correct ones
                 if (air_console.getControllerDeviceIds().length < 9) {
                     DEBUG && console.log("we have less than 9 controllers");
                     document.superfluous_controller = false;
-                    $("#waiting_for_disconnect").hide();
-                    // show waiting for start
-                    DEBUG && console.log("showing waiting for start on controller" + air_console.getDeviceId());
-                    $("#waiting_for_start").css("display", "flex");
+                    show_correct_waiting_message();
+                }
+                if (am_i_master()) {
+                    show_correct_buttons();
                 }
             };
 
@@ -294,6 +335,12 @@
                     return;
                 }
                 switch (data[0].type) {
+                    case "superflous":
+                        DEBUG && console.log("controller " + air_console.getDeviceId() + " is superfluous");
+                        document.superfluous_controller = true;
+                        $(".waiting_message").hide();
+                        $("#waiting_for_disconnect").css("display", "flex");
+                        break;
                     case "maxRound":
                         document.maxRound = data[0].maxRound;
                         break;
@@ -306,23 +353,34 @@
                             command.push({ type: "request_icons" });
                             air_console.message(0, command);
                         }
+                        if(am_i_master()){
+                            show_correct_buttons();
+                        } else {
+                            show_correct_waiting_message();
+                        }
                         break;
                     case "resume":
                         $("#score_and_objects_wrapper").css("display", "flex");
-                        $("#waiting_for_next_round").hide();
-                        $("#waiting_for_pause").hide();
+                        $(".waiting_message").hide();
+                        if(am_i_master()){
+                            $("#pause_button").css("display", "flex");
+                            // pointer effect on pause button
+                            $("#pause_button").css("pointer-events", "auto");
+                            $("#score_and_objects_wrapper").css("margin-top", "initial");
+                        } 
+                        
                         break;
                     case "pause":
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");
                         DEBUG && console.log("hiding waiting for start on controller" + air_console.getDeviceId());
                         $("#waiting_for_start").hide();
-                        if(am_i_master()){
+                        if (am_i_master()) {
                             $("#score_and_objects_wrapper").hide();
                             show_correct_buttons();
                         } else {
                             $(".button").hide();
-                            $("#waiting_for_pause").css("display", "flex");
+                            show_correct_waiting_message();
                         }
                         break;
                     case "game_over":
@@ -336,8 +394,7 @@
                         if (am_i_master()) {
                             $(".game-over-option").css("display", "flex");
                         } else {
-                            $("#waiting_for_pause").hide();
-                            $("#waiting_for_start").css("display", "flex");
+                            show_correct_waiting_message();
                         }
 
                         break;
@@ -395,8 +452,8 @@
                         } else {
                             DEBUG && console.log("device " + air_console.getDeviceId() + ": i am not master");
                             if (!document.superfluous_controller) {
-                                DEBUG && console.log("showing waiting for start because controller " + air_console.getDeviceId() + " is not 9th+");
-                                $("#waiting_for_start").css("display", "flex");
+                                DEBUG && console.log("showing appropriate waiting message because controller " + air_console.getDeviceId() + " is not 9th+");
+                                show_correct_waiting_message();
                             }
                             $(".button").hide();
                         }
@@ -417,6 +474,15 @@
                         break;
                     case "set":
                         DEBUG && console.log("received set info from screen");
+                        if (document.superfluous_controller) {
+                            DEBUG && console.log("superfluous controller, not showing set info");
+                            break;
+                        }
+
+                        if (document.gameScene === "pausescreen") {
+                            DEBUG && console.log("game is paused, not showing set info");
+                            return;
+                        }
 
                         if (data[0].update) {
                             // if we got an update, don't display the new set just yet
@@ -428,8 +494,8 @@
                         }
 
                         $("#menu").hide();
-                        DEBUG && console.log("hiding waiting for start because we received a set");
-                        $("#waiting_for_start").hide();
+                        DEBUG && console.log("hiding all waiting message because we received a set");
+                        $(".waiting_message").hide();
 
                         DEBUG && console.log("controller " + air_console.getDeviceId() + " received set id from screen: " + data[0].set_id);
                         change_sets_on_controller(data[0].set_id, data[0].screen_set_id, true);
