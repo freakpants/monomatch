@@ -271,8 +271,16 @@
                         sceneChange("mainmenu");
                         break;
                     case "correct":
+                        var command = [];
                         if (document.somebodyScoredThisRound) {
+                            // inform the controller he was also right, but too slow
+                            command.push({ type: "correct_slow" });
+                            air_console.message(from, command);
                             return;
+                        } else {
+                            // inform the controller he was correct and the first and that he should flash accordingly
+                            command.push({ type: "correct_fast" });
+                            air_console.message(from, command);
                         }
                         document.somebodyScoredThisRound = true;
                         document.guessingEnded = new Date();

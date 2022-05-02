@@ -204,6 +204,13 @@
             return (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === air_console.getDeviceId());
         }
 
+        function correct_feedback() {
+            air_console.vibrate(400);
+            // signal correctness to player by blinking
+            $("#correct").css('opacity', '1');
+            $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
+        }
+
         function show_correct_waiting_message() {
             DEBUG && console.log("show_correct_waiting_message was called by controller " + air_console.getDeviceId());
             if (am_i_master() || document.superfluous_controller) {
@@ -353,7 +360,7 @@
                             command.push({ type: "request_icons" });
                             air_console.message(0, command);
                         }
-                        if(am_i_master()){
+                        if (am_i_master()) {
                             show_correct_buttons();
                         } else {
                             show_correct_waiting_message();
@@ -362,13 +369,13 @@
                     case "resume":
                         $("#score_and_objects_wrapper").css("display", "flex");
                         $(".waiting_message").hide();
-                        if(am_i_master()){
+                        if (am_i_master()) {
                             $("#pause_button").css("display", "flex");
                             // pointer effect on pause button
                             $("#pause_button").css("pointer-events", "auto");
                             $("#score_and_objects_wrapper").css("margin-top", "initial");
-                        } 
-                        
+                        }
+
                         break;
                     case "pause":
                         $("#score_and_objects_wrapper").hide();
@@ -384,10 +391,7 @@
                         }
                         break;
                     case "game_over":
-                        $("#slow").hide();
-                        $("#fast").hide();
-                        $("#fast-end").hide();
-                        $("#slow-end").hide();
+                        $(".slow-fast-message").hide();
                         $("#score_and_objects_wrapper").hide();
                         $("#menu").css("display", "flex");
                         $(".button").hide();
@@ -427,6 +431,13 @@
                         $(".slow-fast-message").hide();
                         $("#score_and_objects_wrapper").css("display", "flex");
                         break;
+                    case "correct-fast":
+                        // only give the flashing effect if we were correct and the fastest
+                        correct_feedback();
+                        break;
+                    case "correct-slow":
+                        document.wasCorrectButSlow = true;
+                        break;
                     case "correct":
                         $("#score_and_objects_wrapper").hide();
                         $("#round_winner").html(air_console.getNickname(data[0].player));
@@ -434,13 +445,24 @@
                         $(".object-container").css("opacity", "1");
                         // if it is the last round, show slow-end
                         if (data[0].lastRound) {
-                            $("#slow-end").css("display", "flex");
-                            $("#slow-end").css("opacity", "1");
-                        } else {
-                            $("#slow").css("display", "flex");
-                            $("#slow").css("opacity", "1");
-                        }
+                            if (document.wasCorrectButSlow) {
+                                $("#slow-correct-end").css("display", "flex");
+                                $("#slow-correct-end").css("opacity", "1");
+                                document.wasCorrectButSlow = false;
+                            } else {
+                                $("#slow-end").css("display", "flex");
+                                $("#slow-end").css("opacity", "1");
+                            }
 
+                        } else {
+                            if (document.wasCorrectButSlow) {
+                                $("#slow-correct").css("display", "flex");
+                                $("#slow-correct").css("opacity", "1");
+                            } else {
+                                $("#slow").css("display", "flex");
+                                $("#slow").css("opacity", "1");
+                            }
+                        }
                         break;
                     case "show_menu":
                     case "hide_menu":
@@ -577,11 +599,7 @@
 
                     $(".object-container").css("pointer-events", "none");
                     if (correct) {
-                        air_console.vibrate(400);
                         document.was_correct = true;
-                        // signal correctness to player by blinking
-                        $("#correct").css('opacity', '1');
-                        $("#correct").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200);
 
                         const correct_set_id = $("#objects").data("set-id");
                         const correct_icon_id = $("#objects .correct").data("icon-id");
@@ -648,6 +666,21 @@
 </div>
 <div id="correct">
 
+</div>
+
+<div id="slow-correct-end" class="slow-fast-message">
+    <p>
+        You were correct, but too slow!</br>
+        <span id="round_winner">Player x</span>&nbsp;was faster than you.</br>
+    </p>
+</div>
+
+<div id="slow-correct" class="slow-fast-message">
+    <p>
+        You were correct, but too slow!</br>
+        <span id="round_winner">Player x</span>&nbsp;was faster than you.</br>
+        A new round will begin shortly.
+    </p>
 </div>
 
 <div id="slow" class="slow-fast-message">
