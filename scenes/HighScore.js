@@ -94,6 +94,9 @@ export default class HighScore extends FindItScene {
           // attempt to draw the high score table
           this.changeScoreText();
 
+          DEBUG && console.log("document.scores used for highscore table:");
+          console.log(document.scores);
+
           const cellwidth = 200 * uiScale;
           const cellheight = 64 * uiScale;
           const columnCount = 5;
@@ -102,6 +105,8 @@ export default class HighScore extends FindItScene {
           const cellsCount = columnCount * rowCount;
           const gridwidth = columnCount * cellwidth;
           const gridheight = rowCount * cellheight;
+
+          const rowsArrayIds = [];
 
           document.graphics = this.graphics;
 
@@ -170,7 +175,14 @@ export default class HighScore extends FindItScene {
             if (rowNumber > 0) {
               // select random uid from array for this row
               let uids = document.scores[rowNumber - 1].uids;
-              let array_index = Math.floor(Math.random() * uids.length);
+              let array_index = 0;
+              if(rowsArrayIds[rowNumber] === undefined) {
+                array_index = Math.floor(Math.random() * uids.length);
+                rowsArrayIds[rowNumber] = array_index; 
+              } else {
+                array_index = rowsArrayIds[rowNumber];
+              }
+
               let uid = uids[array_index];
               let image_id = "user_" + uid;
               let seconds, minutes = 0;

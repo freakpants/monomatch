@@ -310,10 +310,14 @@
                         // assign a position giving the same position to players with the same score
                         let position = 0;
                         let previous_correct = false;
+                        let current_duplicate_scores = 0;
                         document.playerScores.forEach(function (score, index) {
                             if (previous_correct !== score.correct) {
                                 // only increase position if the score is different than the previous one
-                                position++;
+                                position += current_duplicate_scores + 1;
+                                current_duplicate_scores = 0;
+                            } else {
+                                current_duplicate_scores++;
                             }
                             score.position = position;
                             previous_correct = score.correct;

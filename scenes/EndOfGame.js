@@ -201,9 +201,8 @@ export default class EndOfGame extends FindItScene {
     console.log("initiating end of game screen");
 
     this.seconds = 0;
+    this.seconds = document.timeElapsed / 1000;
     if (document.highScoreValid === true) {
-      this.seconds = document.timeElapsed / 1000;
-
       const negativePointsPerSecond = 1000 / (15 * document.maxRound);
       const points = Math.floor(1000 - negativePointsPerSecond * this.seconds);
       if(points < 0){
