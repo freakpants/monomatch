@@ -86,13 +86,16 @@ export default class BackGroundAndUIScene extends FindItScene {
       this.events.on("optionChange", this.handleOptionChange, this);
     }
 
-    let scene = document.scene;
+    let scene = document.gameScene;
     this.mainmenuactive = (scene === "mainmenu" ||
     scene === "musicoptionsscene" ||
     scene === "roundoptionsscene" ||
     scene === "difficultyoptionsscene" ||
     scene === "credits" ||
     scene === "highscore");
+
+    DEBUG && console.log("this.mainmenuactive evaluated scene:" + scene);
+    DEBUG && console.log("this.mainmenuactive:" + this.mainmenuactive);
   
     // listen for background restart
     eventsCenter.once('restartBackground', this.handleRestart, this);
