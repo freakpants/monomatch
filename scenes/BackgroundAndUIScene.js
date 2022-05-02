@@ -62,14 +62,12 @@ export default class BackGroundAndUIScene extends FindItScene {
       );
 
       
-      // restart all active scenes so the background is also resized
-      if (this.activeScenes.length > 1) {
-        // null check in case our background scene crashes
-        let activeSceneKey = this.activeScenes[1].scene.key;
-        eventsCenter.emit("stopScene", activeSceneKey);
-        this.scene.launch(activeSceneKey);
-      }
+      this.restartActiveScene();
 
+    }
+
+    if(document.restartBackground){
+      this.restartActiveScene();
     }
 
   }
@@ -321,11 +319,14 @@ export default class BackGroundAndUIScene extends FindItScene {
 
     DEBUG && console.log("handleSceneChange was invoked with:");
     DEBUG && console.log(scene);
-    // stop the second scene that is running above us
-    const stopScene = document.game.scene.getScenes(true)[1];
-    DEBUG && console.log("stopScene:");
-    DEBUG && console.log(stopScene);
-    eventsCenter.emit("stopScene", stopScene.scene.key);
+    // stop the main scene
+    DEBUG && console.log("document.gameScene:");
+    DEBUG && console.log(document.gameScene);
+    eventsCenter.emit("stopScene", document.gameScene);
+
+    // change the scene
+    document.gameScene = scene;
+
     DEBUG && console.log("launching scene:");
     DEBUG && console.log(scene);
     this.scene.launch(scene);
