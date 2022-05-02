@@ -22,6 +22,56 @@ export default class BackGroundAndUIScene extends FindItScene {
     super.update();
     // this.graphics.clear();
     this.playerAmount.setText(document.connectedPlayersAmount);
+
+    let widthChanged =  document.game.scale.gameSize._width !==
+    document.game.scale.parentSize._width;
+    let heightChanged = document.game.scale.gameSize._height !==
+    document.game.scale.parentSize._height;
+
+    // DEBUG && console.log("widthChanged: " + widthChanged);
+    // DEBUG && console.log("heightChanged: " + heightChanged);
+
+    if (!this.resizeHappening && (heightChanged || widthChanged)) {
+      this.resizeHappening = true;
+      this.time.delayedCall(1000, () => (this.resizeHappening = false));
+      DEBUG && console.log("resize event from scene:" + this.scene.key);
+
+      eventsCenter.emit("restartBackground");
+      
+      
+      this.activeScenes = this.game.scene.getScenes(true);
+      DEBUG && console.log("active scenes:");
+      DEBUG && console.log(this.activeScenes);
+
+      const bgScene = this.activeScenes[0];
+      DEBUG && console.log("attempting to get background scene:");
+      DEBUG && console.log(bgScene);
+
+      const secondScene = this.activeScenes[1];
+      DEBUG && console.log("getting second scene:");
+      DEBUG && console.log(secondScene);
+     
+      document.uiScale = Math.sqrt(
+        (document.game.scale.parentSize._width *
+          document.game.scale.parentSize._height) /
+          (1920 * 1016)
+      );
+      document.game.scale.resize(
+        document.game.scale.parentSize._width,
+        document.game.scale.parentSize._height
+      );
+
+      
+      // restart all active scenes so the background is also resized
+      if (this.activeScenes.length > 1) {
+        // null check in case our background scene crashes
+        let activeSceneKey = this.activeScenes[1].scene.key;
+        eventsCenter.emit("stopScene", activeSceneKey);
+        this.scene.launch(activeSceneKey);
+      }
+
+    }
+
   }
 
   create() {
@@ -31,10 +81,22 @@ export default class BackGroundAndUIScene extends FindItScene {
       // listen for sceneChange by AirConsole
       this.events.on("sceneChange", this.handleSceneChange, this);
     }
-    if (this.events._events.optionsChange === undefined) {
+    if (this.events._events.optionChange === undefined) {
       // listen for optionsChange by AirConsole
       this.events.on("optionChange", this.handleOptionChange, this);
     }
+
+    let scene = document.scene;
+    this.mainmenuactive = (scene === "mainmenu" ||
+    scene === "musicoptionsscene" ||
+    scene === "roundoptionsscene" ||
+    scene === "difficultyoptionsscene" ||
+    scene === "credits" ||
+    scene === "highscore");
+  
+    // listen for background restart
+    eventsCenter.once('restartBackground', this.handleRestart, this);
+
 
     const uiScale = document.uiScale;
 
@@ -264,5 +326,14 @@ export default class BackGroundAndUIScene extends FindItScene {
     DEBUG && console.log("launching scene:");
     DEBUG && console.log(scene);
     this.scene.launch(scene);
+  }
+
+  handleRestart(params){
+    DEBUG && console.log("handleRestart was called");
+    // this.scene.stop();
+    // DEBUG && console.log("this still happens");
+    // this.scene.launch("backgroundanduiscene", {origin: "resize"});
+    this.scene.stop();
+    document.startBackground = true;
   }
 }

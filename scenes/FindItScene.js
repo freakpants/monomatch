@@ -88,6 +88,7 @@ export default class FindItScene extends Phaser.Scene {
     this.success = this.sound.add("success");
     this.clock =  this.sound.add("clock");
     this.click = this.sound.add("click");
+    this.eventsCenter = eventsCenter;
   }
 
   update() {
@@ -103,55 +104,12 @@ export default class FindItScene extends Phaser.Scene {
       document.game.scene.getScenes(true)[1].scene.stop();
       sceneChange(document.gameScene);
     }
-
-    if (
-      (!this.resizeHappening &&
-        document.game.scale.gameSize._width !==
-          document.game.scale.parentSize._width) ||
-      document.game.scale.gameSize._height !==
-        document.game.scale.parentSize._height
-    ) {
-      this.resizeHappening = true;
-      this.time.delayedCall(1000, () => (this.resizeHappening = false));
-      DEBUG && console.log("resize event from scene:" + this.scene.key);
-      DEBUG && console.log("active scenes:");
-      DEBUG && console.log(document.game.scene.getScenes(true));
-      document.uiScale = Math.sqrt(
-        (document.game.scale.parentSize._width *
-          document.game.scale.parentSize._height) /
-          (1920 * 1016)
-      );
-      document.game.scale.resize(
-        document.game.scale.parentSize._width,
-        document.game.scale.parentSize._height
-      );
-      // restart all active scenes so the background is also resized
-      if (document.game.scene.getScenes(true).length > 1) {
-        // null check in case our background scene crashes
-        document.game.scene.getScenes(true)[1].scene.restart();
-      }
-      DEBUG && console.log("attempting to get backgorund scene:");
-      DEBUG &&
-        console.log(document.game.scene.getScene("backgroundanduiscene"));
-      const bgScene = document.game.scene.getScene("backgroundanduiscene");
-      const secondScene = document.game.scene.getScenes(true)[1];
-      if (bgScene !== undefined && secondScene !== undefined) {
-        bgScene.scene.restart({
-          origin: "resize",
-          mainmenuactive:
-            document.gameScene === "mainmenu" ||
-            document.gameScene === "musicoptionsscene" ||
-            document.gameScene === "roundoptionsscene" ||
-            document.gameScene === "difficultyoptionsscene" ||
-            document.gameScene === "credits" ||
-            document.gameScene === "gameover"||
-            document.gameScene === "highscore"
-        });
-      } else {
-        // attempt to restart the crashed bg
-        this.scene.launch("backgroundanduiscene");
-      }
+    if(document.startBackground){
+      DEBUG && console.log("restarting bg");
+      this.scene.launch("backgroundanduiscene", {origin: "resize"});
+      document.startBackground = false;
     }
+
   }
 
   getCenterX() {
