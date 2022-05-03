@@ -384,16 +384,16 @@
                             document.air_console.message(from, set_message);
                             document.stack.shift();
 
-                            let message = [];
-                            message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
-                            document.air_console.broadcast(message);
+                            let new_screen_set_message = [];
+                            new_screen_set_message.push({ type: "new_screen_set", screen_set_id: document.next_set_id });
+                            document.air_console.broadcast(new_screen_set_message);
                         }
                         // also inform all clients that are not the reporting client that they were to slow 
                         document.air_console.getControllerDeviceIds().forEach(function (id) {
                             if (id !== from) {
-                                let message = [];
-                                message.push({ type: "correct", player: from, lastRound: document.round === document.maxRound });
-                                document.air_console.message(id, message);
+                                let correct_message = [];
+                                correct_message.push({ type: "correct", player: from, lastRound: document.round === document.maxRound });
+                                document.air_console.message(id, correct_message);
                             }
                         });
                         break;
@@ -542,11 +542,11 @@
 
                 // let the new master know to display the menu
                 if (document.air_console.getMasterControllerDeviceId() !== undefined) {
-                    let message = [];
-                    message.push({
+                    let show_message = [];
+                    show_message.push({
                         type: "show_menu"
                     });
-                    document.air_console.message(document.air_console.getMasterControllerDeviceId(), message);
+                    document.air_console.message(document.air_console.getMasterControllerDeviceId(), show_message);
                 }
             };
 
