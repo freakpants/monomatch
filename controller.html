@@ -88,11 +88,11 @@
             $("#more").click(function (event) {
                 if (document.maxRound === 45) {
                     // hide the more button
-                    $("#more").hide();
+                    $("#more").css("opacity", "0");
+                    $("#more").css("pointer-events", "none");
                 } else {
                     // show both buttons
-                    $("#more").css("display", "flex");
-                    $("#less").css("display", "flex");
+                    show_less_more_buttons();
                 }
                 document.maxRound += 5;
                 var command = [];
@@ -102,11 +102,11 @@
             $("#less").click(function (event) {
                 if (document.maxRound === 10) {
                     // hide the less button
-                    $("#less").hide();
+                    $("#less").css("opacity", "0");
+                    $("#less").css("pointer-events", "none");
                 } else {
                     // show both buttons
-                    $("#more").css("display", "flex");
-                    $("#less").css("display", "flex");
+                    show_less_more_buttons();
                 }
                 document.maxRound -= 5;
                 var command = [];
@@ -130,6 +130,7 @@
                         break;
                     case "roundoptionsscene":
                         $(".music-option").css("display", "flex");
+                        checkRoundBounds();
                         break;
                     case "difficultyoptionsscene":
                         $(".round-option").css("display", "flex");
@@ -147,6 +148,7 @@
                     case "musicoptionsscene":
                         // show the round option buttons
                         $(".round-option").css("display", "flex");
+                        checkRoundBounds();
                         break;
                     case "roundoptionsscene":
                         // show the difficulty option buttons
@@ -202,6 +204,30 @@
 
         function am_i_master() {
             return (air_console.getMasterControllerDeviceId() !== undefined && air_console.getMasterControllerDeviceId() === air_console.getDeviceId());
+        }
+
+        function checkRoundBounds() {
+            if (document.maxRound === 5) {
+                // hide the less button
+                $("#less").css("opacity", "0");
+                // disable pointer events
+                $("#less").css("pointer-events", "none");
+            }
+            if (document.maxRound === 50) {
+                // hide the more button
+                $("#more").css("opacity", "0");
+                // disable pointer events
+                $("#more").css("pointer-events", "none");
+            }
+        }
+
+        function show_less_more_buttons() {
+            $("#more").css("display", "flex");
+            $("#less").css("display", "flex");
+            $("#more").css("opacity", "");
+            $("#less").css("opacity", "");
+            $("#more").css("pointer-events", "");
+            $("#less").css("pointer-events", "");
         }
 
         function correct_feedback() {
