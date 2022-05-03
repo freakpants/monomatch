@@ -1,5 +1,6 @@
 import { projective_sets } from "../objects.js";
 import FindItScene from './FindItScene.js';
+import sceneChange from '../sceneChange.js';
 export default class TimeScreen extends FindItScene {
   constructor() {
     super("timescreen");
@@ -11,7 +12,7 @@ export default class TimeScreen extends FindItScene {
 
   create() {
     super.create();
-    air_console.showAd();
+    document.air_console.showAd();
     const uiScale = document.uiScale;
 
     if(document.lowPerformance){
@@ -31,7 +32,7 @@ export default class TimeScreen extends FindItScene {
 
     console.log("initiating timer scene");
 
-    this.winner = air_console.getNickname(document.winningPlayerId);
+    this.winner = document.air_console.getNickname(document.winningPlayerId);
 
     this.add.image(
       this.getCenterX(),
@@ -74,12 +75,12 @@ export default class TimeScreen extends FindItScene {
           this.initialTime
       );
     } else {
-      DEBUG && console.log("changing to scene for guessing");
+      this.DEBUG && console.log("changing to scene for guessing");
 
       // inform the controllers a new round is beginning
       const message = [];
       message.push({ type: "countdown_over" });
-      air_console.broadcast(message);
+      document.air_console.broadcast(message);
 
       document.set_id = document.next_set_id;
       document.set = projective_sets.filter((obj) => {

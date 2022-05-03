@@ -11,13 +11,13 @@ export default class EndOfGame extends FindItScene {
     this.load.plugin("rexgridtableplugin", url, true);
 
     document.profile_pictures = [];
-    air_console.getControllerDeviceIds().forEach((id) => {
+    document.air_console.getControllerDeviceIds().forEach((id) => {
       const asset_id = "profile_" + id;
-      this.load.image(asset_id, air_console.getProfilePicture(id));
+      this.load.image(asset_id, document.air_console.getProfilePicture(id));
       document.profile_pictures[id] = asset_id;
     });
-    DEBUG && console.log("profile pictures:");
-    DEBUG && console.log(document.profile_pictures);
+    this.DEBUG && console.log("profile pictures:");
+    this.DEBUG && console.log(document.profile_pictures);
   }
 
   update() {
@@ -54,8 +54,8 @@ export default class EndOfGame extends FindItScene {
     // trigger game end on controllers
     var game_over_message = [];
     game_over_message.push({ type: "game_over" });
-    DEBUG && console.log("sending game over message");
-    air_console.broadcast(game_over_message);
+    this.DEBUG && console.log("sending game over message");
+    document.air_console.broadcast(game_over_message);
 
     const uiScale = document.uiScale;
     var roundAmount = false;
@@ -92,7 +92,7 @@ export default class EndOfGame extends FindItScene {
         odd = true;
       }
 
-      DEBUG && console.log("row number:");
+      this.DEBUG && console.log("row number:");
       console.log(rowNumber);
 
       // determine if this is the head row
@@ -140,7 +140,7 @@ export default class EndOfGame extends FindItScene {
               document.profile_pictures[
                 document.playerScores[rowNumber - 1].player
               ];
-            DEBUG && console.log("adding image from asset id " + image_id);
+            this.DEBUG && console.log("adding image from asset id " + image_id);
             image = scene.add.image(
               (200 / 2) * uiScale,
               (64 / 2) * uiScale,
@@ -150,7 +150,7 @@ export default class EndOfGame extends FindItScene {
             image.displayHeight = cell.height;
             break;
           case 2:
-            cellText = air_console.getNickname(
+            cellText = document.air_console.getNickname(
               document.playerScores[rowNumber - 1].player
             );
             document.wideCells.push(cell.index);
@@ -162,9 +162,9 @@ export default class EndOfGame extends FindItScene {
       }
 
       var container;
-      DEBUG && console.log();
+      this.DEBUG && console.log();
       if (image !== null) {
-        DEBUG && console.log("we should be adding the image");
+        this.DEBUG && console.log("we should be adding the image");
         container = scene.add.container(0, 0, [cellBg, image]);
       } else {
         var txt = scene.add
@@ -177,7 +177,7 @@ export default class EndOfGame extends FindItScene {
       }
 
       return container;
-    };
+    }.bind(this);
 
     var onCellVisible = function (cell) {
       cell.setContainer(newCellObject(this, cell));
@@ -210,8 +210,8 @@ export default class EndOfGame extends FindItScene {
       }  
 
       const uids = [];
-      air_console.getControllerDeviceIds().forEach((id) => {
-        uids.push(air_console.getUID(id));
+      document.air_console.getControllerDeviceIds().forEach((id) => {
+        uids.push(document.air_console.getUID(id));
       });
       const levelname =
         document.maxRound +
@@ -219,7 +219,7 @@ export default class EndOfGame extends FindItScene {
         document.savedRoundPlayers +
         " Players";
       const levelversion = document.maxRound + "-" + document.savedRoundPlayers;
-      air_console.storeHighScore(
+      document.air_console.storeHighScore(
         levelname,
         levelversion,
         points,
@@ -231,7 +231,7 @@ export default class EndOfGame extends FindItScene {
         },
         points + " points"
       );
-      air_console.requestHighScores(levelname, levelversion);
+      document.air_console.requestHighScores(levelname, levelversion);
     }
 
     this.scoreText = this.add

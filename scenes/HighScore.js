@@ -11,13 +11,13 @@ export default class HighScore extends FindItScene {
     this.load.plugin("rexgridtableplugin", url, true);
 
     document.profile_pictures = [];
-    air_console.getControllerDeviceIds().forEach((id) => {
+    document.air_console.getControllerDeviceIds().forEach((id) => {
       const asset_id = "profile_" + id;
-      this.load.image(asset_id, air_console.getProfilePicture(id));
+      this.load.image(asset_id, document.air_console.getProfilePicture(id));
       document.profile_pictures[id] = asset_id;
     });
-    DEBUG && console.log("profile pictures:");
-    DEBUG && console.log(document.profile_pictures);
+    this.DEBUG && console.log("profile pictures:");
+    this.DEBUG && console.log(document.profile_pictures);
   }
 
   update() {
@@ -26,8 +26,8 @@ export default class HighScore extends FindItScene {
     if (document.highScoreSettingChanged) {
       this.changeScoreText();
       let uids = [];
-      air_console.getControllerDeviceIds().forEach((id) => {
-        uids.push(air_console.getUID(id));
+      document.air_console.getControllerDeviceIds().forEach((id) => {
+        uids.push(document.air_console.getUID(id));
       });
       this.scoreText.setText("Loading HighScores...");
       const levelname =
@@ -40,7 +40,7 @@ export default class HighScore extends FindItScene {
       if (this.table !== undefined) {
         this.table.destroy();
       }
-      air_console.requestHighScores(levelname, levelversion, uids, [
+      document.air_console.requestHighScores(levelname, levelversion, uids, [
         document.highScoreRegion,
       ]);
       document.highScoreSettingChanged = false;
@@ -75,12 +75,12 @@ export default class HighScore extends FindItScene {
           const uids = score.uids;
           uids.forEach((uid) => {
             const image_id = "user_" + uid;
-            DEBUG && console.log("requested image array:");
-            DEBUG && console.log(requested);
+           this.DEBUG && console.log("requested image array:");
+           this.DEBUG && console.log(requested);
             if (!requested.includes(image_id)) {
               loader.image(
                 image_id,
-                air_console.getProfilePicture(
+                document.air_console.getProfilePicture(
                   uid,
                   Math.floor(110 * document.uiScale)
                 )
@@ -94,7 +94,7 @@ export default class HighScore extends FindItScene {
           // attempt to draw the high score table
           this.changeScoreText();
 
-          DEBUG && console.log("document.scores used for highscore table:");
+         this.DEBUG && console.log("document.scores used for highscore table:");
           console.log(document.scores);
 
           const cellwidth = 200 * uiScale;
@@ -131,7 +131,7 @@ export default class HighScore extends FindItScene {
               odd = true;
             }
 
-            DEBUG && console.log("row number:");
+           this.DEBUG && console.log("row number:");
             console.log(rowNumber);
 
             // determine if this is the head row
@@ -195,7 +195,7 @@ export default class HighScore extends FindItScene {
                     ];
                   break;
                 case 1:
-                  DEBUG &&
+                 this.DEBUG &&
                     console.log("adding image from asset id " + image_id);
                   image = scene.add.image(
                     (200 / 2) * uiScale,
@@ -237,9 +237,9 @@ export default class HighScore extends FindItScene {
             }
 
             var container;
-            DEBUG && console.log();
+           this.DEBUG && console.log();
             if (image !== null) {
-              DEBUG && console.log("we should be adding the image");
+             this.DEBUG && console.log("we should be adding the image");
               container = scene.add.container(0, 0, [cellBg, image]);
             } else {
               var txt = scene.add

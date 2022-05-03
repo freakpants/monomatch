@@ -1,5 +1,5 @@
-import { objects } from "../objects.js";
 import FindItScene from "./FindItScene.js";
+import sceneChange from '../sceneChange.js';
 /*
 <div style="
     position: absolute;
@@ -52,7 +52,7 @@ export default class Guessing extends FindItScene {
 
     this.graphics.strokePath(); */
 
-    DEBUG && console.log("canvas: ") + this.canvas;
+    this.DEBUG && console.log("canvas: ") + this.canvas;
 
     var gridConfig = {
       scene: this,
@@ -92,7 +92,7 @@ export default class Guessing extends FindItScene {
         // get a random number between 60 and 100
         var randomNumber = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
         randomNumber = randomNumber / 100;
-        DEBUG && console.log("random: " + randomNumber);
+        this.DEBUG && console.log("random: " + randomNumber);
 
         this.assets[i].displayWidth *= randomNumber;
 
@@ -162,7 +162,7 @@ export default class Guessing extends FindItScene {
         this.assets.forEach(
           function (asset) {
             if (asset.id === document.correct_icon_id) {
-              DEBUG && console.log(asset);
+              this.DEBUG && console.log(asset);
 
               this.tweens.add({
                 targets: asset,
@@ -233,8 +233,8 @@ class AlignGrid {
     //ch cell height is the scene height divided the number of rows
     this.ch = this.h / this.rows;
 
-    DEBUG && console.log("config: ");
-    DEBUG && console.log(config);
+    this.DEBUG && console.log("config: ");
+    this.DEBUG && console.log(config);
   }
   //mostly for planning and debugging this will
   //create a visual representation of the grid

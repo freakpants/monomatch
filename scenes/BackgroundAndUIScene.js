@@ -10,12 +10,13 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   init(data) {
+    super.init();
     this.origin = data.origin;
     this.mainmenuactive = data.mainmenuactive;
     const a = 3840 / document.game.canvas.width;
     const b = 2160 / document.game.canvas.height;
     const scale = 1 / (a < b ? a : b);
-    DEBUG && console.log("scale:" + scale);
+    this.DEBUG && console.log("scale:" + scale);
   }
 
   update() {
@@ -28,28 +29,28 @@ export default class BackGroundAndUIScene extends FindItScene {
     let heightChanged = document.game.scale.gameSize._height !==
     document.game.scale.parentSize._height;
 
-    // DEBUG && console.log("widthChanged: " + widthChanged);
-    // DEBUG && console.log("heightChanged: " + heightChanged);
+    //this.DEBUG && console.log("widthChanged: " + widthChanged);
+    //this.DEBUG && console.log("heightChanged: " + heightChanged);
 
     if (!this.resizeHappening && (heightChanged || widthChanged)) {
       this.resizeHappening = true;
       this.time.delayedCall(1000, () => (this.resizeHappening = false));
-      DEBUG && console.log("resize event from scene:" + this.scene.key);
+     this.DEBUG && console.log("resize event from scene:" + this.scene.key);
 
       eventsCenter.emit("restartBackground");
       
       
       this.activeScenes = this.game.scene.getScenes(true);
-      DEBUG && console.log("active scenes:");
-      DEBUG && console.log(this.activeScenes);
+     this.DEBUG && console.log("active scenes:");
+     this.DEBUG && console.log(this.activeScenes);
 
       const bgScene = this.activeScenes[0];
-      DEBUG && console.log("attempting to get background scene:");
-      DEBUG && console.log(bgScene);
+     this.DEBUG && console.log("attempting to get background scene:");
+     this.DEBUG && console.log(bgScene);
 
       const secondScene = this.activeScenes[1];
-      DEBUG && console.log("getting second scene:");
-      DEBUG && console.log(secondScene);
+     this.DEBUG && console.log("getting second scene:");
+     this.DEBUG && console.log(secondScene);
      
       document.uiScale = Math.sqrt(
         (document.game.scale.parentSize._width *
@@ -92,8 +93,8 @@ export default class BackGroundAndUIScene extends FindItScene {
     scene === "credits" ||
     scene === "highscore");
 
-    DEBUG && console.log("this.mainmenuactive evaluated scene:" + scene);
-    DEBUG && console.log("this.mainmenuactive:" + this.mainmenuactive);
+    this.DEBUG && console.log("this.mainmenuactive evaluated scene:" + scene);
+    this.DEBUG && console.log("this.mainmenuactive:" + this.mainmenuactive);
   
     // listen for background restart
     eventsCenter.once('restartBackground', this.handleRestart, this);
@@ -165,13 +166,13 @@ export default class BackGroundAndUIScene extends FindItScene {
       }
     );
     if (this.origin === "resize" && this.mainmenuactive === false) {
-      DEBUG && console.log("drawing round amount because of resize");
+     this.DEBUG && console.log("drawing round amount because of resize");
       this.drawRoundAmountUi();
     }
 
     // if we are coming from the bootscene, initialize the mainmenu
     if (this.origin === "bootscene") {
-      DEBUG && console.log("coming from bootscene, launching mainmenu");
+     this.DEBUG && console.log("coming from bootscene, launching mainmenu");
       this.scene.launch("mainmenu");
     }
   }
@@ -226,7 +227,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   drawRoundAmountUi() {
-    DEBUG && console.log("drawRoundAmountUi was called");
+   this.DEBUG && console.log("drawRoundAmountUi was called");
     const uiScale = document.uiScale;
 
     // start over instead of overdrwaing
@@ -283,7 +284,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleOptionChange(option) {
-    DEBUG && console.log("handleOptionChange was called");
+   this.DEBUG && console.log("handleOptionChange was called");
     switch (option) {
       case "music":
         this.drawMusicIcon();
@@ -298,7 +299,7 @@ export default class BackGroundAndUIScene extends FindItScene {
   }
 
   handleSceneChange(scene) {
-    DEBUG && console.log("handleSceneChange was called");
+   this.DEBUG && console.log("handleSceneChange was called");
     if (
       scene === "mainmenu" ||
       scene === "musicoptionsscene" ||
@@ -313,29 +314,29 @@ export default class BackGroundAndUIScene extends FindItScene {
         this.round.destroy();
       }
     } else if (this.roundAmountGraphics === undefined || this.roundAmountGraphics.scene === undefined) {
-      DEBUG && console.log("drawing round amount ui");
+     this.DEBUG && console.log("drawing round amount ui");
       this.drawRoundAmountUi();
     }
 
-    DEBUG && console.log("handleSceneChange was invoked with:");
-    DEBUG && console.log(scene);
+   this.DEBUG && console.log("handleSceneChange was invoked with:");
+   this.DEBUG && console.log(scene);
     // stop the main scene
-    DEBUG && console.log("document.gameScene:");
-    DEBUG && console.log(document.gameScene);
+   this.DEBUG && console.log("document.gameScene:");
+   this.DEBUG && console.log(document.gameScene);
     eventsCenter.emit("stopScene", document.gameScene);
 
     // change the scene
     document.gameScene = scene;
 
-    DEBUG && console.log("launching scene:");
-    DEBUG && console.log(scene);
+   this.DEBUG && console.log("launching scene:");
+   this.DEBUG && console.log(scene);
     this.scene.launch(scene);
   }
 
   handleRestart(params){
-    DEBUG && console.log("handleRestart was called");
+   this.DEBUG && console.log("handleRestart was called");
     // this.scene.stop();
-    // DEBUG && console.log("this still happens");
+    //this.DEBUG && console.log("this still happens");
     // this.scene.launch("backgroundanduiscene", {origin: "resize"});
     this.scene.stop();
     document.startBackground = true;

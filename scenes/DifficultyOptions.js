@@ -23,7 +23,7 @@ export default class DifficultyOptions extends FindItScene {
   create() {
     super.create();
     const uiScale = document.uiScale;
-    DEBUG && console.log("initiating difficulty options");
+    this.DEBUG && console.log("initiating difficulty options");
 
     this.drawChevrons(true);
 
@@ -93,8 +93,8 @@ export default class DifficultyOptions extends FindItScene {
     ).setOrigin(0.5, 0.5);
 
     this.assets = [this.rotation, this.scaling];
-    DEBUG && console.log("assets for difficulty options: ");
-    DEBUG && console.log(this.assets);
+    this.DEBUG && console.log("assets for difficulty options: ");
+    this.DEBUG && console.log(this.assets);
 
   }
 }

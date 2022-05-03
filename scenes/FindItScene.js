@@ -1,6 +1,7 @@
 import { objects } from "../objects.js";
 import eventsCenter from "../EventsCenter.js";
-export default class FindItScene extends Phaser.Scene {
+import sceneChange from "../sceneChange.js";
+class FindItScene extends Phaser.Scene {
   preload() {
     this.load.audio("success", "audio/success.mp3");
     this.load.audio("click", "audio/click.mp3");
@@ -37,6 +38,10 @@ export default class FindItScene extends Phaser.Scene {
         document.profile_pictures[id] = asset_id;
       });
     }
+  }
+
+  init(){
+    this.DEBUG === document.debug;
   }
 
   drawChevrons(leftOnly = false) {
@@ -113,11 +118,13 @@ export default class FindItScene extends Phaser.Scene {
       sceneChange(document.gameScene);
     }
     if (document.startBackground) {
-      DEBUG && console.log("restarting bg");
+      this.DEBUG && console.log("restarting bg");
       this.scene.launch("backgroundanduiscene", { origin: "resize" });
       document.startBackground = false;
     }
   }
+
+
 
   restartActiveScene() {
     // does not work when called in update of finditscene
@@ -143,3 +150,4 @@ export default class FindItScene extends Phaser.Scene {
     }
   }
 }
+export default FindItScene;
