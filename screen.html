@@ -316,6 +316,15 @@
                             document.playerScores.push({ player: from, correct: 1 });
                         }
 
+                        // add players with 0 score in case someone connected and never scored
+                        document.air_console.getControllerDeviceIds().forEach(function (device_id) {
+                            let playerScore = document.playerScores.filter(function (obj) {
+                                return obj.player === device_id;
+                            });
+                            if (!playerScore[0]) {
+                                document.playerScores.push({ player: device_id, correct: 0 });
+                            }
+                        });
 
                         // conventionally sort the scores
                         document.playerScores.sort(function (a, b) {
