@@ -106,6 +106,7 @@ class FindItScene extends Phaser.Scene {
 
   update() {
     if (document.playClick) {
+      this.DEBUG && console.log("trying to play click.");
       if (!document.sfxOff) {
         this.click.play();
       }

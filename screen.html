@@ -74,6 +74,8 @@
             document.timeElapsed = 0;
             document.phaserInitComplete = false;
 
+            document.sfxOff = false;
+
             var DEBUG = true;
             document.debug = DEBUG;
 
@@ -126,7 +128,9 @@
                 DEBUG && console.log('handling ' + type + ' message on screen.');
 
                 // collect all the types of messages that should produce a click sound
-                const clickTypes = ["more", "less", "next", "back", "toggle-rotation", "toggle-scaling", "toggle-music", "toggle-sfx", "options", "pause", "resume", "back_to_main"];
+                const clickTypes = ["confirm", "more", "less", "next", "back", 
+                "toggle-rotation", "toggle-scaling", "toggle-music", "toggle-sfx", "options", "pause", "resume", 
+                "back_to_main", "credits", "highscore", "highscore_ladder", "highscore_rounds", "highscore_players"];
 
                 // check if the click types array contains the string type
                 if (clickTypes.includes(type)) {
