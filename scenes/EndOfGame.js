@@ -60,7 +60,7 @@ export default class EndOfGame extends FindItScene {
     const uiScale = document.uiScale;
     var roundAmount = false;
 
-    const cellwidth = 200 * uiScale;
+    const cellwidth = 400 * uiScale;
     const cellheight = 64 * uiScale;
     const columnCount = 4;
     const rowCount = document.playerScores.length + 1;
@@ -71,7 +71,6 @@ export default class EndOfGame extends FindItScene {
 
     document.graphics = this.graphics;
 
-    document.wideCells = [];
 
     var newCellObject = function (scene, cell) {
       let cellText = "";
@@ -107,7 +106,7 @@ export default class EndOfGame extends FindItScene {
       var cellBg = scene.add
         .graphics(0, 0)
         .fillStyle(bgColor)
-        .fillRect(0, 0, 200 * uiScale, 64 * uiScale);
+        .fillRect(0, 0, cellwidth, cellheight);
 
       switch (cell.index) {
         case 0:
@@ -118,7 +117,6 @@ export default class EndOfGame extends FindItScene {
           break;
         case 2:
           cellText = "Nickname";
-          document.wideCells.push(cell.index);
           break;
         case 3:
           cellText = "Points";
@@ -151,7 +149,6 @@ export default class EndOfGame extends FindItScene {
             break;
           case 2:
             cellText = this.getShortNickname(document.playerScores[rowNumber - 1].player);
-            document.wideCells.push(cell.index);
             break;
           case 3:
             cellText = document.playerScores[rowNumber - 1].correct;

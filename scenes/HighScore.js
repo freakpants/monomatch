@@ -97,7 +97,7 @@ export default class HighScore extends FindItScene {
          this.DEBUG && console.log("document.scores used for highscore table:");
           console.log(document.scores);
 
-          const cellwidth = 200 * uiScale;
+          const cellwidth = 350 * uiScale;
           const cellheight = 64 * uiScale;
           const columnCount = 5;
           const rowCount = document.scores.length + 1;
@@ -110,7 +110,6 @@ export default class HighScore extends FindItScene {
 
           document.graphics = this.graphics;
 
-          document.wideCells = [];
 
           var newCellObject = function (scene, cell) {
             let cellText = "";
@@ -146,7 +145,7 @@ export default class HighScore extends FindItScene {
             var cellBg = scene.add
               .graphics(0, 0)
               .fillStyle(bgColor)
-              .fillRect(0, 0, 200 * uiScale, 64 * uiScale);
+              .fillRect(0, 0, cellwidth, cellheight);
 
             switch (cell.index) {
               case 0:
@@ -157,7 +156,6 @@ export default class HighScore extends FindItScene {
                 break;
               case 2:
                 cellText = "Nickname";
-                document.wideCells.push(cell.index);
                 break;
               case 3:
                 cellText = "Time";
@@ -207,9 +205,10 @@ export default class HighScore extends FindItScene {
                   break;
                 case 2:
                   let nickname = document.scores[rowNumber - 1].nicknames[array_index];
-                  nickname = nickname.replace(/(.{16})..+/, "$1…");
+                  if(nickname.length > 16) {
+                    nickname = nickname.replace(/(.{13})..+/, "$1…");
+                  } 
                   cellText = nickname;
-                  document.wideCells.push(cell.index);
                   break;
                 case 3:
                   seconds = document.scores[rowNumber - 1].data.seconds;
