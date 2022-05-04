@@ -252,7 +252,7 @@ export default class HighScore extends FindItScene {
             }
 
             return container;
-          };
+          }.bind(this);
 
           var onCellVisible = function (cell) {
             cell.setContainer(newCellObject(this, cell));
