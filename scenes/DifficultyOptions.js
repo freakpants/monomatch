@@ -38,13 +38,13 @@ export default class DifficultyOptions extends FindItScene {
 
     this.graphics = this.add.graphics();
 
-    this.graphics.lineStyle(4, 0xff0000);
-    this.graphics.beginPath();
-    this.graphics.moveTo(this.getCenterX(), 0);
+    // this.graphics.lineStyle(4, 0xff0000);
+    // this.graphics.beginPath();
+    // this.graphics.moveTo(this.getCenterX(), 0);
 
-    this.graphics.lineTo(this.getCenterX(), document.game.canvas.height);
+    // this.graphics.lineTo(this.getCenterX(), document.game.canvas.height);
 
-    this.graphics.strokePath();
+    // this.graphics.strokePath();
 
     this.rotationText = this.add.text(
       this.getCenterX() - (315 * uiScale / 2) - 100 * uiScale,
