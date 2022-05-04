@@ -415,6 +415,9 @@ body{
 
 .slow-fast-message p{
 	text-align: center;
+	width: 80vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #correct{

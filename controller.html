@@ -468,7 +468,7 @@
                         $("#score_and_objects_wrapper").hide();
                         DEBUG && console.log("data received when evaluating what player won:");
                         DEBUG && console.log(data[0]);
-                        const winnerNickname = air_console.getNickname(data[0].player);
+                        const winnerNickname = air_console.getNickname(data[0].player);             
                         DEBUG && console.log("winner nickname: " + winnerNickname);
                         $(".round_winner").html(winnerNickname);
                         // reset all icons to full opacity
@@ -701,14 +701,14 @@
 <div id="slow-correct-end" class="slow-fast-message">
     <p>
         You were correct, but too slow!</br>
-        <span class="round_winner">Player x</span>&nbsp;was faster than you.</br>
+        <span class="round_winner">Player x</span></br>was faster than you.</br>
     </p>
 </div>
 
 <div id="slow-correct" class="slow-fast-message">
     <p>
         You were correct, but too slow!</br>
-        <span class="round_winner">Player x</span>&nbsp;was faster than you.</br>
+        <span class="round_winner">Player x</span></br>was faster than you.</br>
         A new round will begin shortly.
     </p>
 </div>
@@ -716,7 +716,7 @@
 <div id="slow" class="slow-fast-message">
     <p>
         Too slow!</br>
-        <span class="round_winner">Player x</span>&nbsp;was faster than you.</br>
+        <span class="round_winner">Player x</span></br>was faster than you.</br>
         A new round will begin shortly.
     </p>
 </div>
@@ -724,7 +724,7 @@
 <div id="slow-end" class="slow-fast-message">
     <p>
         Too slow!</br>
-        <span class="round_winner">Player x</span>&nbsp;was faster than you.</br>
+        <span class="round_winner">Player x</span></br>was faster than you.</br>
     </p>
 </div>
 

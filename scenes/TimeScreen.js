@@ -32,7 +32,7 @@ export default class TimeScreen extends FindItScene {
 
     console.log("initiating timer scene");
 
-    this.winner = document.air_console.getNickname(document.winningPlayerId);
+    this.winner = this.getShortNickname(document.winningPlayerId);
 
     this.add.image(
       this.getCenterX(),
@@ -44,7 +44,7 @@ export default class TimeScreen extends FindItScene {
       this.getCenterX(),
       this.getCenterY(),
       this.winner +
-        " was the fastest!\nNext Round begins in " +
+        "\nwas the fastest!\nNext Round begins in " +
         this.initialTime,
       {
         fontSize: 45 * uiScale + "px",
@@ -71,7 +71,7 @@ export default class TimeScreen extends FindItScene {
       this.initialTime -= 1; // One second
       this.text.setText(
         this.winner +
-          " was the fastest!\nNext Round begins in " +
+          "\nwas the fastest!\nNext Round begins in " +
           this.initialTime
       );
     } else {

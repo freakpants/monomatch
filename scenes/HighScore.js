@@ -206,8 +206,9 @@ export default class HighScore extends FindItScene {
                   image.displayHeight = cell.height;
                   break;
                 case 2:
-                  cellText =
-                    document.scores[rowNumber - 1].nicknames[array_index];
+                  let nickname = document.scores[rowNumber - 1].nicknames[array_index];
+                  nickname = nickname.replace(/(.{16})..+/, "$1…");
+                  cellText = nickname;
                   document.wideCells.push(cell.index);
                   break;
                 case 3:

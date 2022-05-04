@@ -125,7 +125,13 @@ class FindItScene extends Phaser.Scene {
     }
   }
 
-
+  getShortNickname(player_id){
+    let nickname = document.air_console.getNickname(player_id);
+    if (nickname.length > 16) {
+      nickname = nickname.replace(/(.{13})..+/, "$1…");
+    }
+    return nickname;
+  }
 
   restartActiveScene() {
     // does not work when called in update of finditscene

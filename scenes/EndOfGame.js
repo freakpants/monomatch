@@ -150,9 +150,7 @@ export default class EndOfGame extends FindItScene {
             image.displayHeight = cell.height;
             break;
           case 2:
-            cellText = document.air_console.getNickname(
-              document.playerScores[rowNumber - 1].player
-            );
+            cellText = this.getShortNickname(document.playerScores[rowNumber - 1].player);
             document.wideCells.push(cell.index);
             break;
           case 3:
