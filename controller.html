@@ -468,7 +468,7 @@
                         $("#score_and_objects_wrapper").hide();
                         DEBUG && console.log("data received when evaluating what player won:");
                         DEBUG && console.log(data[0]);
-                        const winnerNickname = air_console.getNickname(data[0].player);             
+                        const winnerNickname = air_console.getNickname(data[0].player);
                         DEBUG && console.log("winner nickname: " + winnerNickname);
                         $(".round_winner").html(winnerNickname);
                         // reset all icons to full opacity
@@ -536,21 +536,28 @@
                             return;
                         }
 
-                        if (data[0].update) {
-                            // if we got an update, don't display the new set just yet
-                            $("#score_and_objects_wrapper").hide();
-                            $("#fast").css("opacity", 1);
-                            $("#fast").css("display", "flex");
-                        } else {
-                            $("#score_and_objects_wrapper").css("display", "flex");
+                        let timeout = 0;
+                        if (data[0].round > 1){
+                            timeout = 1400;
                         }
+                        setTimeout(() => {
+                            if (data[0].update) {
+                                // if we got an update, don't display the new set just yet
+                                $("#score_and_objects_wrapper").hide();
+                                $("#fast").css("opacity", 1);
+                                $("#fast").css("display", "flex");
+                            } else {
+                                $("#score_and_objects_wrapper").css("display", "flex");
+                            }
 
-                        $("#menu").hide();
-                        DEBUG && console.log("hiding all waiting message because we received a set");
-                        $(".waiting_message").hide();
+                            $("#menu").hide();
+                            DEBUG && console.log("hiding all waiting message because we received a set");
+                            $(".waiting_message").hide();
 
-                        DEBUG && console.log("controller " + air_console.getDeviceId() + " received set id from screen: " + data[0].set_id);
-                        change_sets_on_controller(data[0].set_id, data[0].screen_set_id, true);
+                            DEBUG && console.log("controller " + air_console.getDeviceId() + " received set id from screen: " + data[0].set_id);
+                            change_sets_on_controller(data[0].set_id, data[0].screen_set_id, true);
+                        }, timeout);
+
 
                         break;
                 }
