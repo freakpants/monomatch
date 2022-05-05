@@ -3,7 +3,7 @@ import eventsCenter from "../EventsCenter.js";
 import sceneChange from "../sceneChange.js";
 class FindItScene extends Phaser.Scene {
   preload() {
-    this.load.audio("success", "audio/success.mp3");
+    this.load.audio("success", "audio/producer-success.mp3");
     this.load.audio("click", "audio/click.mp3");
     this.load.audio("clock", "audio/clock.mp3");
     objects.forEach((object) => {

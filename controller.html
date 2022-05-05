@@ -511,11 +511,12 @@
                         }
                         break;
                     case "new_screen_set":
-
-                        // get our set
-                        const current_set = parseInt($("#objects").attr("data-set-id"));
-                        DEBUG && console.log("current set id: " + current_set);
-                        change_sets_on_controller(current_set, data[0].screen_set_id, false);
+                        setTimeout(() => {
+                            // get our set
+                            const current_set = parseInt($("#objects").attr("data-set-id"));
+                            DEBUG && console.log("current set id: " + current_set);
+                            change_sets_on_controller(current_set, data[0].screen_set_id, false);
+                        }, 1500);
 
                         break;
                     case "winner":
@@ -537,8 +538,8 @@
                         }
 
                         let timeout = 0;
-                        if (data[0].round > 1){
-                            timeout = 1400;
+                        if (data[0].round > 1) {
+                            timeout = 1500;
                         }
                         setTimeout(() => {
                             if (data[0].update) {
