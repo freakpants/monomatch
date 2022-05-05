@@ -175,7 +175,9 @@ export default class Guessing extends FindItScene {
                 delay: Math.random() * 2,
                 ease: "Sine.easeInOut",
                 onStart: () => {
-                  this.rotation.stop();
+                  if(this.rotation !== undefined){
+                    this.rotation.stop();
+                  }
                 },
                 onComplete: () => {
                   document.tweenComplete = true;
