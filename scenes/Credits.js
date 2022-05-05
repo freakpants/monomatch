@@ -22,7 +22,7 @@ export default class Credits extends FindItScene {
       })
       .setOrigin(0.5, 0);
     this.creditsText = this.add
-      .text(this.getCenterX(), this.getCenterY(), "Developed by: Christian Nyffenegger/freakpants (https://twitter.com/freakpants)\nSound effects by: https://www.zapsplat.com\nMusic by: ZakharValaha on https://www.pixabay.com", {
+      .text(this.getCenterX(), this.getCenterY(), "Developed by: Christian Nyffenegger/freakpants (https://twitter.com/freakpants)\nSound effects by: https://www.zapsplat.com", {
         fontSize: 35 * uiScale + "px",
         align: "center",
         color: "#ffffff",
