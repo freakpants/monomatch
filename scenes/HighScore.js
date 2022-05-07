@@ -262,9 +262,10 @@ export default class HighScore extends FindItScene {
 
           this.table = this.add.rexGridTable(
             this.getCenterX(),
-            this.getCenterY(),
+            this.getCenterY() + this.regionText.height,
             gridwidth,
             gridheight,
+            
             {
               cellHeight: cellheight,
               cellWidth: cellwidth,
@@ -273,6 +274,7 @@ export default class HighScore extends FindItScene {
               cellVisibleCallback: onCellVisible.bind(this),
             }
           );
+          this.table.setOrigin(0.5, 0.5);
           document.scores = false;
           this.scoreBuildingInProgress = false;
         });

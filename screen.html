@@ -60,6 +60,7 @@
         import HighScore from './scenes/HighScore.js';
         import { objects, projective_sets } from './objects.js';
         import sceneChange from './sceneChange.js';
+        import { testHighscores } from "/testHighscores.js";
 
         function init() {
             // store current scores of players
@@ -81,13 +82,6 @@
             document.projective_sets = projective_sets;
 
             document.air_console = new AirConsole;
-        }
-
-        window.init = init;
-
-        $(document).ready(function () {
-
-            const DEBUG = document.debug;
 
             function update_maxRound_on_controllers() {
                 var command = [];
@@ -105,9 +99,6 @@
                 DEBUG && console.log("building stack");
                 DEBUG && console.log(document.stack);
             }
-
-
-
 
             document.air_console.onReady = () => {
                 const DEBUG = document.debug;
@@ -509,6 +500,7 @@
                     DEBUG && console.log("received high scores");
                     DEBUG && console.log(scores);
                     document.scores = scores;
+                    document.scores = testHighscores;
                 };
                 document.air_console.onHighScoreStored = function (score) {
                     DEBUG && console.log("received high score stored");
@@ -604,7 +596,9 @@
                 }
                 console.log("low performance: " + document.lowPerformance);
             };
-        });
+        }
+
+        window.init = init;
 
     </script>
 
