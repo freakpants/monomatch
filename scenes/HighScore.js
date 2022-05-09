@@ -43,7 +43,7 @@ export default class HighScore extends FindItScene {
       }
       document.air_console.requestHighScores(levelname, levelversion, uids, [
         document.highScoreRegion,
-      ]);
+      ], 8 , 8);
       document.highScoreSettingChanged = false;
       document.scores = false;
     }
