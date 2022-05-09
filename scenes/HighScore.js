@@ -20,6 +20,12 @@ export default class HighScore extends FindItScene {
     this.DEBUG && console.log(document.profile_pictures);
   }
 
+  init(){
+    super.init();
+    // make sure a highscore is loaded when the scene restarts
+    document.highScoreSettingChanged = true;
+  }
+
   update() {
     super.update();
     const uiScale = document.uiScale;
@@ -47,7 +53,7 @@ export default class HighScore extends FindItScene {
       document.highScoreSettingChanged = false;
       document.scores = false;
     }
-    if (document.scores && this.scoreBuildingInProgress == false) {
+    if (document.scores && !this.scoreBuildingInProgress) {
       if (document.scores.length === 0) {
         this.scoreText.setText("No Highscores for the selected settings");
       } else {
