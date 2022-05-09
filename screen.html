@@ -60,6 +60,7 @@
         import HighScore from './scenes/HighScore.js';
         import { objects, projective_sets } from './objects.js';
         import sceneChange from './sceneChange.js';
+        import { testHighscores } from "/testHighscores.js";
 
         $(document).ready(function () {
 
@@ -477,6 +478,7 @@
                 DEBUG && console.log("received high scores");
                 DEBUG && console.log(scores);
                 document.scores = scores;
+                // document.scores = testHighScores;
             };
             document.air_console.onHighScoreStored = function (score) {
                 DEBUG && console.log("received high score stored");
