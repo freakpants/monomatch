@@ -265,6 +265,7 @@ export default class HighScore extends FindItScene {
             this.getCenterY() + this.regionText.height,
             gridwidth,
             gridheight,
+            
             {
               cellHeight: cellheight,
               cellWidth: cellwidth,
